@@ -1,0 +1,428 @@
+@model IEnumerable<TourneyRepo.Models.ScheduledEvent>
+@using TourneyRepo.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+  #example_length {
+    display: none;
+  }
+
+  td.details-control {
+    background: url('https://raw.githubusercontent.com/DataTables/DataTables/1.10.7/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+  }
+
+  tr.shown td.details-control {
+    background: url('https://raw.githubusercontent.com/DataTables/DataTables/1.10.7/examples/resources/details_close.png') no-repeat center center;
+  }
+
+
+  .DatatableInput {
+    display: block;
+    background-color: #e6e6e6;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    outline: none;
+    border: none;
+    color: #000 !important;
+  }
+
+
+  tr {
+    background-color: #1c1c1c !important;
+    color: #fff !important;
+  }
+
+  h2, h3, h4, h5, h6 {
+    color: #000 !important;
+  }
+</style>
+
+<style>
+  .modal-backdrop {
+    background-color: #00000080 !important;
+  }
+
+  table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+    background-color: transparent !important;
+  }
+
+
+</style>
+
+
+
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h1 style="text-align:center;color:#fff!important;"> Pre Registeration List</h1>
+        </div>
+
+
+        <!-- /.card-header -->
+        <div class="card-body">
+
+
+
+          <table id="example" class="table table-bordered table-hover display responsive" width="100%">
+            <thead>
+              <tr>
+                <th></th>
+                <th>
+                  School Name
+                </th>
+                <th>
+                  Total Compititors
+                </th>
+                <th>
+                  Coach Name
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css" rel="stylesheet" />
+<link href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css" rel="stylesheet" />
+
+
+
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+
+<script src="https://jeromeetienne.github.io/jquery-qrcode/src/qrcode.js"></script>
+<script src="https://jeromeetienne.github.io/jquery-qrcode/src/jquery.qrcode.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>*@
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>*@
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+  debugger;
+  var allBelts = [];
+  allBelts=@Html.Raw(Json.Encode(ViewBag.Belts));
+
+  $(document).ready(function () {
+    GetAllData();
+  });
+
+
+  function GetAllData() {
+    $.ajax({
+      url: `/PreRegisteration/GetFilteredData`,
+      data: null,
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        debugger
+
+        $('#example').DataTable().clear().destroy();
+
+        var table = $('#example').DataTable({
+          'responsive': true,
+          "data": result,
+          'iDisplayLength': 100,
+          "columns": [
+            {
+              "class": 'details-control',
+              "orderable": false,
+              "data": null,
+              "defaultContent": ''
+            },
+            { "data": "SchoolName" },
+            { "data": "TotalCompititor" },
+            { "data": "CoachName" },
+
+          ]
+        });
+
+        //table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+      },
+      error: function (errormessage) {
+
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+
+  $('#example tbody').on('click', 'td.details-control', function (event) {
+
+    event.stopImmediatePropagation();
+
+    var tr = $(this).closest('tr'),
+
+      row = $('#example').DataTable().row(tr);
+
+    if (row.child.isShown()) {
+      var table = $("", row.child());
+      table.detach();
+      table.DataTable().destroy();
+      row.child.hide();
+      tr.removeClass('shown');
+
+    }
+    else {
+      displayChildOfTable(row, row.data());
+      tr.addClass('shown');
+
+    }
+
+
+  });
+
+  function displayChildOfTable(row, data) {
+
+    string = '<div class="table-responsive  table-responsive-sm">';
+    string = '<table class="table table-bordered" style="width:100%!important">';
+    string = string + '<thead class="bg-info">';
+    string = string + '<tr class="bg-info">';
+    string = string + '<th>Name</th>';
+    string = string + '<th>Age</th>';
+    string = string + '<th>Belt</th>';
+    string = string + '<th>Events</th>';
+    string = string + '<th>IsCheckin</th>';
+    string = string + '<th>Remarks</th>';
+    string = string + '<th></th>';
+    string = string + '<th></th>';
+    string = string + '</tr>';
+    string = string + '</thead> ';
+    string = string + '</table>';
+    string = string + '</div>';
+
+
+    var table = $(string);
+
+    row.child(table).show();
+
+    table.DataTable({
+      data: data.competitors,
+      "lengthChange": false,
+      "processing": true, // for show progress bar
+      "serverSide": false, // for process server side
+      "filter": true, // this is for disable filter (search box)
+      "orderMulti": false, // for disable multiple column at once
+      "pageLength": 100,
+      "orderClasses": false,
+
+      "columns": [
+
+        {
+          "data": "Name", "name": "Name", "autoWidth": true, "render": function (data, fulldata, value) {
+            return `<span style="display:block;">${data}</span> <input type="text" class="DatatableInput" style = "background-color:#f2f2f2!important; display:none;" value="${data}"/>`;
+          },
+        },
+        {
+          "data": "Age", "name": "Age", "autoWidth": true,
+          "render": function (data, fulldata, value) {
+            return `<span style="display:block;">${data}</span> <input type="text" class="DatatableInput" style = "background-color:#f2f2f2!important; display:none;" value="${data}"/>`;
+          },
+        },
+        {
+          "data": "Belt", "name": "Belt", "autoWidth": true,
+
+          "render": function (data, fulldata, value) {
+            var res = `<span style="display:block;">${allBelts.find(x => x.BeltId == data).BeltName}</span>
+            <select class="DatatableInput" style = "background-color:#f2f2f2!important; display:none;height: 33px;width: 160px;">`;
+
+            for (var n = 0; n < allBelts.length; n++) {
+              res += `<option value="${allBelts[n].BeltId}" ${allBelts[n].BeltId == data ? 'selected' : ''}>${allBelts[n].BeltName}</option>`;
+            }
+            res += `</select>`;
+            return res;
+          },
+        },
+        {
+          "data": "Events", "name": "Events", "autoWidth": true
+        },
+
+        {
+          "data": "IsCheckin", "name": "IsCheckin", "autoWidth": true, "render": function (data, fulldata, value) {
+            return `<span style="display:block;">${data == false ? "No" : "Yes"}</span>
+                <select class="DatatableInput" style = "background-color:#f2f2f2!important; display:none;height: 33px;width: 160px;">
+                 <option value="true" ${data == true ? 'selected' : ''}>Yes</option>
+                 <option value="false"${data == false ? 'selected' : ''}>No</option>
+                </select>`;
+          }
+        },
+        {
+          "data": "Remarks", "name": "Remarks", "autoWidth": true, "render": function (data, fulldata, value) {
+            return `<span style="display:block;">${data}</span> <input type="text" class="DatatableInput" style = "background-color:#f2f2f2!important; display:none;" value="${data}"/>`;
+          }
+        },
+        {
+          "render": function (data, fulldata, value) {
+
+            return `<button type="button" class="btn btn-info btn-sm edit" data-Id="${value.Id}">Edit</button>`
+
+          }
+
+        },
+        {
+          "render": function (data, fulldata, value) {
+
+            return `<button type="button" class="btn btn-danger btn-sm delete" data-Id="${value.Id}">Delete</button>`
+
+          }
+
+        },
+
+
+
+      ],
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv','print'
+      ]
+    });
+
+
+    $(table).on('click', 'tbody td .edit', function (e) {
+
+      $(this).removeClass("btn-info edit").addClass("btn-info update").text("Update");
+      $(this).parent().next().children().text("Cancel").removeClass("delete").addClass("cancel")
+      $(this).parent().parent().find("span").css("display", "none");
+      $(this).parent().parent().find("input").css("display", "block");
+      $(this).parent().parent().find("select").css("display", "block");
+
+    });
+
+    $(table).on('click', 'tbody td .cancel', function (e) {
+
+      $(this).parent().parent().find("td:eq(6)").children().text("Edit").removeClass("update btn-info").addClass("edit btn-info")
+      $(this).text("Delete").removeClass("cancel").addClass("delete")
+      $(this).parent().parent().find("span").css("display", "block");
+      $(this).parent().parent().find("input").css("display", "none");
+      $(this).parent().parent().find("select").css("display", "none");
+
+    });
+
+
+    $(table).on('click', 'tbody td .update', function (e) {
+
+      var row = $(this);
+      var obj = {
+
+        Id: Number($(this).attr("data-id")),
+        Name: $(this).parent().parent().find("td:eq(0)").find("input").val(),
+        Age: Number($(this).parent().parent().find("td:eq(1)").find("input").val()),
+        Belt: Number($(this).parent().parent().find("td:eq(2)").find("select").val()),
+        IsCheckin: Boolean($(this).parent().parent().find("td:eq(4)").find("select").val()),
+        Remarks: $(this).parent().parent().find("td:eq(5)").find("input").val(),
+      }
+
+      $.ajax({
+        url: `/PreRegisteration/UpdateCompititor`,
+        data: obj,
+        type: "POST",
+        success: function (result) {
+          Swal.fire({
+            title: "Scuccess!",
+            text: "Your Record has been Updated.",
+            icon: "success"
+          });
+
+          $(row).parent().parent().find("span").css("display", "block");
+          $(row).parent().parent().find("input").css("display", "none");
+          $(row).parent().parent().find("select").css("display", "none");
+
+          $(row).parent().parent().find("td:eq(6)").children().text("Edit").removeClass("edit update").addClass("edit btn-info")
+          $(row).parent().parent().find("td:eq(7)").children().text("Delete").removeClass("cancel").addClass("delete")
+          $(row).parent().parent().children("td:eq(0)").find("span").text(obj.Name);
+          $(row).parent().parent().children("td:eq(1)").find("span").text(obj.Age);
+          $(row).parent().parent().children("td:eq(2)").find("span").text(allBelts.find(x => x.BeltId == obj.Belt).BeltName);
+          $(row).parent().parent().children("td:eq(4)").find("span").text(obj.IsCheckin == true ? "Yes" : "No");
+          $(row).parent().parent().children("td:eq(5)").find("span").text(obj.Remarks);
+
+        },
+        error: function (errormessage) {
+
+          alert(errormessage.responseText);
+        }
+      });
+
+    });
+
+
+    $(table).on('click', 'tbody td .delete', function (e) {
+
+      var row = $(this);
+
+      Swal.fire({
+        title: "Are You Sure!",
+        text: "Do you wanna delete this record?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/PreRegisteration/DeleteConfirmed/` + Number($(this).attr("data-id")),
+            data: null,
+            type: "POST",
+            success: function (result) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your Record has been deleted.",
+                icon: "success"
+              });
+
+              $(row).parent().parent().remove()
+
+            },
+            error: function (errormessage) {
+
+              alert(errormessage.responseText);
+            }
+          });
+        }
+      })
+
+
+
+    });
+
+
+  }
+
+
+</script>

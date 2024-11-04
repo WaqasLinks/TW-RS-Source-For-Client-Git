@@ -1,0 +1,295 @@
+@model List<TourneyRepo.Models.ScheduledEvent>
+@using Microsoft.AspNet.Identity;
+@{
+  ViewBag.Title = "Tournament Events";
+}
+
+<div id="searchForm" class="event-finder">
+
+  <div myaccountlink="">
+
+    <section class="boost padding-vertical-xs-32 margin-bottom-xs-32 filter">
+      <div class="container">
+        <section class="padding-top-xs-0 padding-top-sm-32 padding-bottom-xs-0 hidden-print hidden-tv">
+          <div id="eventHeader" class="relative">
+
+            <div class="row">
+              <div id="cover" class="col-sm-7 col-md-8 col-lg-8">
+                <div class="cover-wrapper">
+                  <div class="cover-image">
+                    <img class="" style="" alt="" src="@ViewBag.image">
+                  </div>
+                  <div class="cover-shadow"></div>
+                  <div class="cover-heading">
+                    @*<div class="cover-date visible-xs">
+                        02 Aug
+                        - 05 Aug
+                        <span class="muted"></span>
+                      </div>*@
+                    <h1><a href="@Url.Action("TournamentEvents","Tournaments",new { id =ViewBag.Id })">@ViewBag.name</a></h1>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="schedule" class="col-sm-5 col-md-4 col-lg-4">
+                <div class="schedule-container">
+
+                  <div class="item date event hidden-xs">
+                    <span class="icon icon-fighters"></span>
+                    <div class="text">
+                      <div class="title">
+                        Tournament Date
+                      </div>
+                      <strong>
+                        @Convert.ToDateTime(ViewBag.tournamentDate).ToString("dd MMM")
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12">
+                <nav class="navbar navbar-default navbar-event">
+                  <div class="navbar-header">
+                    @{if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == ViewBag.CreatedBy)
+                        {<a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("UpdateTournament", "Tournaments", new { id =  ViewBag.tournamentId })">Edit Tournament</a> } }
+
+                  </div>
+                  <ul class="nav navbar-nav">
+                    <li class="not-active noChilds">
+                      <a href="@Url.Action("TournamentDetails","Tournaments",new { id =ViewBag.Id })">
+                        <span>
+                          <span class="icon icon-info visible-xs"></span>
+                          Info<span class="hidden-xs">rmation</span>
+                        </span>
+                      </a>
+                    </li>
+                    <li class=" active noChilds ">
+                      <a href="@Url.Action("TournamentEvents","Tournaments",new { id =ViewBag.Id })">
+                        <span>
+                          <span class="icon icon-form visible-xs"></span>
+                          Events
+                          @*<span class="badge hidden-xs">@ViewBag.totalCount</span>*@
+                        </span>
+                      </a>
+                    </li>
+
+                    <li class="not-active noChilds">
+                      <a href="@Url.Action("TournamentCompetitors","Tournaments",new { id =ViewBag.Id })">
+                        <span>
+                          <span class="icon icon-form visible-xs"></span>
+                          Competitors
+
+                        </span>
+                      </a>
+                    </li>
+
+
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="container">
+        <!--<div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-6">-->
+        <!---->
+        <!--</div>
+          <div class="col-xs-12 col-sm-8 col-md-6">
+            <div class="flex-center">
+              <div class="flex-grow-1 hidden-xs"></div>
+              <div class="margin-top-xs-16 margin-top-sm-0">
+                <form action="@Url.Action("AddEvent", "Events")" target="_blank" class="inline-block">
+                  <button type="submit" class="btn btn-info margin-top-xs-8 margin-top-sm-0">Create event</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>-->
+
+        <div class="row">
+          <div class="col-sm-12">
+            <hr class="mute-more margin-vertical-xs-16">
+          </div>
+        </div>
+
+        @using (Html.BeginForm("TournamentEvents", "Tournaments", FormMethod.Get))
+        {
+
+          <div class="row">
+            <div class="col-sm-6" style="margin-bottom:10px">
+
+              <input placeholder="Search event..." value="@ViewData["search"]" name="search" class="form-control full-width margin-bottom-xs-8 margin-bottom-sm-0">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4" style="margin-bottom:10px">
+
+
+              <input class="form-control" value="@ViewData["startdate"]" name="startdate" placeholder="Start Date (mm/dd/yyyy)" autocomplete="off" tabindex="0" type="text">
+
+            </div>
+            <div class="col-sm-4" style="margin-bottom:10px">
+              <input class="form-control" value="@ViewData["enddate"]" placeholder="End Date (mm/dd/yyyy)" autocomplete="off" name="enddate" tabindex="0" type="text">
+
+            </div>
+            <div class="col-sm-4" style="margin-bottom: 10px; display: flex;">
+              <input class="btn btn-info btn-md" type="submit" value="Filter" style="margin-right:10px; padding-left: 50px; padding-right: 50px;" />
+
+              @*<input class="btn btn-danger btn-md" type="button" id="btnReset" value="Reset" style=" padding-left: 50px; padding-right: 50px;">*@
+
+            </div>
+          </div>
+        }
+
+
+        <div class="row">
+          <div class="col-sm-12">
+            <hr class="mute-more margin-vertical-xs-16">
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+  <section class="padding-xs-0">
+
+    <div class="container container-events">
+      <!---->
+      <div class="event-list">
+        <div class="margin-bottom-xs-64">
+          <div class="flex-center flex-wrap margin-bottom-xs-32">
+            <h2 class="pull-left font-size-xl flex-grow-1 margin-vertical-xs-0 margin-right-xs-16">More Tournament Events</h2>
+            <div class="pull-right margin-vertical-xs-8">
+              <!--<div close-on-select="true">
+                <div tabindex="0" class="multiselect">
+                  <div class="multiselect__select"></div>
+                  <div class="multiselect__tags">
+                    <div class="multiselect__tags-wrap" style="display: none;"></div>-->
+              <!---->
+              <!--<div class="multiselect__spinner" style="display: none;"></div>--> <!---->
+              <!--<span class="multiselect__single">Sort by distance</span>--> <!---->
+              <!--</div>
+              <div tabindex="-1" class="multiselect__content-wrapper" style="max-height: 300px; display: none;">
+                <ul class="multiselect__content" style="display: inline-block;">-->
+              <!---->
+              <!--<li class="multiselect__element">
+                <span data-select="" data-selected="" data-deselect="" class="multiselect__option multiselect__option--highlight multiselect__option--selected">-->
+              <!---->
+              <!--Sort by distance
+              </span>-->
+              <!---->
+              <!--</li>
+              <li class="multiselect__element">
+                <span data-select="" data-selected="" data-deselect="" class="multiselect__option">-->
+              <!---->
+              <!--Sort by date
+              </span>-->
+              <!---->
+              <!--</li>
+                      <li style="display: none;">
+                        <span class="multiselect__option">No elements found. Consider changing the search query.</span>
+                      </li>
+                      <li style="display: none;">
+                        <span class="multiselect__option">List is empty.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <input type="hidden" value="distance">
+              </div>-->
+            </div>
+          </div>
+          <div class="row event-section">
+            @{
+              if (Model.Count <= 0)
+              {
+                <h2 style=" text-align: center; width: 100%; font-size: 22px;">Record Not Found</h2>
+              }
+              else
+              {
+                foreach (var item in Model)
+                {
+                  <div class="col-xs-6 col-md-3">
+                    <div class="panel no-border event event-card">
+                      <a href="@Url.Action("EventDetails","Events",new { id = item.Name })" class="image-container">
+                        <img src="@item.Image" alt="@item.Name" width="343" loading="lazy" height="127" class="full-width img-fluid img-rounded" style="width:100%;height: 127px!important">
+                      </a>
+                      <div class="panel-body">
+                        <h3 class="event-title margin-bottom-xs-8">
+                          <a href="@Url.Action("EventDetails","Events",new { id = item.Name })" class="event-title color-inherit">
+                            @item.Name
+                          </a>
+                        </h3>
+                        <div class="location truncate">
+                          <small>
+                            <p class="margin-xs-0 truncate">
+                              @*<span><span class="flag-icon flag-icon-ae"></span></span>*@
+                              <span>
+                                @item.State
+                                <span>, </span>
+                              </span>
+                              <span>@item.Country</span>
+                            </p>
+                          </small>
+                        </div>
+                        <small class="margin-top-xs-16 flex-center flex-wrap">
+                          <div class="flex-grow-1 date">
+                            @item.StartDate.Value.ToString("MMM dd") - @item.EndDate.Value.ToString("MMM dd")
+                          </div>
+                          <div class="days muted">
+                            <span>
+                              <span>
+                                @((item.EndDate - item.StartDate).Value.TotalDays) days left
+                              </span>
+                            </span>
+                          </div>
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+
+                }
+              }
+
+
+            }
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+
+  $(document).ready(function () {
+
+    $('input[name="startdate"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy"
+    });
+
+    $('input[name="enddate"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy"
+    });
+
+  });
+ 
+  $("#btnReset").click(function () {
+    $(document).find("input").val('');
+    window.history.pushState({}, document.title, window.location.href.split('?')[0]);
+    window.location.reload();
+  })
+
+</script>
+

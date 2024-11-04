@@ -1,0 +1,126 @@
+@model TourneyRepo.Models.Configuration
+
+@{
+  ViewBag.Title = "Update Configuration";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+  .form-group.required .control-label:after {
+    content: "*";
+    color: red;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<!-- left column -->
+<div class="col-md-6">
+  <!-- general form elements -->
+  <div class="card card-warning">
+    <div class="card-header">
+      <h3 class="card-title"> Update Configuration</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "updateForm" }))
+    {
+      @Html.AntiForgeryToken()
+
+      <div class="card-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+          @Html.LabelFor(model => model.Key, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control", @ReadOnly = true } })
+            @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+        <div class="form-group required">
+          @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })
+          <div class="col-md-10">
+            @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control", @name = "Value", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+          </div>
+        </div>
+        <div id="info" class="alert alert-light" role="alert" style="display:none;"></div>
+
+        <div class="form-group">
+          <div class="class=" card-footer">
+            <input type="button" id="btnUpdate" value="Update" class="btn btn-warning" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+          </div>
+        </div>
+        <br />
+        <div>
+          @Html.ActionLink("Back to List", "Index")
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    if ($("#Key").val() == 'SiteOwnerPercentage') {
+      debugger;
+      $("#info").text("NOTE: " + (100 - $("#Value").val()) + " percent of payment will be shared to Tournament Director.");
+      $("#info").show();
+      $("#Value").keyup(function () {
+          $("#info").text("NOTE: "+ (100 - $("#Value").val()) +" percent of payment will be shared to Tournament Director.");
+      });
+      $("#updateForm").validate({
+        errorClass: "text-danger font-weight-bold errorClass",
+        errorElement: "div",
+        rules: {
+          Value: {
+            required: true,
+            number: true,
+            integer: true,
+            range: [1, 100]
+          }
+        },
+        highlight: function (inputelement, errorClass) {
+          $(inputelement).removeClass(errorClass)
+        }
+      });
+    } else {
+      $("#updateForm").validate({
+        errorClass: "text-danger font-weight-bold errorClass",
+        errorElement: "div",
+        rules: {
+          Value: {
+            required: true
+          }
+        },
+        highlight: function (inputelement, errorClass) {
+          $(inputelement).removeClass(errorClass)
+        }
+      });
+    }
+  });
+
+  $("#btnUpdate").click(function () {
+   if ($("#updateForm").valid()) {
+      $('#updateForm').get(0).submit();
+    }
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

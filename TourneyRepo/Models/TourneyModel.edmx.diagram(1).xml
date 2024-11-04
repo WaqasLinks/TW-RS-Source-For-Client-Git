@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e6832b7038fa4c39b4e6f1ca032c5b97" Name="Diagram1">
+        <EntityTypeShape EntityType="TourneyRepo.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.AnnualOffDay" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.AspNetRole" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.AspNetUser" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.Competitor" Width="1.5" PointX="13.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.CompetitorEventRelation" Width="1.5" PointX="15.5" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.CompetitorTournamentOrder" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.DeviceType" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.DivisionGroup" Width="1.5" PointX="15.5" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.EventDivision" Width="1.5" PointX="13.25" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.Item" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.ItemLog" Width="1.5" PointX="10.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.Location" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.ScheduledEvent" Width="1.5" PointX="13.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.Status" Width="1.5" PointX="6" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.Tournament" Width="1.5" PointX="11" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.TournamentDirector" Width="1.5" PointX="8.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyRepo.TournamentEvent" Width="1.5" PointX="11" PointY="11.875" IsExpanded="true" />
+        <AssociationConnector Association="TourneyRepo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_Item_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_ItemLog_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_CompetitorEventRelation_Competitor" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_DivisionGroup_Competitor" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_CompetitorEventRelation_ScheduledEvent" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_Item_DeviceType" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_DivisionGroup_EventDivision" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_EventDivision_Tournament" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_EventDivision_TournamentEvent" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_Item_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_Item_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_ItemLog_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_ScheduledEvent_Tournament" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.FK_Tournament_TournamentDirector" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyRepo.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tourney Wizard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  @* this all was for multiselect dropdown but now using for all code *@
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  @*  *@
+
+
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-pro/css/all.min.css">
+
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="../../plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="../../plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+
+
+
+
+
+  <!-- jQuery -->  <!-- multiselect run with this jquery ver and bleow also. no diff till yet 28-apr -->
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->  <!-- multiselect not run with this so commented -->
+  @*<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+  @* this all was for multiselect dropdown but now using for all code *@
+
+  @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- jQuery -->
+  @*<script src="../../plugins/jquery/jquery.min.js"></script>*@
+  <!-- Bootstrap 4 -->
+  @*<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+  <!-- Select2 -->
+  <script src="../../plugins/select2/js/select2.full.min.js"></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+  <!-- InputMask -->
+  <script src="../../plugins/moment/moment.min.js"></script>
+  <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
+  <!-- bootstrap color picker -->
+  <script src="../../plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Bootstrap Switch -->
+  <script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+  <!-- bs-custom-file-input -->
+  <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../dist/js/demo.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+    });
+  </script>
+</head>
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        @*<li class="nav-item d-none d-sm-inline-block">
+            <a href="~/index3.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Contact</a>
+          </li>*@
+      </ul>
+
+      <!-- SEARCH FORM -->
+      @*<form class="form-inline ml-3">
+          <div class="input-group input-group-sm">
+            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-navbar" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>*@
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+
+        @*<li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-comments"></i>
+              <span class="badge badge-danger navbar-badge">3</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <a href="#" class="dropdown-item">
+
+                <div class="media">
+                  <img src="~/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      Brad Diesel
+                      <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                    </h3>
+                    <p class="text-sm">Call me whenever you can...</p>
+                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                  </div>
+                </div>
+
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+
+                <div class="media">
+                  <img src="~/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      John Pierce
+                      <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                    </h3>
+                    <p class="text-sm">I got your message bro</p>
+                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                  </div>
+                </div>
+
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+
+                <div class="media">
+                  <img src="~/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      Nora Silvester
+                      <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
+                    </h3>
+                    <p class="text-sm">The subject goes here</p>
+                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                  </div>
+                </div>
+
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-bell"></i>
+              <span class="badge badge-warning navbar-badge">15</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">15 Notifications</span>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                <span class="float-right text-muted text-sm">3 mins</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-users mr-2"></i> 8 friend requests
+                <span class="float-right text-muted text-sm">12 hours</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-file mr-2"></i> 3 new reports
+                <span class="float-right text-muted text-sm">2 days</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+              <i class="fas fa-th-large"></i>
+            </a>
+          </li>*@
+
+        <li class="nav-item">
+          @*<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+              <i class="fas fa-th-large"></i>
+            </a>*@
+
+          @Html.Partial("_LoginPartial")
+
+        </li>
+
+      </ul>
+
+    </nav>
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+
+      <a href="@Url.Action("Tournament","Tournaments")" class="brand-link">
+        @*<img src="~/dist/img/AdminLTELogo.png"*@
+        <img src="~/dist/img/logo.png"
+             alt="Tourney Wizard"
+             class="img-fluid elevation-0"
+             style="opacity: .8; display: block; margin-left: auto; margin-right: auto; max-height: 77px;">
+        <span class="brand-text font-weight-light"></span>
+      </a>
+
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+        @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+              <img src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a href="\LeavesRequest\Create" class="d-block">Apply Leave</a>
+            </div>
+          </div>*@
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+  with font-awesome or any other icon font library -->
+            @if (User.Identity.IsAuthenticated)
+            {
+              if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("User"))
+              {
+                <li class="nav-item">
+                  <a href="/Dashboard/Index1" class="nav-link">
+                    <i class="nav-icon fa fa-chart-pie"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+
+              }
+              if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("User"))
+              {
+                @*<li class="nav-item">
+          <a href="/Items/Create" class="nav-link">
+            <i class="nav-icon fa fa-plus"></i>
+            <p>Add Device</p>
+          </a>
+        </li>*@
+
+
+                <li class="nav-item">
+                  <a href="/Tournaments/Index" class="nav-link">
+                    <i class="nav-icon fa fa-trophy-star"></i>
+                    <p>Create Tourney</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/TournamentDirectors/Index" class="nav-link">
+                    @*<i class="fa-solid fa-uniform-martial-arts"></i>*@
+
+                    <i class="nav-icon fa fa-user-alien"></i>
+                    <p>Directors</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/TournamentEvents/Index" class="nav-link">
+                    @*<i class="fa-solid fa-uniform-martial-arts"></i>*@
+
+                    <i class="nav-icon fa fa-network-wired"></i>
+                    <p>Events</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/EventDivisions/Index" class="nav-link">
+                    <i class="nav-icon fa fa-list"></i>
+
+                    <p>Divisions</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/Competitors/Index" class="nav-link">
+                    <i class="nav-icon fa fa-user-ninja"></i>
+                    <p>Competitors</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/Competitors/TournamentDetail" class="nav-link">
+                    <i class="nav-icon fa fa-flag-checkered"></i>
+                    <p>Summary</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/PrintBrackets/Index" class="nav-link">
+                    <i class="nav-icon fa fa-print"></i>
+                    <p>Print Brackets</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/Configurations/Index" class="nav-link">
+                    <i class="nav-icon fa fa-gear"></i>
+                    <p>Configurations</p>
+                  </a>
+                </li>
+
+                          <li class="nav-item">
+                            <a href="/CheckIn/Index" class="nav-link">
+                              <i class="nav-icon fa fa-gear"></i>
+                              <p>Check In</p>
+                            </a>
+                          </li>
+                                    @*<li class="nav-item">
+                              <a href="/Locations/Index" class="nav-link">
+                                <i class="nav-icon fa fa-map-marker-alt"></i>
+                                <p>Locations</p>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="/DeviceTypes/Index" class="nav-link">
+                                <i class="nav-icon fa fa-boxes"></i>
+                                <p>Device Types</p>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="/ItemLogs/Index" class="nav-link">
+                                <i class="nav-icon fa fa-history"></i>
+                                <p>Activity Log</p>
+                              </a>
+                            </li>*@
+
+
+                                  }
+
+
+
+
+                                  if (User.IsInRole("Admin"))
+                                  {
+
+                                    @*<li class="nav-item">
+                              <a href="/Account/Register" class="nav-link">
+                                <i class="nav-icon fa fa-user-plus"></i>
+                                <p>Add User</p>
+                              </a>
+                            </li>*@
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+                                    <li class="nav-item">
+
+                                      <i class=""></i>
+                                      <p></p>
+
+                                    </li>
+
+                                    <li class="nav-item">
+                                      <a href="/AspNetUsers/Index" class="nav-link">
+                                        <i class="nav-icon fa fa-circle-user"></i>
+                                        <p>Users</p>
+                                      </a>
+                                    </li>
+
+
+                                  }
+
+                                  if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("User"))
+                                  {
+
+
+
+                                    <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                        <i class=""></i>
+                                        <p>_________________________</p>
+                                      </a>
+                                    </li>
+
+
+                                    <li class="nav-item">
+                                      <a href="/Account/SignOut" class="nav-link">
+                                        <i class="nav-icon fa fa-sign-out-alt"></i>
+                                        <p>SignOut</p>
+                                      </a>
+                                    </li>
+                                  }
+
+                                }
+
+          </ul>
+
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        @*<div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">General Form</li>
+                </ol>
+              </div>
+            </div>
+          </div>*@
+      </section>
+
+      <!-- Main content -->
+
+      @RenderBody()
+      @RenderSection("SPAViews", required: false)
+
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block">
+        <b>Version</b> 1.0.0
+      </div>
+      <strong>Copyright &copy; @DateTime.Now.Year <a href="#">Tourney Wizard</a>.</strong> All rights
+      reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+  <!-- jQuery -->
+
+
+
+
+
+  @RenderSection("Scripts", required: false)
+</body>
+</html>

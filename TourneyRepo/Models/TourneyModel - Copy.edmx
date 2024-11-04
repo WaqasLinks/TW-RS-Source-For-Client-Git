@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TourneyWizardModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BioStarEmpNum" Type="int" />
+          <Property Name="Hometown" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="UserLeavePolicyId" Type="int" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Competitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Serial" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="Age" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Weight" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="State" Type="nvarchar" MaxLength="500" />
+          <Property Name="City" Type="nvarchar" MaxLength="500" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="500" />
+          <Property Name="Email" Type="nvarchar" MaxLength="500" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="500" />
+          <Property Name="School" Type="nvarchar" MaxLength="500" />
+          <Property Name="Belt" Type="nvarchar" MaxLength="500" />
+          <Property Name="Event" Type="nvarchar" MaxLength="500" />
+          <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CompetitorTournamentOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Competitor" Type="nvarchar(max)" />
+          <Property Name="Tournament" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Event" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Division" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DivisionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupNo" Type="int" />
+          <Property Name="EventDevisionId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CompetitorId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TournamentEventId" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="EventDivision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="AgeRange" Type="nvarchar" MaxLength="500" />
+          <Property Name="BeltRange" Type="nvarchar" MaxLength="500" />
+          <Property Name="GenderRange" Type="nvarchar" MaxLength="500" />
+          <Property Name="WeightRange" Type="nvarchar" MaxLength="500" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="TournamentId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TournamentEventId" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="StrictCriteria" Type="bit" />
+          <Property Name="GroupLimit" Type="int" />
+          <Property Name="Combinations" Type="nvarchar" MaxLength="500" />
+          <Property Name="RingAssignment" Type="varchar" MaxLength="500" />
+          <Property Name="IsCustom" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="TournamentDate" Type="datetime" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TournamentEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DivisionGroup_Competitor">
+          <End Role="Competitor" Type="Self.Competitor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DivisionGroup" Type="Self.DivisionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Competitor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DivisionGroup">
+              <PropertyRef Name="CompetitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DivisionGroup_EventDivision">
+          <End Role="EventDivision" Type="Self.EventDivision" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DivisionGroup" Type="Self.DivisionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventDivision">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DivisionGroup">
+              <PropertyRef Name="EventDevisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDivision_Tournament">
+          <End Role="Tournament" Type="Self.Tournament" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventDivision" Type="Self.EventDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventDivision">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDivision_TournamentEvent">
+          <End Role="TournamentEvent" Type="Self.TournamentEvent" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventDivision" Type="Self.EventDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TournamentEvent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventDivision">
+              <PropertyRef Name="TournamentEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourneyWizardModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Competitor" EntityType="Self.Competitor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompetitorTournamentOrder" EntityType="Self.CompetitorTournamentOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DivisionGroup" EntityType="Self.DivisionGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventDivision" EntityType="Self.EventDivision" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tournament" EntityType="Self.Tournament" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TournamentEvent" EntityType="Self.TournamentEvent" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DivisionGroup_Competitor" Association="Self.FK_DivisionGroup_Competitor">
+            <End Role="Competitor" EntitySet="Competitor" />
+            <End Role="DivisionGroup" EntitySet="DivisionGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DivisionGroup_EventDivision" Association="Self.FK_DivisionGroup_EventDivision">
+            <End Role="EventDivision" EntitySet="EventDivision" />
+            <End Role="DivisionGroup" EntitySet="DivisionGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDivision_Tournament" Association="Self.FK_EventDivision_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="EventDivision" EntitySet="EventDivision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDivision_TournamentEvent" Association="Self.FK_EventDivision_TournamentEvent">
+            <End Role="TournamentEvent" EntitySet="TournamentEvent" />
+            <End Role="EventDivision" EntitySet="EventDivision" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TourneyWizardModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TourneyWizardEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="AspNetRoles" EntityType="TourneyWizardModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="TourneyWizardModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="TourneyWizardModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="TourneyWizardModel.AspNetUser" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="TourneyWizardModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="TourneyWizardModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="TourneyWizardModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Competitors" EntityType="TourneyWizardModel.Competitor" />
+          <EntitySet Name="DivisionGroups" EntityType="TourneyWizardModel.DivisionGroup" />
+          <EntitySet Name="Tournaments" EntityType="TourneyWizardModel.Tournament" />
+          <EntitySet Name="TournamentEvents" EntityType="TourneyWizardModel.TournamentEvent" />
+          <AssociationSet Name="FK_DivisionGroup_Competitor" Association="TourneyWizardModel.FK_DivisionGroup_Competitor">
+            <End Role="Competitor" EntitySet="Competitors" />
+            <End Role="DivisionGroup" EntitySet="DivisionGroups" />
+          </AssociationSet>
+          <EntitySet Name="EventDivisions" EntityType="TourneyWizardModel.EventDivision" />
+          <AssociationSet Name="FK_DivisionGroup_EventDivision" Association="TourneyWizardModel.FK_DivisionGroup_EventDivision">
+            <End Role="EventDivision" EntitySet="EventDivisions" />
+            <End Role="DivisionGroup" EntitySet="DivisionGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDivision_Tournament" Association="TourneyWizardModel.FK_EventDivision_Tournament">
+            <End Role="Tournament" EntitySet="Tournaments" />
+            <End Role="EventDivision" EntitySet="EventDivisions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDivision_TournamentEvent" Association="TourneyWizardModel.FK_EventDivision_TournamentEvent">
+            <End Role="TournamentEvent" EntitySet="TournamentEvents" />
+            <End Role="EventDivision" EntitySet="EventDivisions" />
+          </AssociationSet>
+          <EntitySet Name="CompetitorTournamentOrders" EntityType="TourneyWizardModel.CompetitorTournamentOrder" />
+          </EntityContainer>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="TourneyWizardModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="TourneyWizardModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="TourneyWizardModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BioStarEmpNum" Type="Int32" />
+          <Property Name="Hometown" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="UserLeavePolicyId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="TourneyWizardModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="TourneyWizardModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="TourneyWizardModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="TourneyWizardModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TourneyWizardModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="TourneyWizardModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TourneyWizardModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="TourneyWizardModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="TourneyWizardModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Competitor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Serial" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Weight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="State" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="School" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Belt" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Event" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DivisionGroups" Relationship="TourneyWizardModel.FK_DivisionGroup_Competitor" FromRole="Competitor" ToRole="DivisionGroup" />
+        </EntityType>
+        <EntityType Name="DivisionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupNo" Type="Int32" />
+          <Property Name="EventDevisionId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CompetitorId" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Competitor" Relationship="TourneyWizardModel.FK_DivisionGroup_Competitor" FromRole="DivisionGroup" ToRole="Competitor" />
+          <NavigationProperty Name="EventDivision" Relationship="TourneyWizardModel.FK_DivisionGroup_EventDivision" FromRole="DivisionGroup" ToRole="EventDivision" />
+          <Property Name="TournamentEventId" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TournamentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EventDivisions" Relationship="TourneyWizardModel.FK_EventDivision_Tournament" FromRole="Tournament" ToRole="EventDivision" />
+        </EntityType>
+        <EntityType Name="TournamentEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EventDivisions" Relationship="TourneyWizardModel.FK_EventDivision_TournamentEvent" FromRole="TournamentEvent" ToRole="EventDivision" />
+        </EntityType>
+        <Association Name="FK_DivisionGroup_Competitor">
+          <End Type="TourneyWizardModel.Competitor" Role="Competitor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TourneyWizardModel.DivisionGroup" Role="DivisionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Competitor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DivisionGroup">
+              <PropertyRef Name="CompetitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EventDivision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgeRange" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BeltRange" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GenderRange" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="WeightRange" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="TournamentId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TournamentEventId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="StrictCriteria" Type="Boolean" />
+          <Property Name="GroupLimit" Type="Int32" />
+          <Property Name="Combinations" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DivisionGroups" Relationship="TourneyWizardModel.FK_DivisionGroup_EventDivision" FromRole="EventDivision" ToRole="DivisionGroup" />
+          <NavigationProperty Name="Tournament" Relationship="TourneyWizardModel.FK_EventDivision_Tournament" FromRole="EventDivision" ToRole="Tournament" />
+          <NavigationProperty Name="TournamentEvent" Relationship="TourneyWizardModel.FK_EventDivision_TournamentEvent" FromRole="EventDivision" ToRole="TournamentEvent" />
+          <Property Name="RingAssignment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsCustom" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_DivisionGroup_EventDivision">
+          <End Type="TourneyWizardModel.EventDivision" Role="EventDivision" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TourneyWizardModel.DivisionGroup" Role="DivisionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventDivision">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DivisionGroup">
+              <PropertyRef Name="EventDevisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDivision_Tournament">
+          <End Type="TourneyWizardModel.Tournament" Role="Tournament" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TourneyWizardModel.EventDivision" Role="EventDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventDivision">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDivision_TournamentEvent">
+          <End Type="TourneyWizardModel.TournamentEvent" Role="TournamentEvent" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TourneyWizardModel.EventDivision" Role="EventDivision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TournamentEvent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventDivision">
+              <PropertyRef Name="TournamentEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CompetitorTournamentOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Competitor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Tournament" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Event" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TourneyWizardModelStoreContainer" CdmEntityContainer="TourneyWizardEntities" >
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="TourneyWizardModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="TourneyWizardModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="TourneyWizardModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="TourneyWizardModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Hometown" ColumnName="Hometown" />
+                <ScalarProperty Name="BioStarEmpNum" ColumnName="BioStarEmpNum" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="TourneyWizardModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Competitors">
+            <EntityTypeMapping TypeName="TourneyWizardModel.Competitor">
+              <MappingFragment StoreEntitySet="Competitor">
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="Belt" ColumnName="Belt" />
+                <ScalarProperty Name="School" ColumnName="School" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DivisionGroups">
+            <EntityTypeMapping TypeName="TourneyWizardModel.DivisionGroup">
+              <MappingFragment StoreEntitySet="DivisionGroup">
+                <ScalarProperty Name="TournamentEventId" ColumnName="TournamentEventId" />
+                <ScalarProperty Name="CompetitorId" ColumnName="CompetitorId" />
+                <ScalarProperty Name="EventDevisionId" ColumnName="EventDevisionId" />
+                <ScalarProperty Name="GroupNo" ColumnName="GroupNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tournaments">
+            <EntityTypeMapping TypeName="TourneyWizardModel.Tournament">
+              <MappingFragment StoreEntitySet="Tournament">
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="TournamentDate" ColumnName="TournamentDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TournamentEvents">
+            <EntityTypeMapping TypeName="TourneyWizardModel.TournamentEvent">
+              <MappingFragment StoreEntitySet="TournamentEvent">
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventDivisions">
+            <EntityTypeMapping TypeName="TourneyWizardModel.EventDivision">
+              <MappingFragment StoreEntitySet="EventDivision">
+                <ScalarProperty Name="IsCustom" ColumnName="IsCustom" />
+                <ScalarProperty Name="RingAssignment" ColumnName="RingAssignment" />
+                <ScalarProperty Name="Combinations" ColumnName="Combinations" />
+                <ScalarProperty Name="GroupLimit" ColumnName="GroupLimit" />
+                <ScalarProperty Name="StrictCriteria" ColumnName="StrictCriteria" />
+                <ScalarProperty Name="TournamentEventId" ColumnName="TournamentEventId" />
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="WeightRange" ColumnName="WeightRange" />
+                <ScalarProperty Name="GenderRange" ColumnName="GenderRange" />
+                <ScalarProperty Name="BeltRange" ColumnName="BeltRange" />
+                <ScalarProperty Name="AgeRange" ColumnName="AgeRange" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompetitorTournamentOrders">
+            <EntityTypeMapping TypeName="TourneyWizardModel.CompetitorTournamentOrder">
+              <MappingFragment StoreEntitySet="CompetitorTournamentOrder">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="Tournament" ColumnName="Tournament" />
+                <ScalarProperty Name="Competitor" ColumnName="Competitor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

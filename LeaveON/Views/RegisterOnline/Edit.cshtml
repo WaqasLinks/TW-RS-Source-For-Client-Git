@@ -1,0 +1,230 @@
+@model TourneyRepo.Models.Competitor
+
+@{
+  ViewBag.Title = "Create";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+<section>
+  <div id="loginPage" class="container">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel flip card margin-bottom-xs-64 flipped panel-default bg-black">
+          <div class="panel-body margin-vertical-xs-16 margin-horizontal-xs-32 face front color-white">
+            <form method="POST" action="/RegisterOnline/Registration" accept-charset="UTF-8" class="create-account">
+              <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+              </div>
+              <div class="form-group">
+                @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+
+              </div>
+              <div class="form-group">
+                @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+
+              </div>
+              <div class="form-group">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "" })
+
+                @Html.DropDownListFor(model => model.Gender, new List<SelectListItem>
+                                                                                                                                                                                                                        {
+                   new SelectListItem{ Text="Male", Value = "true" },
+                   new SelectListItem{ Text="Female", Value = "" },
+                }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.School, htmlAttributes: new { @class = "" })
+
+                @Html.EditorFor(model => model.School, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.School, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                <label>Choose Event(s): <span>*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                <div class="custom-control custom-switch">
+                  <label class="custom-control-label" for="customSwitch1" id="1">Traditional Forms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </div>
+
+                <div class="custom-control custom-switch">
+                  <label class="custom-control-label" for="customSwitch2" id="2">Creative Forms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </div>
+
+                <div class="custom-control custom-switch">
+                  <label class="custom-control-label" for="customSwitch3" id="3">Weapon Forms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </div>
+
+                <div class="custom-control custom-switch">
+                  <label class="custom-control-label" for="customSwitch4" id="4">Board Breaking&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </div>
+
+                <div class="custom-control custom-switch">
+                  <label class="custom-control-label" for="customSwitch5" id="5">Olympic-style Sparring&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </div>
+
+                <div class="custom-control custom-switch">
+                  <label class="custom-control-label" for="customSwitch6" id="6">Obstacle Course (11 years & under)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                @Html.LabelFor(model => model.Belt, htmlAttributes: new { @class = "" })
+
+                @Html.DropDownListFor(model => model.Belt, ViewBag.Belts as SelectList, new { @class = "form-control" })
+
+
+                @*@Html.EditorFor(model => model.Belt, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Belt, "", new { @class = "text-danger" })
+
+              </div>
+
+              <div class="form-group">
+                <label for="signature">Digital Signature</label>
+                <div id="target" class="drawpad-dashed"></div>
+              </div>
+              <div class="form-group">
+                <div class="class=" card-footer">
+                  <input id="comp_save" type="submit" value="Update" class="btn btn-warning" onclick="addField();" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+
+  $('#comp_save').click(function () {
+    alert("Saved Data Successfully!!!!");
+  });
+
+    $(function () {
+      $("#comp_save").click(function () {
+          var div = $("#target");
+            var canvas = div["children"]()[0];
+            image = canvas.toDataURL("image/png");
+            newimage = image.replace('data:image/png;base64,', '');
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SignatureSave", "RegisterOnline")',
+                data: {
+                    imageData: newimage
+                },
+
+                success: function (data) {
+                    alert("success" );
+                }
+            });
+       });
+    });
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="//resources/demos/style.css">
+<link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/plugins/select2/js/select2.full.min.js"></script>
+@*Signature Scenario*@
+<link href="~/Content/Custom/css/jquery-drawpad.css" rel="stylesheet" />
+<script src="/path/to/cdn/jquery.min.js"></script>
+<script src="~/Content/Custom/js/jquery-drawpad.js"></script>
+
+@* End *@
+<script>
+  $(function () {
+    $("#target").drawpad();
+  });
+
+  $("#target").drawpad({
+    defaultColor: "#222"
+  });
+
+  $("#target").drawpad({
+    colors: [
+      "#000000", //black
+      "#2ecc71", //green
+      "#3498db", //blue
+      "#e74c3c", //red
+      "#f1c40f", //yellow
+      "#9b59b6", //purple
+      "#e67e22", //orange
+    ],
+  });
+
+  $("#target").drawpad({
+    eraserSize: 20
+  });
+
+  $('#saveimg').click(function () {
+    localStorage.setItem('signature', signaturePad.toDataURL());
+  });
+
+  var signaturePad = new SignaturePad(canvas);
+  var data = localStorage.getItem('signature');
+  if (data) {
+    signaturePad.fromDataURL(data);
+  }
+
+</script>

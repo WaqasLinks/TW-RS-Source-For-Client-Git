@@ -1,0 +1,109 @@
+@model List<TourneyRepo.Models.Competitor>
+<div class="content">
+  <section id="select-profile">
+    <div class="container" id="loginPage">
+      <div class="row">
+        <div class="text-center">
+          <h1>Select profile</h1>
+          <ul class="list-unstyled profile-list flex-center">
+
+
+            @{ foreach (var item in Model)
+              {
+                <li class="profile-item  profile-item-active" id="ProfileCardClick">
+                  <a href="javascript:void(0)">
+                    <input name="" type="hidden" class="competitorId" value="@item.Id">
+                    <input name="_token" type="hidden" value="EeyzGWEjiZhqFLHw7EE1NdbzeL6TvgFwGJueacZZ">
+                    <input type="hidden" name="user_id" value="1096776">
+                    <input type="hidden" name="_next_url" value="">
+                    <button type="submit" class="btn bg-brand btn-block">
+                      <div class="avatar">
+                        @{
+                          if (@item.ProfilePath != null)
+                          {
+
+
+                            <img src="@item.ProfilePath" alt="" class="img-circle full-width" style=" height: 250px!important; width: 250px!important;">
+                          }
+                          else
+                          {
+                            <img src="https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" alt="" class="img-circle full-width" style=" height: 250px!important; width: 250px!important;">
+
+                          }
+                        }
+                      </div>
+                      <div class="name truncate">
+                        <span class="firstname">@item.Name</span>
+                        <span class="lastname">@item.LastName</span>
+                      </div>
+                    </button>
+                  </a>
+                </li>
+
+              } }
+
+
+
+            <li class="profile-item profile-new">
+
+              <button type="button" class="btn bg-brand btn-block relative mute" id="AddProfileBtn">
+                <div class="avatar flex-center flex-justify-center">
+                  <img src="https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" alt="" class="img-circle mute-more">
+                  <span class="absolute">
+                    <span class="font-size-xxl icon icon-plus mute"></span>
+                  </span>
+                </div>
+                <div class="name">
+                  Add a new profile
+                </div>
+              </button>
+
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<script>
+
+  $(document).on("click", "#ProfileCardClick", function () {
+
+    debugger
+    var competitorId = $(this).children().find(".competitorId").val();
+    var EventId = window.location.pathname.split("/")[3];
+
+    if (EventId != undefined) {
+
+      window.location.href = `/RegisterOnline/Registration?id=${EventId}&CompetitorId=${competitorId}`;
+
+    }
+    else {
+
+      window.location.href = "/Competitors/MyAccount/" + competitorId
+    }
+
+  });
+
+  $(document).on("click", "#AddProfileBtn", function () {
+
+    var EventId = window.location.pathname.split("/")[3];
+
+    if (EventId != undefined) {
+      ////window.location.href = `/Competitors/AddMember/${EventId}`;
+      window.location.href = `/Competitors/AddMember/` + EventId;
+    }
+    else {
+
+      window.location.href = `/Competitors/AddMember`;
+
+    }
+
+
+  });
+</script>
+

@@ -1,0 +1,282 @@
+@model TourneyRepo.Models.ScheduledEvent
+@using Microsoft.AspNet.Identity;
+@{
+  ViewBag.Title = "EventDetail";
+}
+
+<style>
+
+  .modal {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-backdrop {
+    display: none !important;
+  }
+</style>
+
+<div class="content" style="margin-top: 50px; margin-bottom: 50px;">
+  <div class="container">
+    <section class="padding-top-xs-0 padding-top-sm-32 padding-bottom-xs-0 hidden-print hidden-tv">
+      <div id="eventHeader" class="relative">
+
+        <div class="row">
+          <div id="cover" class="col-sm-7 col-md-8 col-lg-8">
+            <div class="cover-wrapper">
+              <div class="cover-image">
+                <img class="" style="" alt="" src="@Model.Image">
+              </div>
+              <div class="cover-shadow"></div>
+              <div class="cover-heading">
+                <div class="cover-date visible-xs">
+                  @Model.StartDate.Value.ToString("dd MMM") - @Model.EndDate.Value.ToString("dd MMM")
+                  <span class="muted"></span>
+                </div>
+                <h1>@Html.ActionLink(@Model.Name, "EventDetails", new { Id = Model.Name })</h1>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="schedule" class="col-sm-5 col-md-4 col-lg-4">
+            <div class="schedule-container">
+
+              <div class="item date event hidden-xs">
+                <span class="icon icon-fighters"></span>
+                <div class="text">
+                  <div class="title">
+                    Tourney Date
+                  </div>
+                  @*<strong>
+          @Model.StartDate.Value.ToString("dd MMM") - @Model.EndDate.Value.ToString("dd MMM")
+        </strong>*@
+                  <strong>@Model.StartDate.Value.ToString("MMMM dd, yyyy")</strong>
+
+                </div>
+              </div>
+
+              <div class="item date event hidden-xs">
+                <span>Location: <strong>@Model.Location</strong></span>
+
+
+              </div>
+              <div class="item date event hidden-xs">
+                <span>Address: <strong>@Model.City @Model.State, @Model.Country </strong></span>
+                </div>
+
+                @{
+
+                  if (!ViewBag.isAnyCompetitorRemaining)
+                  {
+                    <div class="item date event hidden-xs">
+                      <a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("Profile", "Competitors", new { id = Model.Id })">Register For Tournament</a>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+         
+
+
+          <div class="col-sm-12">
+            <nav class="navbar navbar-default navbar-event">
+              <div class="navbar-header">
+
+
+                @{
+                  if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == Model.CreatedBy)
+                  {
+
+                    <a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("UpdateEvent", "Events", new { id = Model.Id })">Edit Tournament</a>
+
+
+                    <button type="button" class="btn btn-danger navbar-btn text-xs-center" data-toggle="modal" data-target="#myModal">
+                      Delete Tournament
+                    </button>
+
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal">
+                      <div class="modal-dialog modal-md modal-dialog-centered">
+                        <div class="modal-content">
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <h4>Are you sure ?</h4>
+                            <h4>This event will be deleted</h4>
+
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <a class="btn btn-info navbar-btn text-xs-center" id="ModalHidden" href="@Url.Action("DeleteEvents", "Events", new { id = Model.Id })">Confirm</a>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  } }
+              </div>
+              <ul class="nav navbar-nav">
+                <li class="active noChilds">
+                  <a href="@Url.Action("EventDetails", "Events", new { id = Model.Name })">
+                    <span>
+                      <span class="icon icon-info visible-xs"></span>
+                      Info<span class="hidden-xs">rmation</span>
+                    </span>
+                  </a>
+                </li>
+                @{ if (User.Identity.IsAuthenticated && (User.Identity.GetUserId() == Model.CreatedBy || ViewBag.isCompetitorExist))
+                  {
+                    <li class="not-active noChilds ">
+                      <a href="@Url.Action("Participant", "Events", new { id = Model.Name })">
+                        <span>
+                          <span class="icon icon-form visible-xs"></span>
+                          Registrations
+                          <span class="badge hidden-xs">@ViewBag.totalCount</span>
+                        </span>
+                      </a>
+                    </li>
+                    <li class="not-active noChilds ">
+                      <a href="@Url.Action("Brackets","Events",new { id = Model.Name })">
+                        <span>
+                          <span class="icon icon-form visible-xs"></span>
+                          Brackets
+                        </span>
+                      </a>
+                    </li>
+                  } }
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <section class="bg-darkblue event-startpage">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-7">
+
+          <h1>Tourney Information</h1>
+          <div class="information">
+            @Html.Raw(@Model.Description)
+          </div>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1">
+          <div class="panel fee panel-inverted">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="icon"></span> Entry Fee <span style="font-size:13px;">(Pre-registeration only by @(Model.CutOffdate.Value.ToString("MMMM dd, yyyy")))</span></h3>
+            </div>
+            <div class="panel-body lineheight-sm">
+              <div class="location">
+                <p class="margin-xs-0">
+
+                  <span style="font-weight:bold;">$@ViewBag.EventFee</span><span class="muted-less"> for one event</span>
+
+                </p>
+                <p>
+                  <span style="font-weight:bold;">$@ViewBag.OtherEventFee</span><span class="muted-less"> for each additional</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="panel panel-inverted" id="contact">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="icon icon-info"></span> Connect With Us</h3>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href="@Model.WebSite" target="_blank">
+                  <span class="icon icon-globe">
+                    Event website <span style="font-size: 25px; vertical-align: baseline; position: relative; top: 2.5px;">&#129170;</span>
+                  </span>
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a href="@Model.Email" target="_blank" rel="noopener">
+                  <span class="icon icon-envelope">
+                  </span>
+                  E-mail <span style="font-size: 25px; vertical-align: baseline; position: relative; top: 2.5px;">&#129170;</span>
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a href="@Model.Facebook" target="_blank" rel="noopener">
+                  <span class="icon icon-facebook">
+                  </span> Facebook <span style="font-size: 25px; vertical-align: baseline; position: relative; top: 2.5px;">&#129170;</span>
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a href="@Model.Twitter" target="_blank" rel="noopener">
+                  <span class="icon icon-twitter">
+                  </span> Twitter <span style="font-size: 25px; vertical-align: baseline; position: relative; top: 2.5px;">&#129170;</span>
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a href="@Model.WebSite" target="_blank" rel="noopener">
+                  <span class="icon icon-globe">
+                  </span> Event website <span style="font-size: 25px; vertical-align: baseline; position: relative; top: 2.5px;">&#129170;</span>
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a href="@Model.Instagram" target="_blank" rel="noopener">
+                  <span class="icon icon-instagram">
+                  </span> Instagram <span style="font-size: 25px; vertical-align: baseline; position: relative; top: 2.5px;">&#129170;</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="panel tournamentdirector panel-inverted">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="icon"></span> Tournament Director</h3>
+            </div>
+            <div class="panel-body lineheight-sm">
+              <div class="location">
+                <p class="margin-xs-0">
+
+                  <span class="" style="font-weight:bolder;">@ViewBag.TournamentDirector.FirstName @ViewBag.TournamentDirector.LastName</span>
+
+                </p>
+                <p class="margin-xs-0">
+                  <span style="font-weight:bold;">Phone: </span> <span class="muted-less"> @ViewBag.TournamentDirector.Phone</span>
+                </p> 
+                <p class="margin-xs-0">
+                  <span style="font-weight:bold;">Email: </span><span class="muted-less"> @ViewBag.TournamentDirector.Email</span>
+                </p>
+
+              </div>
+            </div>
+          </div>
+          <div class="panel location panel-inverted">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="icon icon-pin"></span> Location</h3>
+            </div>
+            <div class="panel-body lineheight-sm">
+              <div class="location">
+                <p class="margin-xs-0">
+                  <a href="#" target="_blank" rel="noopener">
+                    @Model.Location<br>
+                  </a>
+                  @*<span class="muted">Zayed Sports City - Building # 1811 - off Al Khaleej Al Arabi Street - Al Rawdah - W57 - Abu Dhabi - United Arab Emirates</span><br>
+            <span class="muted">Timezone: Asia/Dubai</span>*@
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+  $("#ModalHidden").click(function () { $("#myModal").modal("hide") })
+</script>

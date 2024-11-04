@@ -1,0 +1,247 @@
+
+@model IEnumerable<LeaveON.Models.CompetitorDivisionsVM>
+@using TourneyRepo.Models
+@{
+  ViewBag.Title = "Devision Competitors";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+  tr, td {
+    background-color: #1c1c1c !important;
+    color: #fff !important;
+  }
+  .select2-results__option{
+    color:black!important;
+  }
+</style>
+
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <b>@ViewBag.Tournament - @ViewBag.Event</b>
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            {
+              <button id="addcompet" class="btn btn-warning" onclick="addNewCompetitor(@ViewBag.EventId)"> Add New Competitor</button>
+            }
+          </h3>
+        </div>
+
+
+        <div class="card-body">
+
+          <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+              </div>
+              <div class="col-sm-12 col-md-6"></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+
+
+                @*<table id="items" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">*@
+                <table id="example" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>
+                        @Html.DisplayNameFor(model => model.Competitor.Id)
+                      </th>
+                      <th>
+                        @Html.DisplayNameFor(model => model.Competitor.Name)
+                      </th>
+                      <th>
+                        @Html.DisplayNameFor(model => model.Competitor.Age)
+                      </th>
+                      <th>
+                        @Html.DisplayNameFor(model => model.Competitor.Weight)
+                      </th>
+                      <th>
+                        @Html.DisplayNameFor(model => model.Competitor.School)
+                      </th>
+                      <th>
+                        @Html.DisplayNameFor(model => model.Competitor.Belt)
+                      </th>
+                      <th>
+                        Divisions
+                      </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  @foreach (var item in Model)
+                  {
+                    <tr>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Competitor.Id)
+                      </td>
+                      <td>
+                        @Html.ActionLink(item.Competitor.Name, "Edit", "Competitors", new { id = item.Competitor.Id }, new { @class = "" })
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Competitor.Age)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Competitor.Weight)
+                      </td>
+                      <td>
+                        @Html.DisplayFor(modelItem => item.Competitor.School)
+                      </td>
+                      <td data-sort="@item.Competitor.Belt">
+                        @*@Html.DisplayFor(modelItem => item.Competitor.Belt)*@
+                        @Html.Encode(((List<Belt>)ViewBag.Belts).FirstOrDefault(y=> y.BeltId.ToString()==item.Competitor.Belt)?.BeltName)
+                      </td>
+                      <td>
+                        @Html.ListBoxFor(modelItem => item.SelectedDivisionIds, item.Divisions, new { id = item.Competitor.Id, multiple = "multiple", data_placeholder = "Select a Division" })
+                      </td>
+                      <td>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                          <button class="btn btn-info" onclick=@string.Concat("update(",item.Competitor.Id,",",ViewBag.EventId,")")>Update</button>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                          <button class="btn btn-danger" onclick=@string.Concat("deleteComp(",item.Competitor.Id,")")>Delete</button>
+                        }
+                      </td>
+                    </tr>
+                  }
+
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="modal fade" id="competModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div id="compListDiv" class="col-md-12"> </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="UpdateCompetitorED(@ViewBag.EventId)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>*@
+<script src="~/plugins/select2/js/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  function addNewCompetitor(id)
+  {
+     var url = '@Url.Action("AddCompetitorDevisions")?Id=' + id;
+
+        $.get(url, function (data) {
+          $('#compListDiv').html(data);
+          $('#competModal').modal('show');
+        });
+  }
+
+  function UpdateCompetitorED(id)
+  {
+    var url = '@Url.Action("UpdateCompetitorED")?Id=' + $('#Competitors').val() + '&EventId=' + id;
+
+    $.get(url, function (data) {
+    $('#competModal').modal('hide');
+      location.reload();
+        });
+  }
+
+  function update(id, eventId)
+  {
+    var selectedDiv = [];
+    $("#" + id + " :selected").map(function (i, el) {
+      selectedDiv.push($(el).val());
+    }).get();
+
+    //if (selectedDiv.length > 0)
+    //{
+    var url = '@Url.Action("UpdateCompetitorDevisions")?Id=' + id + '&EventDevisionIds=' + selectedDiv + '&EventId=' + eventId;
+
+        $.get(url, function (data) {
+          alert(data);
+        });
+    //}
+  }
+
+  function deleteComp(id)
+  {
+    var selectedDiv = [];
+    var selectedDivText = [];
+
+    $("#" + id + " :selected").map(function (i, el) {
+      selectedDiv.push($(el).val());
+      selectedDivText.push($(el).text());
+    }).get();
+
+    let confirmAction = confirm(`Are you sure to delete competitor ${id} from divisions ${selectedDivText}?`);
+    if (confirmAction) {
+    //  if (selectedDiv.length > 0)
+    //{
+      var url = '@Url.Action("DeleteCompetitorDevisions")?Id=' + id + '&EventDevisionIds=' + selectedDiv;
+
+        $.get(url, function (data) {
+          alert(data);
+          location.reload();
+        });
+    //}
+    }
+  }
+
+  $(document).ready(function () {
+    @foreach (var item in Model)
+    {
+      <text>
+    $('#@item.Competitor.Id').select2({
+  theme: 'bootstrap4'
+    });
+      </text>
+    }
+
+    $('#example').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "pageLength": 500,
+      "searching": true,
+      "ordering": true,
+      "info": false,
+      "autoWidth": true,
+      "responsive": true,
+      "order": [[0, "desc"]]//,
+      //dom: 'Bfrtip',
+      //buttons: [
+      //  'copy', 'csv', 'excel', 'pdf', 'print'
+      //]
+
+    });
+  });
+</script>
+

@@ -1,0 +1,241 @@
+@model TourneyRepo.Models.Dashboard
+@{ ViewBag.Title = "Dashboard";
+  Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@*<div class="row mb-2">*@
+<div class="col-12">
+  <div class="col-sm-6">
+    <br />
+    <h3 class="m-0 text-dark">Dashboard</h3>
+    <br />
+
+  </div>
+</div>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>@Model.totalCompetitors</h3>
+
+            <p>Competitors</p>
+          </div>
+          <div class="icon">
+            @*<i class="ion ion-location"></i>*@
+            <i class="fas fa-user-ninja"></i>
+          </div>
+          <a href="/Competitors/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>@Model.totalTournaments</h3>
+
+            <p>Tournaments</p>
+          </div>
+          <div class="icon">
+            @*<i class="ion ion-checkmark"></i>*@
+            <i class="nav-icon fa fa-person-swimming"></i>
+          </div>
+          <a href="/Tournaments/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-fuchsia">
+          <div class="inner">
+            <h3>@Model.totalEvents</h3>
+
+            <p>Events</p>
+          </div>
+          <div class="icon">
+            @*<i class="ion ion-close"></i>*@
+            <i class="fas fa-hourglass-start"></i>
+          </div>
+          <a href="/TournamentEvents/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3>@Model.totalDivisions</h3>
+
+            <p>Divisions</p>
+          </div>
+          <div class="icon">
+            @*<i class="ion ion-sad-outline"></i>*@
+            <i class="nav-icon fa fa-divide"></i>
+          </div>
+          <a href="/EventDivisions/Index" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+
+<!--<div class="modal fade" id="videoModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <video autoplay id="vid">
+          <source src="~/Videos/Intro.mp4" type="video/mp4" />-->
+            @*<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">*@
+            @*<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/ogg">*@
+            <!--Your browser does not support HTML video.
+        </video>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div id="video_player_box">
+  <video video-player autoplay id="video_player" src="~/Videos/Intro.mp4" type="video/mp4"></video>
+  <!--<div id="controls">-->
+    <!--CONTROLLERS WILL BE HERE-->
+  <!--</div>-->
+</div>
+<p>
+  <button id="full_screen">FULL SCREEN</button>
+
+
+  <style>
+    /** {
+        box-sizing: border-box;
+      }
+    */
+    /*body {
+        margin: 0;
+        font-family: Arial;
+        font-size: 17px;
+      }
+    */
+    /*#vid {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    */
+    /*.content {
+        position: fixed;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: #f1f1f1;
+        width: 100%;
+        padding: 20px;
+      }
+    */
+
+    #video_player {
+      width: 100%;
+      height: 100%;
+    }
+
+    #controls {
+      width: 100%;
+      height: 6.5%;
+      opacity: 0.9;
+      position: absolute;
+      bottom: 0;
+      z-index: 100;
+      background-color: #55b2ff;
+    }
+
+    #video_player_box {
+      position: relative;
+      width: 100%;
+      height: 75%;
+    }
+
+
+      #video_player_box:-moz-full-screen {
+        height: 100%
+      }
+
+      #video_player_box:-webkit-full-screen {
+        height: 100%
+      }
+
+      #video_player_box:-ms-fullscreen {
+        height: 100%
+      }
+
+      #video_player_box:fullscreen {
+        height: 100%
+      }
+  </style>
+
+  <script type="text/javascript">
+
+    var video_player = document.querySelector('#video_player_box');
+
+    video_player.onended = function () {
+      $('#video_player_box').modal('hide');
+    };
+   
+
+
+    
+
+
+    
+
+
+
+
+  //var aud = document.getElementById("vid");
+  //aud.onended = function () {
+  //  $('#videoModal').modal('hide');
+  //};
+
+    $(document).ready(function () {
+      /*$("#full_screen").click()*/
+
+      /*$("full_screen").click(function () {*/
+        /*alert("The paragraph was clicked.");*/
+        var button = document.getElementById("full_screen");
+        button.addEventListener('click', function () {
+          if (video_player.requestFullScreen) {
+            video_player.requestFullScreen();
+          } else if (video_player.webkitRequestFullScreen) {
+            video_player.webkitRequestFullScreen();
+          } else if (video_player.mozRequestFullScreen) {
+            video_player.mozRequestFullScreen();
+          }
+        });
+
+      /*});*/
+
+
+    @*@if (Session["IsShowVideo"] == null)
+    {
+      Session["IsShowVideo"] = "VideoDisplayed";
+      <text>
+    $('#videoModal').modal('show');
+      </text>
+    }*@
+  });
+  </script>
+
+  @*<script type="text/javascript">
+      $(document).ready(function () {
+        var aud = document.getElementById("vid");
+        aud.onended = function () {
+          $('#videoModal').modal('hide');
+        };
+        $('#videoModal').modal('show');
+
+      });
+    </script>*@

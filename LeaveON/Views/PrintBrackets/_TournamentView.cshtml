@@ -1,0 +1,191 @@
+<style>
+  div.jQBracket .bracket {
+     float: left!important; 
+   
+  }
+</style>
+
+<div id="printTournamentAsJpg" class="pagebreak" style="padding-top: 10px;">
+  <div class="row text-center">
+    <div class="col-sm-12">
+      <h3 style="text-align:center">@ViewBag.Tournament - @ViewBag.GroupMessage    </h3>
+    </div>
+  </div>
+  <div class="row text-center" style="font-size:12px;">
+    <div class="col-sm-2">
+      <b>Event:@ViewBag.Event</b>
+    </div>
+    <div class="col-sm-4">
+      <b>Division:@ViewBag.Division</b>
+    </div>
+    <div class="col-sm-2">
+      <b>Gender:@ViewBag.GenderText</b>
+    </div>
+    <div class="col-sm-2">
+      <b>Belt Division:@ViewBag.BeltDevision</b>
+    </div>
+    <div class="col-sm-2">
+      <b>Ring#: @ViewBag.RingAssignment</b>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="demo child" id="@ViewBag.UiId">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+
+      <p style="position:absolute; bottom:0;">&copy; 2022 Tourney Wizard. All rights reserved.</p>
+
+    </div>
+    <div class="col-sm-4">
+      <p style="position:absolute; bottom:0;" class="text-bold"><b>@ViewBag.BracketEl</b></p>
+
+    </div>
+    <div class="col-sm-3">
+      <p><b style="text-align:center;">1st Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+      <p><b style="text-align:center;">2nd Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+      <p><b style="text-align:center;">3rd Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+      <p><b style="text-align:center;">4th Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+
+    </div>
+  </div>
+
+</div>
+
+<link href="~/Content/jquery.bracket.min.css" rel="stylesheet" />
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="~/Scripts/jquery.bracket.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+      var singleElimination = {
+        teams: [
+          @Html.Raw(ViewBag.Teams)
+        ],
+        results: [
+            @ViewBag.Results
+        ]
+      }
+       if (@ViewBag.Bracket== 5) {
+        $('#@ViewBag.UiId').bracket({
+          init: singleElimination,
+          teamWidth: 150,
+          scoreWidth: 110,
+          matchMargin: 100,
+          roundMargin: 30,
+          skipGrandFinalComeback: true,
+        });
+      } else {
+        $('#@ViewBag.UiId').bracket({
+          init: singleElimination,
+          teamWidth: 150,
+          scoreWidth: 110,
+          matchMargin: 100,
+          roundMargin: 30,
+          skipGrandFinalComeback: false,
+        });
+      }
+
+      $(".score").css({
+        fontSize: 9
+      });
+
+      switch (@ViewBag.Bracket) {
+        case 1:
+          $('.demo .match').last().remove();
+          break;
+        case 2:
+          $('.demo .finals .match .teamContainer').last().remove();
+          break;
+        case 5:
+          //$('.demo .finals .match .teamContainer').last().remove();
+          //$('.demo .loserBracket .round:eq(0)').remove();
+          //var bracketRounds = $('.demo .loserBracket .round').length;
+          //if (bracketRounds >= 4 && bracketRounds % 2 === 0) {
+          //  for (var i = 1; i <= bracketRounds; i++) {
+          //    if ((bracketRounds / 2) != i) $('.demo .loserBracket .round:eq(' + i + ')').remove();
+          //  }
+          //}
+          debugger;
+          $('.jQBracket .loserBracket .round').remove();
+          if (($('.jQBracket:last .bracket .round:eq(0) .match').length * 2) == 2) {
+            $(".jQBracket:last .bracket").remove();
+            $(".jQBracket:last").css('margin-left', '330px');
+            $(".jQBracket:last .loserBracket").css('margin-bottom', '100px');
+           
+            $('.jQBracket:last .loserBracket').append('<img src="/Images/2Match.jpeg" alt="Nature" class="responsive mt-5" width="850" height="220">');
+          }
+          if (($('.jQBracket:last .bracket .round:eq(0) .match').length * 2) == 4) {
+            $(".jQBracket:last").css('margin-left', '120px');
+            $('.jQBracket:last .loserBracket').append('<img src="/Images/4Match.jpeg" alt="Nature" class="responsive" width="700" height="220">');
+            var matchNo = 1;
+            for (var i = 0; i < $(".jQBracket:last .bracket .round").length; i++) {
+              for (var j = 0; j < $(".jQBracket:last .bracket .round:eq(" + i + ") .match").length; j++) {
+                $(".jQBracket:last .bracket .round:eq(" + i + ") .teamContainer:eq(" + j + ")").append('<h6 style="position: relative;top: -50px;left: -80px;">Match ' + (matchNo++) + '</h6>');
+              }
+              matchNo += 1;
+            }
+          }
+          if (($('.jQBracket:last .bracket .round:eq(0) .match').length * 2) == 8) {
+            $(".jQBracket:last").css('margin-left', '120px');
+            $('.jQBracket:last .loserBracket').append('<img src="/Images/8Match.jpeg" alt="Nature" class="responsive" width="950" height="400">');
+            var matchNo = 1;
+            for (var i = 0; i < $(".jQBracket:last .bracket .round").length; i++) {
+              for (var j = 0; j < $(".jQBracket:last .bracket .round:eq(" + i + ") .match").length; j++) {
+                $(".jQBracket:last .bracket .round:eq(" + i + ") .teamContainer:eq(" + j + ")").append('<h6 style="position: relative;top: -50px;left: -80px;">Match ' + (matchNo++) + '</h6>');
+              }
+              matchNo += 2;
+            }
+          }
+          break;
+        default:
+          break;
+      }
+
+
+      $(".label").each(function (index) {
+        if ($(this).text() == 'TBD') {
+          $(this).text('');
+        }
+      });
+
+      //$(".win .label").each(function (index) {
+      //  $(this).text('--BYE--');
+      //});
+
+      @*var schoolNames =  @Html.Raw(ViewBag.SchoolArray);
+      $("div[data-resultid]").each(function (index) {
+        $(this).text(schoolNames[index]);
+      });*@
+
+      var comSchools = @Html.Raw(ViewBag.ComSchoolArray);
+      $(".team").each(function (index) {
+        var comText = $(this).children().eq(0).text();
+        var schoolText = $(this).children().eq(1).text();
+        if (comText !== '--BYE--' && schoolText === '--') {
+          $(this).children().eq(1).text(comSchools[comText]);
+        } else if (comText === '--BYE--') {
+          $(this).children().eq(1).text('--');
+        } else {
+          $(this).children().eq(1).text(comSchools[comText]);
+        }
+
+      });
+      //window.print();
+    });
+
+    function saveFn(data, userData) {
+      var json = jQuery.toJSON(data)
+      $('#saveOutput').text('POST ' + userData + ' ' + json)
+      /* You probably want to do something like this
+      jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+                                    dataType: 'json',
+                                    type: 'post',
+                                    data: json})
+      */
+    }
+</script>

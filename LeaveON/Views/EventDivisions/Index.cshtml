@@ -1,0 +1,396 @@
+@model IEnumerable<LeaveON.Models.EventDivisionViewModel>
+@using TourneyRepo.Models
+@{
+  ViewBag.Title = "Index";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<style>
+
+  table.dataTable tbody th, table.dataTable tbody td {
+    background-color: #1c1c1c !important;
+    color: #fff !important;
+  }
+
+  tr {
+    background-color: #1c1c1c !important;
+    color: #fff !important;
+  }
+</style>
+<section class="content">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+
+        <div class="card-header">
+          <h3 class="card-title">
+            Divisions List
+            @if (User.IsInRole("Admin") || User.IsInRole("TournamentDirector"))
+            {
+              @Html.ActionLink("Add New", "Create", new object { }, new { @class = "btn btn-warning" })
+            }
+
+
+          </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Events :</h4>
+              <div class="ml-5">
+
+                @foreach (var item in ViewBag.EventTournaments)
+                {
+                  <div class="form-check form-check-inline">
+                    @if (ViewBag.SelectedET.Contains(item.Id))
+                    {
+                      <input class="form-check-input" checked type="checkbox" value="@item.Id">
+                    }
+                    else if (ViewBag.SelectedET.Count == 0)
+                    {
+                      if ((User.IsInRole("Admin") && item.Id == 1) || (ViewBag.SelectedFT == item.Id))
+                      {
+                        <input class="form-check-input" checked type="checkbox" value="@item.Id">
+                      }
+                      else
+                      {
+                        <input class="form-check-input" type="checkbox" value="@item.Id">
+                      }
+
+                    }
+                    else
+                    {
+                      <input class="form-check-input" type="checkbox" value="@item.Id">
+                    }
+
+                    <label class="form-check-label" for="inlineCheckbox1">@item.Name</label>
+                  </div>
+                }
+
+
+              </div>
+            </div>
+          </div>
+          <div id="wait" style="display:none;"><img src='~/Images/Ripple_1s_200px_Transparent.gif' width="38" height="38" /></div>
+          <table id="example" class="table table-bordered table-hover display responsive" width="100%">
+            <thead>
+              <tr>
+                <th class="">
+                  @Html.DisplayName("Id")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Age")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Gender")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Belt")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Weight Range")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Division")
+                </th>
+                <th class="">
+                  Tot. Competitors
+                </th>
+                @*<th class="">
+            @Html.DisplayName("Tournament")
+          </th>
+          <th class="">
+            @Html.DisplayName("Event")
+          </th>*@
+
+
+
+
+
+
+
+                <th>
+                  Groups
+                </th>
+
+                <th>
+                  Edit Division
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              @{
+
+                int idx = 1;
+                foreach (var item in Model)
+                {
+
+                  <tr>
+                    <td>
+
+                      @*@Html.DisplayFor(modelItem => item.Id)*@
+
+                      @Convert.ToInt32(idx++)
+
+                    </td>
+                    <td data-sort="@(item.AgeRange?.Replace("-",""))">
+                      @*@Html.DisplayFor(modelItem => item.AgeRange)*@
+
+                      @{
+                        string displayAgeRange;
+                        if (item.AgeRange != null && item.AgeRange.Contains("-"))
+                        {
+                          string[] ages = item.AgeRange.Split('-');
+                          int firstAge = int.Parse(ages[0]);
+                          int secondAge = int.Parse(ages[1]);
+
+                          if (secondAge >= 100)
+                          {
+                            displayAgeRange = $"{firstAge} years & above";
+                          }
+                          else if (firstAge == 1)
+                          {
+                            displayAgeRange = $"{secondAge} years & below";
+                          }
+                          else
+                          {
+                            displayAgeRange = item.AgeRange;
+                          }
+                        }
+                        else
+                        {
+                          displayAgeRange = item.AgeRange; // Display the original value if no dash is found
+                        }
+                      }
+
+                      @Html.DisplayFor(modelItem => displayAgeRange)
+                    </td>
+                    <td>
+                      @if (!string.IsNullOrWhiteSpace(item.GenderRange))
+                      {
+                        switch (item.GenderRange)
+                        {
+                          case "0":
+                            item.GenderRange = "Female";
+                            break;
+                          case "1":
+                            item.GenderRange = "Male";
+                            break;
+                          default:
+                            item.GenderRange = "Male & Female";
+                            break;
+                        }
+                      }
+
+                      @Html.DisplayFor(modelItem => item.GenderRange)
+                    </td>
+                    <td data-sort="@(!string.IsNullOrWhiteSpace(item.BeltRange) ? item.BeltRange.Split(' ')[0] : item.BeltRange)">
+                      @if (!string.IsNullOrWhiteSpace(item.BeltRange))
+                      {
+                        @*@Html.Encode(item.BeltRange.Split('-').First() == "1" ? "White" : item.BeltRange.Split('-').First() == "2" ? "Yellow" : item.BeltRange.Split('-').First() == "3" ? "Orange" : item.BeltRange.Split('-').First() == "4" ? "Green" : item.BeltRange.Split('-').First() == "5" ? "Blue" : item.BeltRange.Split('-').First() == "6" ? "Purple" : item.BeltRange.Split('-').First() == "7" ? "Brown" : item.BeltRange.Split('-').First() == "8" ? "Red" : "Black")*@
+                        @Html.Encode(((List<Belt>)ViewBag.Belts).FirstOrDefault(y => y.BeltId.ToString() == item.BeltRange.Split('-').First())?.BeltName)
+                        <text>-</text>
+                        @Html.Encode(((List<Belt>)ViewBag.Belts).FirstOrDefault(y => y.BeltId.ToString() == item.BeltRange.Split('-').Last())?.BeltName)
+
+                        @*@Html.Encode(item.BeltRange.Split('-').Last() == "1" ? "White" : item.BeltRange.Split('-').Last() == "2" ? "Yellow" : item.BeltRange.Split('-').Last() == "3" ? "Orange" : item.BeltRange.Split('-').Last() == "4" ? "Green" : item.BeltRange.Split('-').Last() == "5" ? "Blue" : item.BeltRange.Split('-').Last() == "6" ? "Purple" : item.BeltRange.Split('-').Last() == "7" ? "Brown" : item.BeltRange.Split('-').Last() == "8" ? "Red" : "Black")*@
+                        @*@Html.DisplayFor(modelItem => item.BeltRange)*@
+                      }
+                    </td>
+                    <td>
+                      @Html.Encode(string.IsNullOrEmpty(item.WeightRange) ? "All" : item.WeightRange)
+                    </td>
+
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+
+
+
+                    <td>
+                      @item.TotalCompetitors
+                    </td>
+                    @*<td>
+                @Html.DisplayFor(modelItem => item.TournamentName)
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.TournamentEventName)
+
+              </td>*@
+
+                    <td>
+                      @*@Html.DisplayFor(modelItem => item.GroupLimit)*@
+                      @*@Html.Encode((item.GroupLimit==null || item.GroupLimit==0) ? 1 :( (Convert.ToInt32(item.TotalCompetitors) / Convert.ToInt32(item.GroupLimit)) +1).ToString())*@
+                      @Html.Encode(((string.IsNullOrEmpty(item.Combinations) || item.Combinations == "0") ? "0" : item.Combinations.Split(',').Count()))
+
+                    </td>
+
+
+
+                    <td>
+
+                      @if (User.IsInRole("Admin") || User.IsInRole("TournamentDirector"))
+                      {
+
+                        @Html.ActionLink("View Division", "Edit", new { id = item.Id }, new { @class = "btn btn-info" }) <text></text>
+                        @*@Html.ActionLink("Event Registrants", "ViewCompetitors", new { id = item.TournamentEventId }, new { @class = "btn btn-warning", @title = "View all competitors of this event" })*@
+
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+
+                      }
+
+
+                    </td>
+
+                  </tr>
+                }
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <th class="">
+                  @Html.DisplayName("Id")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Age")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Gender")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Belt")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Weight Range")
+                </th>
+                <th class="">
+                  @Html.DisplayName("Division")
+                </th>
+                <th class="">
+                  Tot. Competitors
+                </th>
+                @*<th class="">
+            @Html.DisplayName("Tournament")
+          </th>
+          <th class="">
+            @Html.DisplayName("Event")
+          </th>*@
+
+
+
+
+
+
+
+                <th>
+                  Groups
+                </th>
+
+                <th>
+                  Edit Division
+                </th>
+
+
+
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+
+
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    $('#example').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "pageLength": 500,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+
+      "responsive": true,
+      "autoWidth": false,
+      "orderMulti": true,
+      "order": [[1, "asc"], [2, "asc"], [3, "asc"]],
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
+    });
+
+
+    $('.form-check-input').on('change', function () {
+      $(document).ajaxStart(function () {
+        $("#wait").css("display", "block");
+      });
+      $(document).ajaxComplete(function () {
+        $("#wait").css("display", "none");
+      });
+      var checkboxData = [];
+      $('.form-check-input:checked').each(function (i,v) {
+         checkboxData.push(Number(v.value));
+      });
+      $.ajax({
+        url: '@Url.Action("Index2", "EventDivisions")' + '?checkboxData=' + checkboxData.join('&checkboxData='),
+        type: 'POST',
+        contentType: 'application/json',
+        success: function (result) {
+          $('#example').DataTable().destroy();
+          $('#example tbody').empty();
+          $('#example tbody').html(result);
+          $('#example').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "pageLength": 500,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+
+            "responsive": true,
+            "autoWidth": false,
+            "orderMulti": true,
+            "order": [[1, "asc"], [2, "asc"], [3, "asc"]],
+            dom: 'Bfrtip',
+            buttons: [
+              'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+
+          });
+        },
+        error: function () {
+          // Handle errors
+        }
+      });
+    });
+  });
+
+
+
+
+</script>

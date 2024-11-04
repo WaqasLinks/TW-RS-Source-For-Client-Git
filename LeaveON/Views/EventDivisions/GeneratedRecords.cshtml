@@ -1,0 +1,233 @@
+@model IEnumerable<LeaveON.Models.CompetitorViewModel>
+@using TourneyRepo.Models
+
+<style>
+  td {
+    color: black !important
+  }
+  
+</style>
+
+<table id="generatedRecordsTable" class="table table-bordered table-hover display responsive" width="100%">
+  <thead>
+    <tr>
+      <th>
+        GroupId
+      </th>
+      <th>
+        Group
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Name)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Age)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Weight)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Gender)
+      </th>
+
+      <th>
+        @Html.DisplayNameFor(model => model.School)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Belt)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Event)
+      </th>
+      @*<th>
+
+      </th>*@
+    </tr>
+
+  </thead>
+  <tbody>
+
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.GroupId)
+        </td>
+        <td>
+          <input type="number" min="0" max="100" name="GroupId[]" value="@item.GroupId" />
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Name)
+          <input type="hidden" name="CompetitorId[]" value="@item.Id" />
+        </td>
+        <td>
+          @Html.Encode(string.Format("{0:0.##}", item.Age))
+        </td>
+        <td>
+          @Html.Encode(string.Format("{0:0.##}", item.Weight))
+        </td>
+        <td>
+          @Html.Encode(item.Gender == true ? "Male" : item.Gender == false ? "Female" : "")
+          @*@Html.Encode(Model.Gender==1?"male":"female")*@
+        </td>
+
+        <td>
+          @Html.DisplayFor(modelItem => item.School)
+        </td>
+        <td data-sort="@item.Belt">
+          @Html.Encode(((List<Belt>)ViewBag.Belts).FirstOrDefault(y => y.BeltId.ToString() == item.Belt)?.BeltName)
+        </td>
+        <td>
+          @foreach (var item2 in item.CompetitorEvents)
+          {
+            <a class="btn btn-info btn-xs" onclick="showEventDivisions(event,@item.Id, @item2.Key)">@item2.Value</a>
+          }
+        </td>
+        @*<td>
+      <button class="btn btn-danger" data-datac="@item.EventDivisoinGroupId" data-datan="@item.Name">Delete</button>
+    </td>*@
+      </tr>
+    }
+  </tbody>
+</table>
+
+<div class="modal fade" id="competModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div id="compListDiv" class="col-md-12"> </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function showEventDivisions(e, compId, evenId) {
+    e.preventDefault();
+    var url = '@Url.Action("GetCompetitorEventDevisions", "Competitors")?CompetitorId=' + compId + '&EventId=' + evenId;
+
+        $.get(url, function (data) {
+          $('#compListDiv').html(data);
+          $('#competModal').modal('show');
+        });
+  }
+
+  $(document).ready(function () {
+    var colors = ['LightBlue', 'yellow', 'Orange', 'MediumAquaMarine', 'Pink', 'SandyBrown', 'LightSkyBlue', 'Azure', 'Gainsboro', 'AntiqueWhite', 'Aqua', 'PeachPuff', 'LightYellow', 'LightSalmon', 'Lavender ',];
+    var random = Math.floor((Math.random() * 9) + 1);
+    var color = Math.floor((Math.random() * colors.length - 1) + 1);
+
+    var table = $('#generatedRecordsTable').DataTable({
+      "createdRow": function (row, data, dataIndex) {
+
+        //random = Math.floor((Math.random() * 9) + 1);
+        //color = Math.floor((Math.random() * colors.length - 1) + 1);
+
+        if (data[0] == '1') {
+          $(row).css("background-color", colors[0]);
+        }
+        if (data[0] == '2') {
+          $(row).css("background-color", colors[1]);
+        }
+        if (data[0] == '3') {
+          $(row).css("background-color", colors[2]);
+        }
+        if (data[0] == '4') {
+          $(row).css("background-color", colors[3]);
+        }
+        if (data[0] == '5') {
+          $(row).css("background-color", colors[4]);
+        }
+        if (data[0] == '6') {
+          $(row).css("background-color", colors[5]);
+        }
+        if (data[0] == '7') {
+          $(row).css("background-color", colors[6]);
+        }
+        if (data[0] == '8') {
+          $(row).css("background-color", colors[7]);
+        }
+        if (data[0] == '9') {
+          $(row).css("background-color", colors[8]);
+        }
+        if (data[0] == '10') {
+          $(row).css("background-color", colors[9]);
+        }
+        if (data[0] == '11') {
+          $(row).css("background-color", colors[10]);
+        }
+        if (data[0] == '12') {
+          $(row).css("background-color", colors[11]);
+        }
+        if (data[0] == '13') {
+          $(row).css("background-color", colors[12]);
+        }
+        if (data[0] == '14') {
+          $(row).css("background-color", colors[13]);
+        }
+        if (data[0] == '15') {
+          $(row).css("background-color", colors[14]);
+        }
+
+
+
+
+      },
+      "paging": false,
+      "lengthChange": true,
+      "pageLength": 500,
+      "searching": true,
+      /*"ordering": true,*/
+      "info": true,
+      "responsive": true,
+      "autoWidth": false,
+      /*"order": [[0, "asc"]],*/
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
+
+    }).column([0,1]).visible(false);
+
+    $('#generatedRecordsTable').on("click", "button", function () {
+      console.log($(this).parent());
+      var id = $(this).data('datac');
+      var name = $(this).data('datan');
+          let confirmAction = confirm(`Are you sure to delete competitor ${name}?`);
+    if (confirmAction) {
+      var url = '@Url.Action("DeleteCompetitorDevisionGroup")?EventDevisionGroupId=' + id;
+
+        $.get(url, function (data) {
+          alert(data);
+        });
+          table.row($(this).parents('tr')).remove().draw(false);
+    }
+
+
+    });
+
+        $('input[name^="GroupId[]"]').blur(function () {
+      let CompetitorIds = new Array();
+      $('input[name^="CompetitorId[]"]').each(function () {
+        CompetitorIds.push($(this).val());
+      });
+
+      let GroupIds = new Array();
+      $('input[name^="GroupId[]"]').each(function () {
+        GroupIds.push($(this).val());
+      });
+
+      var url = '@Url.Action("UpdateGroupAndGetRecord")?CompetitorIds=' + CompetitorIds + '&GroupIds=' + GroupIds + '&EventId=' + $('#Id').val();
+      $.get(url, function (data) {
+        $('#generatedRecordsResult').html(data);
+      });
+    })
+
+  });
+</script>

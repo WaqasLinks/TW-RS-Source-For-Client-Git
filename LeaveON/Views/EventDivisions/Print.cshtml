@@ -1,0 +1,151 @@
+
+@model TourneyRepo.Models.EventDivision
+
+@{
+  ViewBag.Title = "Print Event Divisions";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- left column -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title"> Print Event Divisions</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        @using (Html.BeginForm())
+        {
+          <input type="hidden" name="Id" id="Id" value="0" />
+          <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="form-group required">
+              @Html.Label("Event Type", htmlAttributes: new { @class = "control-label" })
+              @Html.DropDownList("TournamentEventId", null, htmlAttributes: new { @class = "form-control" })
+              @Html.ValidationMessageFor(model => model.TournamentEventId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group required" id="eventDivisionsList">
+              @Html.Label("Event Divisions", htmlAttributes: new { @class = "control-label" })
+              @Html.ListBox("EventDivisions", null, new { @class = "form-control", multiple = "multiple", data_placeholder = "Select a Division" })
+            </div>
+            <div class="form-group required">
+              @Html.Label("Brackets", htmlAttributes: new { @class = "control-label" })
+              <select name="Bracket" id="eliminations" class="form-control">
+                <option value="1">Single Elimination</option>
+                <option value="2">Double Elimination</option>
+                <option value="3">Round Robin</option>
+              </select>
+              @Html.ValidationMessageFor(model => model.TournamentEventId, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="form-group">
+              <div class="class=" card-footer">
+                <input type="submit" value="Print" id="submitForm" class="btn btn-warning" style="width: 180px; display:block;margin-top:auto;margin-bottom:0%" />
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+<script src="~/plugins/select2/js/select2.full.min.js"></script>
+
+
+<script>
+  $(function () {
+    $("#TournamentEventId").change(function () {
+     var url = '@Url.Action("GetEventDisivions")?Id=' + id;
+
+        $.get(url, function (data) {
+          $('#eventDivisionsList').html(data);
+        });
+    });
+
+
+    $(document).ready(function () {
+
+      $('#EventDivisions').select2({
+  theme: 'bootstrap4'
+    });
+
+ $("#printBrackets").click(function () {
+        var age = '';
+        if ($('#customSwitch1').is(':checked')) {
+          age = $('#FromAge').val() + '-' + $('#ToAge').val();
+        }
+
+        var belt = '';
+        if ($('#customSwitch2').is(':checked')) {
+          belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+        }
+
+        var weight = '';
+        if ($('#customSwitch3').is(':checked')) {
+          weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+        }
+
+        var gender = '';
+        if ($('#customSwitch4').is(':checked')) {
+          gender = $('#Gender').val();
+        }
+
+        var IsCustom = false;
+        if ($('#customSwitch5').is(':checked')) {
+          IsCustom = false;
+        }
+
+        var groupLimit = $('#GroupLimit').val();
+        if (!groupLimit) {
+          groupLimit = 0;
+        }
+        var event = $('#TournamentEventId').find(":selected").text();
+
+        var combintion = $("#Combinations").val();
+        if (combintion) {
+
+          var groups = combintion.split(',');
+          for (var i = 0; i < groups.length; i++) {
+
+            var url = '@Url.Action("TournamentViewer")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&Event=' + event + '&id=' + $("#eliminations").val() + '&Combination=' + combintion + '&Group=' + (i + 1) + '&TotalGroup=' + groups.length + '&EventId=' + $('#Id').val() + '&IsCustom=' + IsCustom;;
+            window.open(url, '_blank');
+            setTimeout(function () {
+
+            }, 10000);
+          }
+        }
+      });
+
+
+      $("#submitForm").click(function (e) {
+        e.preventDefault();
+
+        var url = '@Url.Action("TournamentViewerV1")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&Event=' + event + '&id=' + $("#eliminations").val() + '&Combination=' + combintion + '&Group=' + (i + 1) + '&TotalGroup=' + groups.length + '&EventId=' + $('#Id').val() + '&IsCustom=' + IsCustom;;
+        window.open(url, '_blank');
+
+
+        $("<input />").attr("type", "hidden")
+          .attr("name", "IsCustom")
+          .attr("value", isCustom)
+          .appendTo("#submitForm");
+
+
+        return false;
+      });
+
+    });
+
+  });
+</script>
+

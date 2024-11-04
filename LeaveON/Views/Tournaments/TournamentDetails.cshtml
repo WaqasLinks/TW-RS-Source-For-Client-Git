@@ -1,0 +1,190 @@
+@model TourneyRepo.Models.Tournament
+@using Microsoft.AspNet.Identity;
+@{
+  ViewBag.Title = "TournamentDetails";
+
+}
+
+<style>
+
+  .modal {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-backdrop {
+    display: none !important;
+  }
+</style>
+
+<div class="content" style="margin-top: 50px; margin-bottom: 50px;">
+  <div class="container">
+    <section class="padding-top-xs-0 padding-top-sm-32 padding-bottom-xs-0 hidden-print hidden-tv">
+      <div id="eventHeader" class="relative">
+
+        <div class="row">
+          <div id="cover" class="col-sm-7 col-md-8 col-lg-8">
+            <div class="cover-wrapper">
+              <div class="cover-image">
+                <img class="" style="" alt="" src="@Model.Image">
+              </div>
+              <div class="cover-shadow"></div>
+              <div class="cover-heading">
+                <div class="cover-date visible-xs">
+                  02 Aug
+                  - 05 Aug
+                  <span class="muted"></span>
+                </div>
+                <h1>@Html.ActionLink(@Model.Name, "TournamentDetails", new { id = Model.Name })</h1>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="schedule" class="col-sm-5 col-md-4 col-lg-4">
+            <div class="schedule-container">
+
+              <div class="item date event hidden-xs">
+                <span class="icon icon-fighters"></span>
+                <div class="text">
+                  <div class="title">
+                    Tournament Date
+                  </div>
+                  <strong>
+                    @Model.TournamentDate.ToString("dd MMM")
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-sm-12">
+            <nav class="navbar navbar-default navbar-event">
+              <div class="navbar-header">
+                @*<a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("registration","RegisterOnline",new { id = Model.Id })" >Register to event</a>*@
+                @{if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == Model.CreatedBy)
+                  {
+                    <a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("UpdateTournament", "Tournaments", new { id = Model.Id })">Edit Tournament</a>
+
+
+                    <button type="button" class="btn btn-danger navbar-btn text-xs-center" data-toggle="modal" data-target="#myModal">
+                      Delete Tournament
+                    </button>
+
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal">
+                      <div class="modal-dialog modal-md modal-dialog-centered">
+                        <div class="modal-content">
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <h4>Are you sure ?</h4>
+                            <h4>Tournament will be deleted</h4>
+                            <h4>All tournament's events will be deleted</h4>
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <a class="btn btn-info navbar-btn text-xs-center" id="ModalHidden" href="@Url.Action("DeleteTournament", "Tournaments", new { id = Model.Id })">Confirm</a>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div> } }
+              </div>
+              <ul class="nav navbar-nav">
+                <li class="active noChilds">
+                  <a href="@Url.Action("TournamentDetails", "Tournaments", new { id = Model.Name })">
+                    <span>
+                      <span class="icon icon-info visible-xs"></span>
+                      Info<span class="hidden-xs">rmation</span>
+                    </span>
+                  </a>
+                </li>
+                @{ if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == Model.CreatedBy)
+                  {
+                    <li class="not-active noChilds ">
+                      <a href="@Url.Action("TournamentEvents", "Tournaments", new { id = Model.Name })">
+                        <span>
+                          <span class="icon icon-form visible-xs"></span>
+                          Events
+                          @*<span class="badge hidden-xs">@ViewBag.totalCount</span>*@
+                        </span>
+                      </a>
+                    </li>
+
+                    <li class="not-active noChilds">
+                      <a href="@Url.Action("TournamentCompetitors", "Tournaments", new { id = Model.Name })">
+                        <span>
+                          <span class="icon icon-form visible-xs"></span>
+                          Competitors
+                          @*<span class="badge hidden-xs">@ViewBag.totalCount</span>*@
+                        </span>
+                      </a>
+                    </li> } }
+
+
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <section class="bg-darkblue event-startpage">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-7">
+
+          <h1>Information</h1>
+          <div class="information">
+            @Html.Raw(@Model.Description)
+          </div>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1">
+
+          <div class="panel location panel-inverted">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="icon icon-pin"></span> Location</h3>
+            </div>
+            <div class="panel-body lineheight-sm">
+              <div class="location">
+                <p class="margin-xs-0">
+                  <a href="javascript:void(0)">
+                    @Model.Location<br>
+                  </a>
+                  @*<span class="muted">Zayed Sports City - Building # 1811 - off Al Khaleej Al Arabi Street - Al Rawdah - W57 - Abu Dhabi - United Arab Emirates</span><br>
+                    <span class="muted">Timezone: Asia/Dubai</span>*@
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel location panel-inverted">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="icon icon-pin"></span> Venue</h3>
+            </div>
+            <div class="panel-body lineheight-sm">
+              <div class="location">
+                <p class="margin-xs-0">
+                  <a href="javascript:void(0)">
+                    @Model.Venue<br>
+                  </a>
+                  @*<span class="muted">Zayed Sports City - Building # 1811 - off Al Khaleej Al Arabi Street - Al Rawdah - W57 - Abu Dhabi - United Arab Emirates</span><br>
+                    <span class="muted">Timezone: Asia/Dubai</span>*@
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>$("#ModalHidden").click(function () { $("#myModal").modal("hide") })</script>

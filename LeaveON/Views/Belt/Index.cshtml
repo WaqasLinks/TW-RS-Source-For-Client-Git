@@ -1,0 +1,133 @@
+@model List<TourneyRepo.Models.Belt>
+@{ ViewBag.Title = "Belt";
+  Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<style>
+  .error {
+    font-size: 12px;
+    color: red !important;
+  }
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+<div class="row mt-5">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Belts</h3>
+      </div>
+      <div class="card-body">
+        <form id="BeltForm">
+          <div class="Append_Belt">
+
+            @{ for (int i = 0; i < Model.Count; i++)
+              {
+                <div class="row" style="margin:0px!important;padding:0px!important">
+                  <div class="col-md-3 mb-2">
+                    <label>No</label>
+                    <input class="form-control BeltNo" disabled type="number" value="@Model[i].BeltId" />
+                  </div>
+                  <div class="col-md-3 mb-2">
+                    <label>Name</label>
+                    <input class="form-control BeltName" type="text" id="BeltName@(Model[i].BeltId)" name="BeltName@(Model[i].BeltId)" value="@Model[i].BeltName" />
+                  </div>
+                  <div class="col-md-3 mb-2">
+                    <button class="btn btn-danger btn-md RemoveRow" style="margin-top: 32px;">Remove</button>
+                  </div>
+                </div>
+              } }
+
+          </div>
+        </form>
+        <div class="ml-3 mt-3">
+          <input type="button" value="Add Belt" class="btn btn-warning btn-md" id="AddBelt" />
+          <input type="button" value="Save" class="btn btn-warning btn-md" id="SaveBelt" />
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+
+  $(document).ready(function () {
+
+
+    for (var i = 0; i < $('.Append_Belt').children().length; i++) {
+      $('#BeltForm').validate();
+$('#BeltName' + (i+1)).rules('add', {
+  required: true
+});
+    }
+  });
+
+  $("#AddBelt").click(function () {
+    var currLength = ($(".Append_Belt").children().length + 1);
+    $(".Append_Belt").append(`<div class="row" style="margin:0px!important;padding:0px!important">
+  <div class="col-md-3 mb-2">
+   <label>No</label>
+   <input class="form-control BeltNo" disabled type="number" value="`+ currLength + `"  />
+  </div>
+  <div class="col-md-3 mb-2">
+   <label>Name</label>
+   <input class="form-control BeltName" type="text" name="BeltName` + currLength + `" id="BeltName` + currLength + `" />
+  </div>
+  <div class="col-md-3 mb-2">
+  <button class="btn btn-danger btn-md RemoveRow" style="margin-top: 32px;">Remove</button>
+ </div>
+</div>`);
+    $('#BeltForm').validate();
+    $('#BeltName' + currLength).rules('add', {
+      required: true
+    });
+  });
+
+
+  $(document).on("input", ".BeltName", function (e) {
+    // Get the current value of the input field
+    var inputValue = $(this).val();
+
+    // Remove any characters that are not 'a' to 'z', except backspace
+    var filteredValue = inputValue.replace(/[^a-zA-Z\s\b]/g, '');
+
+    // Update the input field with the filtered value
+    $(this).val(filteredValue);
+  });
+
+  $(document).on("click", ".RemoveRow", function () {
+    $(this).closest('.row').remove();
+    for (var i = 0; i < $('.Append_Belt').children().length; i++) {
+      $(".BeltNo:eq(" + i + ")").val(i + 1);
+      $(".BeltName:eq(" + i + ")").prop('name', 'BeltName' + (i + 1));
+      $(".BeltName:eq(" + i + ")").prop('id', 'BeltName' + (i + 1));
+    }
+    $(this).closest('.BeltName').rules('remove', 'required');
+  });
+
+  $(document).on("click", "#SaveBelt", function () {
+    debugger;
+    if ($('#BeltForm').valid()) {
+      var data = [];
+      for (var i = 0; i < $('.Append_Belt').children().length; i++) {
+        data.push({ BeltId: Number($(".BeltNo:eq(" + i + ")").val()), BeltName: $(".BeltName:eq(" + i + ")").val() });
+      }
+      $.ajax({
+        url: '/Belt/AddBelt',
+        method: 'POST',
+        data: { belts: data },
+        async: false,
+        success: function (data) {
+          window.location.reload();
+        }
+      });
+    }
+  });
+
+
+</script>
+

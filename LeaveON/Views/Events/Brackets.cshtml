@@ -1,0 +1,644 @@
+@model IEnumerable<LeaveON.Models.PrintBracketsViewModel>
+@using Microsoft.AspNet.Identity;
+@{
+  ViewBag.Title = "Participant";
+}
+<style type="text/css" media="print">
+  @@page {
+    size: auto; /* auto is the initial value */
+    margin: 0mm; /* this affects the margin in the printer settings */
+  }
+
+
+  @@media print {
+    .pagebreak {
+      page-break-after: always;
+    }
+
+    #printPageButton {
+      display: none;
+    }
+
+    div.jQBracket {
+      font-family: Arial;
+      font-size: 14px;
+      position: relative;
+    }
+
+      div.jQBracket .tools {
+        position: absolute;
+        top: 0;
+        color: #fff;
+      }
+
+        div.jQBracket .tools span {
+          cursor: pointer;
+          margin: 5px;
+          display: block;
+          text-align: center;
+          width: 18px;
+          height: 18px;
+          background-color: #666;
+        }
+
+          div.jQBracket .tools span:hover {
+            background-color: #999;
+          }
+
+      div.jQBracket .finals {
+        float: right;
+        right: 0;
+        clear: right;
+        position: relative;
+      }
+
+      div.jQBracket .bracket {
+        float: right;
+        clear: left;
+      }
+
+      div.jQBracket .loserBracket {
+        float: right;
+        clear: left;
+        position: relative;
+      }
+
+      div.jQBracket .round {
+        position: relative;
+        float: left;
+      }
+
+      div.jQBracket .match {
+        position: relative;
+      }
+
+      div.jQBracket .editable {
+        cursor: pointer;
+      }
+
+      div.jQBracket .team {
+        position: relative;
+        z-index: 1;
+        float: left;
+        background-color: #eee;
+        cursor: default;
+      }
+
+        div.jQBracket .team:first-child {
+          border-bottom: 1px solid #999;
+        }
+
+        div.jQBracket .team input {
+          font-size: 14px;
+          padding: 0;
+          width: 100%;
+          border: 0;
+          margin: 0;
+          outline: 0;
+        }
+
+        div.jQBracket .team div.label {
+          padding: 3px;
+          position: absolute;
+          height: 22px;
+          white-space: nowrap;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+
+          div.jQBracket .team div.label[disabled] {
+            cursor: default;
+          }
+
+        div.jQBracket .team div.score {
+          float: right;
+          padding: 3px;
+          background-color: rgba(255, 255, 255, .3);
+          text-align: center;
+          box-sizing: border-box;
+        }
+
+          div.jQBracket .team div.score input {
+            text-align: center;
+          }
+
+          div.jQBracket .team div.score[disabled] {
+            color: #999;
+            cursor: default;
+          }
+
+          div.jQBracket .team div.label input.error, div.jQBracket .team div.score input.error {
+            background-color: #fcc;
+          }
+
+        div.jQBracket .team.np {
+          background-color: #666;
+          color: #eee;
+        }
+
+        div.jQBracket .team.na {
+          background-color: #999;
+          color: #ccc;
+        }
+
+        div.jQBracket .team.win {
+          color: #333;
+        }
+
+          div.jQBracket .team.win div.score {
+            color: #060;
+          }
+
+        div.jQBracket .team.lose div.score {
+          color: #900;
+        }
+
+        div.jQBracket .team.lose {
+          background-color: #ddd;
+          color: #999;
+        }
+
+        div.jQBracket .team.tie div.score {
+          color: #00f;
+        }
+
+        div.jQBracket .team.highlightWinner {
+          background-color: #da0;
+          color: #000;
+        }
+
+        div.jQBracket .team.highlightLoser {
+          background-color: #ccc;
+          color: #000;
+        }
+
+        div.jQBracket .team.highlight {
+          background-color: #3c0;
+          color: #000;
+        }
+
+        div.jQBracket .team.bye {
+          background-color: #999;
+          color: #ccc;
+        }
+
+      div.jQBracket .teamContainer {
+        z-index: 1;
+        position: relative;
+        float: left;
+      }
+
+      div.jQBracket .connector {
+        border: 2px solid #666;
+        border-left-style: none;
+        position: absolute;
+        z-index: 1;
+      }
+
+        div.jQBracket .connector div.connector {
+          border: 0;
+          border-bottom: 2px solid #666;
+          height: 0;
+          position: absolute;
+        }
+
+          div.jQBracket .connector.highlightWinner, div.jQBracket .connector div.connector.highlightWinner {
+            border-color: #da0;
+          }
+
+          div.jQBracket .connector.highlightLoser, div.jQBracket .connector div.connector.highlightLoser {
+            border-color: #ccc;
+          }
+
+          div.jQBracket .connector.highlight, div.jQBracket .connector div.connector.highlight {
+            border-color: #0c0;
+          }
+
+      div.jQBracket .np .connector, div.jQBracket .np .connector div.connector {
+        border-color: #999;
+      }
+
+      div.jQBracket .bubble {
+        height: 22px;
+        line-height: 22px;
+        width: 30px;
+        right: -35px;
+        position: absolute;
+        text-align: center;
+        font-size: 11px;
+      }
+
+        div.jQBracket .bubble:after {
+          content: "";
+          position: absolute;
+          top: 6px;
+          width: 0;
+          height: 0;
+          border-top: 5px solid transparent;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+        }
+
+        div.jQBracket .bubble:after {
+          left: -5px;
+          border-left: 0;
+        }
+
+      div.jQBracket .win .bubble {
+        background-color: #da0;
+        color: #960;
+      }
+
+        div.jQBracket .win .bubble:after {
+          border-right-color: #da0;
+        }
+
+        div.jQBracket .win .bubble.third {
+          background-color: #963;
+          color: #d95;
+        }
+
+          div.jQBracket .win .bubble.third:after {
+            border-right: 6px solid #963;
+          }
+
+      div.jQBracket .lose .bubble {
+        background-color: #ccc;
+        color: #333;
+      }
+
+        div.jQBracket .lose .bubble:after {
+          border-right-color: #ccc;
+        }
+
+        div.jQBracket .lose .bubble.fourth {
+          background-color: #678;
+          color: #ccd;
+        }
+
+          div.jQBracket .lose .bubble.fourth:after {
+            border-right: 6px solid #678;
+          }
+
+      div.jQBracket.rl .finals {
+        float: left;
+        left: 0;
+        clear: left;
+      }
+
+      div.jQBracket.rl .bracket {
+        float: left;
+        clear: right;
+      }
+
+      div.jQBracket.rl .loserBracket {
+        float: left;
+        clear: right;
+      }
+
+      div.jQBracket.rl .round {
+        margin-right: 0;
+        float: right;
+      }
+
+      div.jQBracket.rl .team {
+        float: right;
+      }
+
+        div.jQBracket.rl .team div.label {
+          right: 0;
+        }
+
+        div.jQBracket.rl .team div.score {
+          float: left;
+        }
+
+      div.jQBracket.rl .teamContainer {
+        float: right;
+      }
+
+      div.jQBracket.rl .connector {
+        border-left-style: solid;
+        border-right-style: none;
+        border-width: 2px;
+      }
+
+        div.jQBracket.rl .connector.highlightWinner, div.jQBracket.rl .connector div.connector.highlightWinner {
+          border-color: #da0;
+        }
+
+        div.jQBracket.rl .connector.highlightLoser, div.jQBracket.rl .connector div.connector.highlightLoser {
+          border-color: #ccc;
+        }
+
+        div.jQBracket.rl .connector.highlight, div.jQBracket.rl .connector div.connector.highlight {
+          border-color: #0c0;
+        }
+
+      div.jQBracket.rl .bubble {
+        left: -35px;
+      }
+
+        div.jQBracket.rl .bubble.third {
+          background-color: #963;
+          color: #310;
+        }
+
+        div.jQBracket.rl .bubble.fourth {
+          background-color: #678;
+          color: #ccd;
+        }
+
+        div.jQBracket.rl .bubble:after {
+          left: auto;
+          right: -5px;
+          border-left: 5px solid transparent;
+          border-right: 0;
+        }
+
+        div.jQBracket.rl .bubble.third:after {
+          border-right: 0;
+          border-left: 6px solid #963;
+        }
+
+        div.jQBracket.rl .bubble.fourth:after {
+          border-right: 0;
+          border-left: 6px solid #678;
+        }
+
+      div.jQBracket.rl .highlightWinner .bubble:after {
+        border-left-color: #da0;
+      }
+
+      div.jQBracket.rl .highlightLoser .bubble:after {
+        border-left-color: #ccc;
+      }
+
+    .team {
+      padding: 10px;
+    }
+  }
+</style>
+<style>
+  .label, .score {
+    color: black !important;
+  }
+
+  .section.public-registrations .participants-desktop .participant-td-club {
+    min-width: 120px !important;
+  }
+
+  .team {
+    padding: 10px;
+    background-color: #eee !important;
+  }
+
+
+  .container {
+    width: 900px;
+  }
+</style>
+
+<div class="container" style="margin-top:50px;margin-bottom:20px;">
+  <section class="padding-top-xs-0 padding-top-sm-32 padding-bottom-xs-0 hidden-print hidden-tv">
+    <div id="eventHeader" class="relative">
+
+      <div class="row">
+        <div id="cover" class="col-sm-7 col-md-8 col-lg-8">
+          <div class="cover-wrapper">
+            <div class="cover-image">
+              <img class="" style="" alt="" src="@ViewBag.image">
+            </div>
+            <div class="cover-shadow"></div>
+            <div class="cover-heading">
+              <div class="cover-date visible-xs">
+                @ViewBag.eventDate
+                <span class="muted"></span>
+              </div>
+
+              <h1>@Html.ActionLink((string)ViewBag.name, "Participant", new { id = ViewBag.Id })</h1>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div id="schedule" class="col-sm-5 col-md-4 col-lg-4">
+          <div class="schedule-container">
+
+            <div class="item date event hidden-xs">
+              <span class="icon icon-fighters"></span>
+              <div class="text">
+                <div class="title">
+                  Tournament duration
+                </div>
+                <strong>
+                  @ViewBag.eventDate
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-12">
+          <nav class="navbar navbar-default navbar-event">
+            <div class="navbar-header">
+
+              @{ if (!ViewBag.isAnyCompetitorRemaining)
+                      {
+                            <a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("Profile","Competitors",new { id =  ViewBag.EventId })">Register For Tournament</a>
+                      }
+                      if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == ViewBag.CreatedBy)
+                      {<a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("UpdateEvent", "Events", new { id = ViewBag.EventId })">Edit Tournament</a> } }
+
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="not-active noChilds">
+                <a href="@Url.Action("EventDetails","Events",new { id =  ViewBag.Id.Replace(" ","") })">
+                  <span>
+                    <span class="icon icon-info visible-xs"></span>
+                    Info<span class="hidden-xs">rmation</span>
+                  </span>
+                </a>
+              </li>
+              <li class="not-active  noChilds ">
+                <a href="@Url.Action("Participant","Events",new { id =  ViewBag.Id })">
+                  <span>
+                    <span class="icon icon-form visible-xs"></span>
+                    Registrations
+                    <span class="badge hidden-xs">@ViewBag.totalCount</span>
+                  </span>
+                </a>
+              </li>
+              <li class="active noChilds ">
+                <a href="@Url.Action("Brackets","Events",new { id = ViewBag.Id })">
+                  <span>
+                    <span class="icon icon-form visible-xs"></span>
+                    Brackets
+                  </span>
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="content">
+
+
+  <section class="boost margin-top-xs-32 padding-top-xs-32 margin-top-lg-64 padding-top-lg-64 sc-26 public-registrations">
+
+    <div class="container container-fluid-large">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1 class="pull-left margin-right-xs-8 font-size-h2 margin-bottom-xs-16 margin-bottom-sm-32">Brackets</h1>
+        </div>
+      </div>
+    </div>
+    <div id="registrations">
+      <div class="container container-fluid-large margin-bottom-sm-64 margin-bottom-xs-64">
+        <div class="well well-inverted full-width margin-bottom-xs-8">
+          @using (Html.BeginForm("Brackets", "Events", FormMethod.Get))
+
+          {
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group margin-bottom-md-0">
+                  <select name="type" id="type" class="form-control col-sm-8">
+                    @{ if (ViewBag.typeId == 1)
+                      {
+                        <option value="1" selected>Single Elimination</option>
+                      }
+                      else
+                      {
+                        <option value="1">Single Elimination</option>
+                      }
+                      if (ViewBag.typeId == 2)
+                      {
+                        <option value="2" selected>Double Elimination</option>
+                      }
+                      else
+                      {
+                        <option value="2">Double Elimination</option>
+                      }
+                      if (ViewBag.typeId == 3)
+                      {
+                        <option value="3" selected>Round Robin</option>
+                      }
+                      else
+                      {
+                        <option value="3">Round Robin</option>
+                      }
+                      if (ViewBag.typeId == 4)
+                      {
+                        <option value="4" selected>List Elimination</option>
+                      }
+                      else
+                      {
+                        <option value="4">List Elimination</option>
+                      } }
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4" style="margin-bottom: 10px; display: flex;">
+                <input class="btn btn-info btn-md" type="submit" value="Print Brackets" style="margin-right:10px; padding-left: 50px; padding-right: 50px;" />
+
+
+              </div>
+            </div>
+
+          }
+
+        </div> <!---->
+      </div>
+      <div class="container container-fluid-large">
+        <div id="printPageButton">
+          <br /><br /><button type="button" class="button btn btn-info btn-md" id="print">Print</button>&nbsp;&nbsp; <button type="button" class="button btn btn-info btn-md" id="printImage">Download Image</button>
+        </div>
+        <br />
+        <br />
+        <div id="printTournamentAsJpg1">
+
+          @if (Model != null && Model.Count() > 0)
+          {
+            foreach (var item in Model)
+            {
+              if (item.IsParticipantLimited)
+              {
+                Html.RenderAction("TournamentViewer", "PrintBrackets", new { Age = item.Age, Belt = item.Belt, Weight = item.Weight, Gender = item.Gender, Event = item.Event, id = item.id, Combination = item.Combination, Group = item.Group, TotalGroup = item.Group, EventId = item.EventId, IsCustom = item.IsCustom, Competitors = item.Competitors, EventDivisions = item.EventDivisions, DivisionGroups = item.DivisionGroups });
+              }
+              else
+              {
+                Html.RenderAction("TournamentViewerV1", "PrintBrackets", new { Age = item.Age, Belt = item.Belt, Weight = item.Weight, Gender = item.Gender, Event = item.Event, id = item.id, EventId = item.EventId, IsCustom = item.IsCustom, Competitors = item.Competitors, EventDivisions = item.EventDivisions, DivisionGroups = item.DivisionGroups });
+              }
+            }
+          }
+          else
+          {
+            <h3> No any data found.</h3>
+          }
+        </div>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function () {
+            $("#print").click(function () {
+              window.print();
+            });
+
+            $("#printImage").click(function () {
+              html2canvas($("#printTournamentAsJpg1")[0]).then((canvas) => {
+                console.log("done ... ");
+                $("#copyDiv").append(canvas);
+
+                canvas.toBlob(function (blob) {
+                  window.saveAs(blob, 'tournament.jpg');
+                });
+              });
+            })
+          });
+
+        </script>
+      </div>
+    </div>
+    <div class="sticky-search disappear">
+      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 9C16 12.866 12.866 16 9 16C5.13401 16 2 12.866 2 9C2 5.13401 5.13401 2 9 2C12.866 2 16 5.13401 16 9ZM14.5698 16.0699C13.0377 17.2787 11.1031 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 11.1469 17.2482 13.1183 15.9936 14.6652L20.0564 18.728L18.6422 20.1422L14.5698 16.0699Z" fill="#F4F6FB"></path>
+      </svg>
+    </div>
+  </section>
+</div>
+
+<script>
+
+  $(".more-button").click(function () {
+
+    if ($(this).hasClass("default")) {
+
+      $(this).removeClass("default")
+      $(this).addClass("active");
+      $(this).next().next().removeClass("hide");
+      $(this).next().next().addClass("show");
+    } else {
+      $(this).next().next().removeClass("show");
+      $(this).next().next().addClass("hide")
+      $(this).removeClass("active")
+      $(this).addClass("default");
+    }
+    debugger
+
+  });
+
+
+  $("#btnReset").click(function () {
+    $(document).find("input").val('');
+    window.history.pushState({}, document.title, window.location.href.split('?')[0]);
+    window.location.reload();
+  })
+</script>

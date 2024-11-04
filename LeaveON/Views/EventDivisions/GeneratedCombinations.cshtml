@@ -1,0 +1,12 @@
+
+<div>
+  <label class="control-label">Combinations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+</div>
+@Html.DropDownList("Combinations", ViewBag.Combinations as SelectList, htmlAttributes: new { @class = "form-control col-md-3", onchange = "generateRecords();" })
+@Html.ValidationMessage("Combinations", "", new { @class = "text-danger" })
+
+<br />
+<div>
+  &nbsp;&nbsp;&nbsp;&nbsp; Total Records Found: <b> @ViewBag.TotalCombinations </b>
+
+</div>

@@ -1,0 +1,717 @@
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<style>
+  .error {
+    font-size: 12px;
+    color: red;
+  }
+
+  .note-modal-content {
+    padding: 13px;
+  }
+
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  .note-editor {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+  }
+
+    .note-editor.note-airframe, .note-editor.note-frame {
+      border: 1px solid rgba(0,0,0,.2);
+      background: #fff !important;
+    }
+
+  .note-dropdown-menu {
+    box-sizing: content-box;
+  }
+
+  .note-editor .note-toolbar .note-style .dropdown-style h1, .note-editor .note-toolbar .note-style .dropdown-style h2, .note-editor .note-toolbar .note-style .dropdown-style h3, .note-editor .note-toolbar .note-style .dropdown-style h4, .note-editor .note-toolbar .note-style .dropdown-style h5, .note-editor .note-toolbar .note-style .dropdown-style h6, .note-editor .note-toolbar .note-style .dropdown-style p, .note-popover .popover-content .note-style .dropdown-style h1, .note-popover .popover-content .note-style .dropdown-style h2, .note-popover .popover-content .note-style .dropdown-style h3, .note-popover .popover-content .note-style .dropdown-style h4, .note-popover .popover-content .note-style .dropdown-style h5, .note-popover .popover-content .note-style .dropdown-style h6, .note-popover .popover-content .note-style .dropdown-style p {
+    color: #000 !important;
+  }
+
+  h1 {
+    display: block !important;
+    font-size: 2em !important;
+    font-weight: bold !important;
+  }
+
+  h2 {
+    display: block;
+    font-size: 1.5em !important;
+    font-weight: bold !important;
+  }
+
+  h3 {
+    display: block;
+    font-size: 1.17em !important;
+    font-weight: bold !important;
+  }
+
+  h4 {
+    font-size: 1em !important;
+    font-weight: bold !important;
+  }
+
+  h5 {
+    display: block;
+    font-size: 0.83em !important;
+    font-weight: bold !important;
+  }
+
+  h6 {
+    display: block;
+    font-size: 0.67em !important;
+    font-weight: bold !important;
+  }
+
+  pre {
+    display: block;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0px !important;
+  }
+
+  .note-modal-backdrop {
+    position: fixed !important;
+    left: inherit !important;
+    right: inherit !important;
+    bottom: inherit !important;
+    top: inherit !important;
+    z-index: 0 !important;
+    background: transparent !important;
+    -webkit-opacity 0 !important;
+    -khtml-opacity: 0 !important;
+    -moz-opacity: 0 !important;
+    opacity: 0 !important;
+  }
+  .note-editable {
+    color: #ffffff; /* White color */
+  }
+
+  .sc-25 p {
+    font-weight: 100 !important;
+    margin: 0 !important;
+    color: #fff !important;
+  }
+</style>
+
+<div class="container" style=" margin-top: 60px;">
+  <div class="card" style="padding: 10px;">
+
+    <div id="ErrorAppend">
+      
+    </div>
+
+    <div class="card-header">
+
+      <div class="card-title" style="display: flex; justify-content: space-between;">
+        <h2>Create a Tourney</h2>
+        <button type="button" class="btn btn-info btn-md" style=" height: 50px; align-items: center; display: flex; justify-content: center;" id="BtnAddEvent">Create Tourney  <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="sc-25 registration-form">
+        <form id="FormValidate">
+          <div class="row">
+            @*<div class="col-md-4">
+      <div class="form-input-wrapper">
+        <select class="form-input-text" name="Tournament" id="Tournament_Id" style="background: #1c1c1c!important;">
+        </select>
+      </div>
+    </div>*@
+
+
+            <div class="col-md-8">
+              <div class="form-input-wrapper">
+                <input name="Title" required="required" type="text" placeholder=" " id="Title_Id" class="form-input-text"> <label for="organization_name" class="form-input-label">
+                  Tourney Name
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="Location" required="required" type="text" placeholder=" " id="Location_Id" class="form-input-text">
+                <label for="organization_name" class="form-input-label">
+                  Tourney Location
+                </label>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="City" required="required" type="text" placeholder=" " id="City_Id" class="form-input-text"> <label for="organization_name" class="form-input-label">
+                  Tourney City
+                </label>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="State" required="required" id="State_Id" type="text" placeholder=" " class="form-input-text">
+                <label for="organization_name" class="form-input-label">
+                  Tourney State
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="Country" required="required" type="text" placeholder=" " id="Country_Id" class="form-input-text"> <label for="organization_name" class="form-input-label">
+                  Tourney Country
+                </label>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="StartDate" required="required" type="text" autocomplete="off" placeholder="" id="StartDate_Id" class="form-input-text">
+                <label for="organization_name" class="form-input-label">
+                  Date of Tourney
+                </label>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="EndDate" readonly required="required" id="EndDate_Id" type="text" placeholder="" autocomplete="off" class="form-input-text">
+                <label for="organization_name" class="form-input-label">
+                  End Date of Tourney
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="CutOffdate" readonly required="required" id="CutOffdate_Id" type="text" placeholder="" autocomplete="off" class="form-input-text">
+                <label for="CutOffdate_Id" class="form-input-label">
+                  Register by
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <div class="form-input-wrapper">
+                <input name="Image" required="required" type="file" onchange="encodeImgtoBase64(this)" placeholder=" " id="file" class="form-input-text">
+
+              </div>
+            </div>
+
+            <div class="col-md-4"><img style="height: 200px; width: 500px; margin-top:5px;display:none;" id="eventImage" src="" alt="Event Image" /></div>
+
+          </div>
+
+            <div class="row">
+              <h2 style=" color: white; margin: 15px;">Connect With Us</h2>
+            </div>
+
+            <div class="row">
+
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Website" id="Website_Id" type="text" placeholder=" " class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Tourney Website
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Email" required="required" type="email" placeholder=" " id="Email_Id" class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Tourney Email
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Phone" type="text" placeholder=" " id="Phone_Id" class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Phone
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Facebook" type="text" placeholder=" " id="Facebook_Id" class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Tourney Facebook
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Instagram" type="text" placeholder=" " id="Instagram_Id" class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Instagram
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Youtube" id="Youtube_Id" type="text" placeholder=" " class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Youtube
+                  </label>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="WhatsApp" type="text" placeholder=" " id="WhatsApp_Id" class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    WhatsApp
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Twitter" id="Twitter_Id" type="text" placeholder=" " class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Twitter
+                  </label>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+            
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Latitude" type="text" placeholder=" " id="Latitude_Id" class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Latitude
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-input-wrapper">
+                  <input name="Longitude" id="Longitude_Id" type="text" placeholder=" " class="form-input-text">
+                  <label for="organization_name" class="form-input-label">
+                    Longitude
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+
+                <div id="recaptcha" class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey" data-callback="vcc" style="padding-top: 10px;"></div>
+
+              </div>
+
+
+
+            </div>
+
+
+            <div id="summernote"></div>
+
+
+</form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    $('input[name="StartDate"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy",
+      minDate: new Date()
+    });
+
+    //$('input[name="EndDate"]').datepicker({
+    //  language: "en",
+    //  autoclose: true,
+    //  format: "mm/dd/yyyy"
+    //});
+
+    //$('input[name="CutOffdate"]').datepicker({
+    //  language: "en",
+    //  autoclose: true,
+    //  format: "mm/dd/yyyy"
+    //});
+
+    //GetAllTournaments();
+
+    $('#summernote').summernote({
+      placeholder: 'Tourney Details / Info',
+      tabsize: 1,
+      height: 300,
+      codemirror: {
+        mode: 'text/html',
+        htmlMode: true,
+        lineNumbers: true,
+        theme: 'monokai'
+      },
+
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link']],
+        ['view', ['codeview', 'help']]
+      ],
+    });
+
+    $('.note-editable').css("backgroundColor", "#000000");
+
+    $("#FormValidate").validate({
+      rules: {
+        Tournament: {
+          required: true,
+
+        },
+        Title: {
+          required: true,
+
+        },
+
+        Country: {
+          required: true,
+
+        },
+        State: {
+          required: true,
+
+        },
+        StartDate: {
+          required: true,
+
+        },
+        EndDate: {
+          required: true,
+
+        },
+        CutOffdate: {
+          required: true,
+
+        },
+        Image: {
+          required: true,
+
+        },
+        //Facebook: {
+        //  required: true,
+
+        //},
+        //Youtube: {
+        //  required: true,
+
+        //},
+
+        //Instagram: {
+        //  required: true,
+
+        //},
+
+        //WhatsApp: {
+        //  required: true,
+
+        //},
+        //Twitter: {
+        //  required: true,
+
+        //},
+
+        //Phone: {
+        //  required: true,
+
+        //},
+
+        Email: {
+          required: true,
+
+        },
+
+        //Website: {
+        //  required: true,
+
+        //},
+
+        Location: {
+          required: true,
+
+        },
+        //Latitude: {
+        //  required: true,
+
+        //},
+
+        //Longitude: {
+        //  required: true,
+
+        //},
+     
+      },
+      messages: {
+
+        Tournament: {
+          required: "This Tournament feild is required",
+
+        },
+        Title: {
+          required: "This Title feild is required",
+
+        },
+
+        Country: {
+          required: "This Country feild is required",
+
+        },
+        State: {
+          required: "This State feild is required",
+
+        },
+
+        StartDate: {
+          required: "This StartDate feild is required",
+
+        },
+
+        EndDate: {
+          required: "This EndDate feild is required",
+
+        },
+
+        CutOffdate: {
+          required: "This CutOffdate feild is required",
+
+        },
+
+        Image: {
+          required: "This Image feild is required",
+
+        },
+
+        Facebook: {
+          required: "This Facebook feild is required",
+
+        },
+
+        Youtube: {
+          required: "This Youtube feild is required",
+
+        },
+        Instagram: {
+          required: "This Instagram feild is required",
+
+        },
+
+        WhatsApp: {
+          required: "This WhatsApp feild is required",
+        },
+        Twitter: {
+          required: "This Twitter feild is required",
+
+        },
+
+        Phone: {
+          required: "This Phone feild is required",
+
+        },
+
+        Email: {
+          required: "This Email feild is required",
+
+        },
+
+        Website: {
+
+          required: "This Website feild is required",
+
+        },
+        Location: {
+
+          required: "This Location feild is required",
+
+        },
+        Latitude: {
+
+          required: "This Latitude feild is required",
+
+        },
+
+        Longitude: {
+
+          required: "This Longitude feild is required",
+
+        },
+      },
+ 
+    });
+  })
+
+  $("#BtnAddEvent").click(function () {
+
+    $("#ErrorAppend").html("");
+
+    if ($("#FormValidate").valid()) {
+
+      var response = grecaptcha.getResponse();
+      if (response.length == 0) {
+
+        $("#ErrorAppend").append(`<h5 style="color:red">Please verify reCAPTCHA</h5>`)
+      }
+      else {
+        AddEvent();
+      }
+
+    }
+  })
+
+  function encodeImgtoBase64(element) {
+
+    var file = element.files[0];
+
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+
+      $("#file").attr("value", reader.result);
+      $("#eventImage").show();
+      $("#eventImage").prop('src', reader.result);
+    }
+
+    reader.readAsDataURL(file);
+
+  }
+
+
+  function GetAllTournaments() {
+
+    $.ajax({
+      url: "/ScheduledEvents/GetAllTournaments",
+      data: null,
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        debugger
+        $.each(result, function (i, v) {
+          debugger
+          $("#Tournament_Id").append(`<option value="${v.Id}">${v.Name}</option>`)
+
+        });
+      },
+      error: function (errormessage) {
+
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+  function AddEvent() {
+    $("#ErrorAppend").html("");
+    $("#Loading_Show").show();
+    $.ajax({
+      url: "/ScheduledEvents/AddEvent",
+      data: JSON.stringify({
+        TournamentId: Number($("#Tournament_Id").val()),
+        Name: $("#Title_Id").val(),
+        City: $("#City_Id").val(),
+        State: $("#State_Id").val(),
+        Country: $("#Country_Id").val(),
+        StartDate: new Date($("#StartDate_Id").val()).toISOString(),
+        CutOffdate: new Date($("#CutOffdate_Id").val()).toISOString(),
+        EndDate: new Date($("#EndDate_Id").val()).toISOString(),
+        Description: $('#summernote').summernote('code'),
+        Image: $("#file").attr("value"),
+        Facebook: $("#Facebook_Id").val(),
+        Youtube: $("#Youtube_Id").val(),
+        Instagram: $("#Instagram_Id").val(),
+        WhatsApp: $("#WhatsApp_Id").val(),
+        Twitter: $("#Twitter_Id").val(),
+        Phone: $("#Phone_Id").val(),
+        Email: $("#Email_Id").val(),
+        Website: $("#Website_Id").val(),
+        Location: $("#Location_Id").val(),
+        Latitude: $("#Latitude_Id").val(),
+        Longitude: $("#Longitude_Id").val(),
+      }),
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#Loading_Show").hide();
+        grecaptcha.reset();
+        debugger
+        if (result.success) {
+           window.location.href = "/Events/Events"
+          //window.location.href = "/Tournaments/AddTournament"
+        }
+        else {
+
+          $("#ErrorAppend").append(`<h5 style="color:red">${result.message}</h5>`)
+        }
+       
+      },
+      error: function (errormessage) {
+        $("#Loading_Show").hide();
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+
+  $("#StartDate_Id").change(function () {
+    $("#EndDate_Id").val('');
+    $("#CutOffdate_Id").val('');
+    $('input[name="EndDate"]').datepicker('destroy');
+    $('input[name="EndDate"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy",
+      minDate: new Date($("#StartDate_Id").val())
+    });
+  });
+  $("#EndDate_Id").change(function () {
+    $("#CutOffdate_Id").val('');
+    $('input[name="CutOffdate"]').datepicker('destroy');
+    $('input[name="CutOffdate"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy",
+      minDate: new Date(),
+      maxDate: new Date($("#StartDate_Id").val())
+    });
+  });
+</script>

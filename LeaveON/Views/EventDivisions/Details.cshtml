@@ -1,0 +1,83 @@
+﻿@model TourneyRepo.Models.EventDivision
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EventDivision</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AgeRange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgeRange)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeltRange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeltRange)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GenderRange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GenderRange)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeightRange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeightRange)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateModified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateModified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tournament.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tournament.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TournamentEvent.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TournamentEvent.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,402 @@
+@model TourneyRepo.Models.Competitor
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "ProfileSetting";
+    Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+
+<style>
+
+  #File-error {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+  }
+</style>
+
+<section>
+  <div class="container">
+    <div class="pull-right">
+      <a class="btn btn-secondary" href="@Url.Action("UserProfile", "Competitors", new { Id = Model.Id })">
+        My Profile
+      </a> <a class="btn btn-secondary" href="@Url.Action("ProfileSetting", "Competitors", new { Id = User.Identity.GetUserId() })">
+        Settings
+      </a>
+    </div>
+    <h1>Profile settings</h1>
+    <div class="row">
+      <div style="display: flex; justify-content: left; align-items: center; padding-left: 15px; padding-bottom: 15px;" id="LockProfileHide">
+        <i class="icon icon-info" style=" font-size: 15px;"></i>
+        <h3 style="color:red;font-weight:500;margin-left:10px" id="LockProfileError">
+ 
+        </h3>
+
+      </div>
+     
+      
+      <form method="POST" id="FormValidation">
+        <div class="col-md-12 col-lg-7 margin-bottom-xs-32 margin-bottom-lg-0">
+
+          <div id="userSettings">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title pull-left">User details</h3>
+              </div>
+              <ul class="list-group form-horizontal">
+                <li class="list-group-item">
+                  <div data-field-name="Name">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Name" id="Name_text" value="@Model.Name" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Age">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Age</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Age" id="Age_text" value="@Model.Age" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Weight">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Weight</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Weight" id="Weight_text" value="@Model.Weight" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Email">
+                    <div class="row">
+                      <label class="hidden">Email</label>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label text-align-left">Gender</label>
+                          <div class="col-sm-9">
+                            <select class="form-control" id="Gender_text" name="Gender">
+                              <option disabled="disabled" selected value="-1">Select Gender</option>
+                              <option value="true" @(Model.Gender == true ? "selected" : null)>Male</option>
+                              <option value="false" @(Model.Gender == false ? "selected" : null)>Female</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label text-align-left">State</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="State" id="State_text" value="@Model.State" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+
+              </ul>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Contact &amp; residence</h3>
+              </div>
+              <ul class="list-group form-horizontal">
+                <li class="list-group-item">
+                  <div data-field-name="City">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">City</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="City" id="City_text" value="@Model.City" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Address">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Address</label>
+                      <div class="col-sm-9">
+                        <textarea name="Address" id="Address_text" class="form-control">@Model.Address</textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Email">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Email</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Email" id="Email_text" value="@Model.Email" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Phone">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Phone</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Phone" id="Phone_text" value="@Model.Phone" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+
+                <li class="list-group-item">
+                  <div data-field-name="School">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">School</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="School" id="School_text" value="@Model.School" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+
+                <li class="list-group-item">
+                  <div data-field-name="ZipCode">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Zip Code</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="ZipCode" id="ZipCode_text" value="@Model.Zip" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+
+              </ul>
+            </div>
+
+
+
+          </div>
+          <div class="controlpanel controlpanel-floating">
+            <button type="button" id="UpdateProfileBtn" class="btn btn-primary btn-lg" style="display: inline-flex; align-items: center;">Save changes <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+          </div>
+
+        </div>
+
+        <div id="userClubs" class="col-md-5 col-sm-12 margin-top-sm-0 margin-top-xs-128">
+          <div class="panel panel-default image-input-component profile-image">
+            <div class="panel-heading">
+              <div class="panel-controls">
+                <!---->
+                <div class="pull-sm-right pull-xs-left clear-xs">
+                  <!---->
+                  <label class="btn btn-secondary btn-file" style="position:relative;">
+                    <span>Select image</span>
+                    <input type="file" name="image" onchange="encodeImgtoBase64(this)" id="File" accept="image/*" style="visibility: hidden; height: 3px; width: 115px;" value="@Model.ProfilePath">
+                  </label>
+                </div>
+              </div>
+              <h3 class="panel-title">Profile image</h3>
+            </div>
+            <!---->
+            <!---->
+            <div class="preview">
+              <div class="placeholder guillotine-window"><img style="height:200px;" id="ImageDisplay" src=@(Model.ProfilePath == null ? "/build/webpack/img/placeholder-image-profile.7c8daa2577de9f4cdf896b613ca20750.png" : Model.ProfilePath) class="full-width"></div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Belt/Skill levels
+              </h3>
+            </div>
+            <div class="panel-footer">
+
+              <select class="form-control" id="Belt_text" name="Belt" style=" height: 50px;">
+                <option disabled="disabled" selected value="-1">Select Belt</option>
+                @{ for (int z = 0; z < ViewBag.Belts.Count; z++)
+                        {
+                  <option value="@ViewBag.Belts[z].BeltId" @(ViewBag.Belts[z].BeltId == Convert.ToInt32(Model.Belt) ? "selected" : null)>@ViewBag.Belts[z].BeltName</option> } }
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<script>
+
+  $(document).ready(function () {
+
+    CheckCutOfDate();
+  });
+
+  $('#UpdateProfileBtn').click(function () {
+    if ($("#FormValidation").valid())
+    {
+
+      UpdateProfile();
+    }
+
+  });
+
+  $("#FormValidation").validate({
+    errorClass: "text-danger font-weight-bold errorClass",
+    errorElement: "div",
+    rules: {
+      Name: {
+        required: true
+      },
+      Age: {
+        required: true,
+        number: true
+      },
+      Weight: {
+        required: true,
+        number: true
+      },
+      Gender: {
+        required: true
+      },
+      State: {
+        required: true
+      },
+      City: {
+        required: true
+      },
+      Address: {
+        required: true
+      },
+      ZipCode: {
+        required: true,
+        number: true
+      },
+      Email: {
+        required: true,
+        email: true
+      },
+      Phone: {
+        required: true,
+        number: true
+      },
+      School: {
+        required: true
+      },
+      Belt: {
+        required: true
+      },
+      image: {
+        required:@(Model.ProfilePath == null ?"true" : "false"),
+      }
+
+    },
+    highlight: function (inputelement, errorClass) {
+      $(inputelement).removeClass(errorClass)
+    }
+  });
+
+  function encodeImgtoBase64(element) {
+
+    var file = element.files[0];
+
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+
+      $("#File").attr("value", reader.result);
+      $("#ImageDisplay").attr("src", reader.result);
+
+    }
+
+    reader.readAsDataURL(file);
+
+  }
+
+
+  function UpdateProfile() {
+    $("#Loading_Show").show();
+    $.ajax({
+      url: "/Competitors/UpdateProfile",
+      data: JSON.stringify({
+        Id:Number(@Model.Id),
+        Name: $("#Name_text").val(),
+        Age: Number($("#Age_text").val()),
+        Weight:Number( $("#Weight_text").val()),
+        Gender: $("#Gender_text").val(),
+        State: $("#State_text").val(),
+        City: $("#City_text").val(),
+        Address: $('#Address_text').val(),
+        Email: $("#Email_text").val(),
+        Phone: $("#Phone_text").val(),
+        School: $("#School_text").val(),
+        Zip: $("#ZipCode_text").val(),
+        ProfilePath: $("#File").attr("value"),
+        Belt: $("#Belt_text").val(),
+      }),
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#Loading_Show").hide();
+        window.location.href = "/Competitors/Profile";
+      },
+      error: function (errormessage) {
+        $("#Loading_Show").hide();
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+
+  function CheckCutOfDate() {
+    $.ajax({
+      url: "/Competitors/CheckCutOffDate/"+Number(@Model.Id),
+      type: "POST",
+      success: function (result) {
+
+        debugger
+
+        if (result.success) {
+          $('#LockProfileHide').show();
+          $("#LockProfileError").text(result.message);
+          $(document).find("input").attr("readonly", true);
+          $(document).find("textarea").attr("readonly", true);
+          $(document).find("select").attr("disabled", true);
+          $('#UpdateProfileBtn').hide();
+          $('.btn-file').hide();
+
+        } else {
+          $('#LockProfileHide').hide();
+          $("#LockProfileError").text(result.message);
+          $(document).find("input").attr("readonly", false);
+          $(document).find("select").attr("disabled", false);
+          $('#UpdateProfileBtn').show();
+          $('.btn-file').show();
+        }
+      },
+      error: function (errormessage) {
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+
+</script>

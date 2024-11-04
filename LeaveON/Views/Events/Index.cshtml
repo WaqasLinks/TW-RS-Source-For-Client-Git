@@ -1,0 +1,3067 @@
+
+@{
+  ViewBag.Title = "Index";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+  //Layout = null;
+}
+
+
+
+
+
+
+
+
+<style>
+  .vue-notification-group {
+    display: block;
+    position: fixed;
+    z-index: 5000
+  }
+
+  .vue-notification-wrapper {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0
+  }
+
+  .notification-title {
+    font-weight: 600
+  }
+
+  .vue-notification-template {
+    display: block;
+    box-sizing: border-box;
+    background: white;
+    text-align: left
+  }
+
+  .vue-notification {
+    display: block;
+    box-sizing: border-box;
+    text-align: left;
+    font-size: 12px;
+    padding: 10px;
+    margin: 0 5px 5px;
+    color: #fff;
+    background: #44A4FC;
+    border-left: 5px solid #187FE7
+  }
+
+    .vue-notification.warn {
+      background: #ffb648;
+      border-left-color: #f48a06
+    }
+
+    .vue-notification.error {
+      background: #E54D42;
+      border-left-color: #b82e24
+    }
+
+    .vue-notification.success {
+      background: #68CD86;
+      border-left-color: #42a85f
+    }
+
+  .vn-fade-enter-active, .vn-fade-leave-active, .vn-fade-move {
+    transition: all .5s
+  }
+
+  .vn-fade-enter-from, .vn-fade-leave-to {
+    opacity: 0
+  }
+</style>
+<style>
+  .sc-container-fullscreen[data-v-2ab2568e] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    min-height: 60vh;
+    padding-bottom: 3vh;
+  }
+
+  .heading-container[data-v-2ab2568e] {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+    align-items: center;
+    /* margin-top: 15rem; */
+  }
+
+  .heading-container h1[data-v-2ab2568e] {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    max-width: 22rem;
+  }
+
+  .heading-container p[data-v-2ab2568e] {
+    max-width: 15.4rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-gradient[data-v-2ab2568e] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background: linear-gradient(120deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.15) 100%);
+  }
+
+  .button-container[data-v-2ab2568e] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button-container a[data-v-2ab2568e] {
+    margin-bottom: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .button-container a img[data-v-2ab2568e] {
+    margin-left: .5rem;
+  }
+
+  span[data-v-2ab2568e] {
+    color: var(--yellow);
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container-fullscreen[data-v-2ab2568e] {
+      /* padding-top: 20%;
+            padding-bottom: 10%; */
+      min-height: 75vh;
+      /* max-height: 75vh; */
+      padding-bottom: 15vh;
+    }
+
+    .heading-container[data-v-2ab2568e] {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      /* margin-top: 10rem; */
+    }
+
+    .heading-container h1[data-v-2ab2568e] {
+      max-width: 55rem;
+      margin-top: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    .heading-container p[data-v-2ab2568e] {
+      max-width: unset;
+    }
+
+    .button-container[data-v-2ab2568e] {
+      flex-direction: row;
+    }
+
+    .button-container a[data-v-2ab2568e] {
+      margin: 0;
+      margin-right: 1rem;
+    }
+
+    h1[data-v-2ab2568e] {
+      font-size: 3.4rem;
+      margin-bottom: 5rem;
+    }
+  }
+</style>
+<style>
+  h2[data-v-433574c8] {
+    color: var(--yellow);
+    text-align: center;
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+  }
+</style>
+<style>
+  .sc-container-fullscreen[data-v-343913e8] {
+    margin-top: .1rem;
+  }
+
+  .more-wrapper[data-v-343913e8] {
+    padding-top: .2rem;
+    padding-left: .2rem;
+    width: 50%;
+  }
+
+  .more[data-v-343913e8] {
+    padding: .5rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background: var(--gray-1);
+    height: 100%;
+  }
+
+  .more h3[data-v-343913e8] {
+    margin-bottom: 16px;
+  }
+
+  .button-wrapper[data-v-343913e8] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 10.8rem;
+  }
+
+  .more-btn[data-v-343913e8] {
+    padding: .1rem .4rem;
+    font-size: .8rem;
+    margin: .1rem;
+    border-radius: 1rem;
+    max-height: 1.4rem;
+    background: var(--gray-bg);
+    color: var(--gray-text);
+  }
+
+  .sc-btn-large[data-v-343913e8] {
+    color: #fff;
+    text-shadow: 0 0 2rem black, 0 0 2rem black, 0 0 1rem black;
+  }
+
+  .sc-background-img[data-v-343913e8] {
+    opacity: .4;
+    transition: 1s all ease-out;
+  }
+
+  .card-wrapper:hover .sc-background-img[data-v-343913e8] {
+    opacity: .9;
+    transition: .3s all ease-in;
+  }
+
+  .sports-container[data-v-343913e8] {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .card-wrapper[data-v-343913e8] {
+    padding: .2rem;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sports-card[data-v-343913e8] {
+    padding: 20% 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: .3rem;
+  }
+
+  @@media screen and (min-width: 550px) {
+    .card-wrapper[data-v-343913e8], .more-wrapper[data-v-343913e8] {
+      width: 33%;
+    }
+  }
+
+  @@media screen and (min-width: 950px) {
+    .card-wrapper[data-v-343913e8], .more-wrapper[data-v-343913e8] {
+      width: 25%;
+    }
+  }
+
+  @@media screen and (min-width: 1250px) {
+    .card-wrapper[data-v-343913e8], .more-wrapper[data-v-343913e8] {
+      width: 20%;
+    }
+  }
+</style>
+<style>
+  .laptop img[data-v-baf68686] {
+    display: block;
+  }
+
+  .laptop-screen[data-v-baf68686] {
+    position: relative;
+    background: var(--black);
+    border: .1rem solid var(--laptop-border);
+    border-radius: 1rem;
+    padding: 1%;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .laptop-screen.frame-on[data-v-baf68686] {
+    padding-bottom: 3%;
+    margin-bottom: -3%;
+    border-bottom: none;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .laptop-picture[data-v-baf68686] {
+    background-size: cover;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 0.6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sc-background-img[data-v-baf68686] {
+    z-index: 0;
+  }
+
+  .frame-on .laptop-picture[data-v-baf68686] {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .live[data-v-baf68686] {
+    background: var(--live-red);
+    color: var(--white-90);
+    font-size: 1rem;
+    font-weight: bold;
+    position: absolute;
+    top: 5%;
+    left: 4%;
+    border-radius: 1rem;
+    padding: 0 .8rem;
+    border: 1px solid #df2828;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  .live .rec-icon[data-v-baf68686] {
+    background: white;
+    height: 0.7em;
+    border-radius: 100%;
+    width: 0.7em;
+    position: relative;
+    display: inline-block;
+    margin-right: 0.2em;
+    animation: 1s infinite alternate-reverse rec-pulse-baf68686;
+    opacity: 1;
+  }
+
+  @@keyframes rec-pulse-baf68686 {
+    0% {
+      background: rgba(248, 205, 205, 0.15);
+    }
+
+    100% {
+      background: white;
+    }
+  }
+
+  .scoreboard-overlay[data-v-baf68686] {
+    position: absolute;
+    z-index: 1;
+    bottom: 13%;
+    left: 5%;
+    width: 90%;
+    filter: drop-shadow(0 0 21px rgb(233 206 206 / 77%)) drop-shadow(0 0 21px rgb(233 206 206 / 77%));
+  }
+
+  .laptop-frame[data-v-baf68686] {
+    position: relative;
+  }
+</style>
+<style>
+  .sc-cards[data-v-62b9b590] {
+    display: grid;
+    grid-template-rows: repeat(4);
+    grid-template-columns: 1, 1fr;
+    padding-top: 1rem;
+  }
+
+  .sc-card-wrapper[data-v-62b9b590] {
+    padding-top: .8rem;
+    padding-bottom: .8rem;
+  }
+
+  .sc-card[data-v-62b9b590] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1rem;
+    padding-top: 3rem;
+    height: 100%;
+  }
+
+  .sc-card-title[data-v-62b9b590] {
+    text-align: center;
+    margin-bottom: 2rem;
+    max-width: 17rem;
+  }
+
+  .card-notification[data-v-62b9b590] {
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+    background: var(--gray-bg);
+    border-radius: 1rem;
+    padding: .6rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-notification img[data-v-62b9b590] {
+    margin-right: .6rem;
+  }
+
+  .card-notification p[data-v-62b9b590] {
+    color: var(--white);
+  }
+
+  .paragraph-large[data-v-62b9b590] {
+    font-weight: 700;
+  }
+
+  .phone-image[data-v-62b9b590] {
+    max-width: 80%;
+  }
+
+  .live-card[data-v-62b9b590] {
+    overflow: hidden;
+  }
+
+  .laptop[data-v-62b9b590] {
+    margin-right: -40%;
+    margin-left: -5%;
+    margin-bottom: -6%;
+  }
+
+  @@media screen and (min-width: 750px) {
+    .sc-card-wrapper[data-v-62b9b590] {
+      padding-right: .8rem;
+      padding-left: .8rem;
+      padding-top: .4rem;
+      padding-bottom: .4rem;
+    }
+
+    .sc-container-fullscreen[data-v-62b9b590] {
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
+
+    .sc-card-wrapper[data-v-62b9b590] {
+      padding-right: .4rem;
+      padding-left: .4rem;
+    }
+
+    .sc-cards[data-v-62b9b590] {
+      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .laptop[data-v-62b9b590] {
+      margin-bottom: 5%;
+    }
+  }
+
+  @@media screen and (min-width: 1250px) {
+    .sc-cards[data-v-62b9b590] {
+      grid-template-rows: 1fr;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+<style>
+  .title-container[data-v-40a8e5aa] {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+    margin-top: 3rem;
+    margin-bottom: .8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .title-container .h1[data-v-40a8e5aa] {
+    text-align: center;
+    margin-right: 3.5rem;
+    margin-left: 3.5rem;
+  }
+
+  .background-shadow[data-v-40a8e5aa] {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 50%);
+  }
+
+  .card-container-all[data-v-40a8e5aa] {
+    display: grid;
+    grid-template-rows: repeat(2);
+    grid-template-columns: 1fr;
+    margin-left: -.2rem;
+    margin-right: -.2rem;
+  }
+
+  .card-container-small[data-v-40a8e5aa] {
+    display: grid;
+    grid-template-rows: repeat(4);
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sc-card-wrapper[data-v-40a8e5aa] {
+    padding: .2rem;
+  }
+
+  .sc-card[data-v-40a8e5aa] {
+    border-radius: .3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    height: 100%;
+  }
+
+  .sc-card p[data-v-40a8e5aa] {
+    margin-top: 0rem;
+    margin-bottom: 0;
+  }
+
+  .community-card-wrapper[data-v-40a8e5aa] {
+    width: 100%;
+  }
+
+  .community-card[data-v-40a8e5aa] {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    text-align: left;
+  }
+
+  .community-card img.community-card-img[data-v-40a8e5aa] {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .community-card h2[data-v-40a8e5aa] {
+    width: 50%;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .community-card p[data-v-40a8e5aa] {
+    width: 70%;
+  }
+
+  .community-card div[data-v-40a8e5aa] {
+    display: flex;
+  }
+
+  .community-card p[data-v-40a8e5aa] {
+    text-align: left;
+  }
+
+  @@media screen and (min-width: 800px) {
+    .card-container-small[data-v-40a8e5aa] {
+      grid-template-rows: repeat(2);
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .title-container[data-v-40a8e5aa] {
+      align-items: flex-start;
+      min-height: 35.5rem;
+    }
+
+    .title-container .h1[data-v-40a8e5aa] {
+      text-align: left;
+      max-width: 33rem;
+      margin-right: 0;
+      margin-left: 2rem;
+    }
+  }
+
+  @@media screen and (min-width: 1150px) {
+    .card-container-all[data-v-40a8e5aa] {
+      flex-direction: row;
+    }
+
+    .card-container-small[data-v-40a8e5aa] {
+      grid-template-rows: repeat(2);
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card-container-all[data-v-40a8e5aa] {
+      grid-template-rows: 1fr;
+      grid-template-columns: 2fr 1fr;
+    }
+
+    .community-card div[data-v-40a8e5aa] {
+      justify-content: flex-end !important;
+    }
+  }
+</style>
+<style>
+  .slider-switch[data-v-59d9219a] {
+    background: var(--gray-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6.25rem;
+  }
+
+  .slider-switch div[data-v-59d9219a] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 1rem;
+    border-radius: 6.25rem;
+    transition: .2s all ease;
+    cursor: pointer;
+  }
+
+  .slider-switch p[data-v-59d9219a] {
+    margin-left: .5rem;
+    color: unset;
+  }
+
+  .active[data-v-59d9219a] {
+    background: var(--gray-7);
+    color: var(--black);
+    pointer-events: none;
+  }
+
+  .inactive[data-v-59d9219a] {
+    background: none;
+    color: var(--gray-6);
+  }
+
+    .inactive[data-v-59d9219a]:hover {
+      background: var(--gray-2);
+    }
+
+  .active path[data-v-59d9219a] {
+    fill: var(--black);
+  }
+
+  .inactive path[data-v-59d9219a] {
+    fill: var(--gray-6);
+  }
+</style>
+<style>
+  .dropdown select[data-v-36894412] {
+    padding: .5rem 1rem;
+    border-radius: 6.25rem;
+    background: var(--gray-2);
+    color: var(--white-70);
+    border: none;
+    font-size: 1.1rem;
+    height: 100%;
+  }
+
+    .dropdown select[data-v-36894412]:hover {
+      color: var(--white);
+    }
+
+    .dropdown select[data-v-36894412]:active {
+      background: var(--grey-3);
+      color: var(--white);
+    }
+</style>
+<style>
+  .sc-container[data-v-2edd5f43] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 10rem;
+    padding-bottom: 6rem;
+  }
+
+  .sc-btn-muted[data-v-2edd5f43],
+  .sc-btn-muted svg path[data-v-2edd5f43] {
+    color: var(--white-30);
+    fill: var(--white-30);
+  }
+
+    .sc-btn-muted[data-v-2edd5f43]:hover,
+    .sc-btn-muted:hover svg path[data-v-2edd5f43] {
+      color: var(--white-90);
+      fill: var(--white-90);
+    }
+
+  /* Video position */
+  .video-container[data-v-2edd5f43] {
+    position: relative;
+    width: 95%;
+  }
+
+  svg.cable[data-v-2edd5f43] {
+    position: absolute;
+    right: -9%;
+    bottom: 4%;
+    height: auto;
+    width: 9%;
+  }
+
+  svg.cable.cable-visible[data-v-2edd5f43] {
+    opacity: 1;
+    transition: all .6s ease-in;
+    transition-delay: .8s;
+  }
+
+  svg.cable.cable-hidden[data-v-2edd5f43] {
+    opacity: 0;
+    transition: all .3s ease-out;
+  }
+
+  .tv-screen[data-v-2edd5f43] {
+    transition: all .8s ease;
+    width: 100%;
+    border-radius: 2px;
+    background: #000;
+    border: 1px solid #4b4c51;
+    padding: 1%;
+    bottom: 22%;
+    position: absolute;
+  }
+
+  .tv-screen.tv-hidden[data-v-2edd5f43] {
+    opacity: 0;
+    bottom: 0;
+  }
+
+  .tv-screen.tv-visible[data-v-2edd5f43] {
+    opacity: 1;
+  }
+
+  .tv-screen.tv-overlay-on[data-v-2edd5f43] {
+    transition-delay: 1.2s;
+    transition: 2s;
+  }
+
+  .tv-screen[data-v-2edd5f43]:hover {
+    z-index: 3;
+  }
+
+  .tv-screen video[data-v-2edd5f43] {
+    width: 100%;
+    display: block;
+    border-radius: 2px;
+    border: 1px solid #000;
+  }
+
+  .laptop-screen[data-v-2edd5f43] {
+    position: relative;
+    width: 92.6%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    position: relative;
+  }
+
+    .laptop-screen[data-v-2edd5f43]:after {
+      content: "";
+      background: black;
+      left: 12%;
+      right: 12%;
+      bottom: 2%;
+      top: 2%;
+      position: absolute;
+      z-index: 1;
+      box-shadow: 0px 0px 33px 14px #000000;
+    }
+
+  .laptop-screen .video-wrapper[data-v-2edd5f43] {
+    position: absolute;
+    width: 100%;
+    top: 3%;
+    left: 0;
+    padding: 0 12%;
+    z-index: 3;
+  }
+
+  .laptop-screen video[data-v-2edd5f43] {
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  .laptop-screen img[data-v-2edd5f43] {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  /* End */
+  .button-container[data-v-2edd5f43] {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  .button-container .sc-btn-secondary[data-v-2edd5f43] {
+    background: var(--gray-1);
+    color: var(--gray-7);
+  }
+
+  .enlarge-btn[data-v-2edd5f43] {
+    display: none;
+  }
+
+  .heading-container[data-v-2edd5f43] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all .8s;
+    opacity: 1;
+  }
+
+  .link-container[data-v-2edd5f43] {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 34rem;
+    margin-top: 1rem;
+  }
+
+  .heading-container .h1[data-v-2edd5f43] {
+    max-width: 20rem;
+    margin-top: 2rem;
+  }
+
+  .heading-container button[data-v-2edd5f43] {
+    display: none;
+  }
+
+  .switch[data-v-2edd5f43] {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .sc-scoreboard-fullscreen .heading-container[data-v-2edd5f43] {
+    width: 0;
+    overflow: hidden;
+    transition: all .8s;
+    opacity: 0;
+  }
+
+  .sc-scoreboard-fullscreen .heading-container > div[data-v-2edd5f43] {
+    display: none;
+  }
+
+  .sc-scoreboard-fullscreen .video-container[data-v-2edd5f43] {
+    width: 90%;
+    transition: all .8s;
+  }
+
+  @@media screen and (min-width: 500px) {
+    .in-scoreboard-page[data-v-2edd5f43] {
+      margin-top: 4rem;
+    }
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container[data-v-2edd5f43] {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding-top: 18rem;
+      padding-bottom: 8rem;
+    }
+
+    .heading-container[data-v-2edd5f43] {
+      width: 50%;
+      display: block;
+    }
+
+    .heading-container .h1[data-v-2edd5f43] {
+      max-width: 34rem;
+      margin-top: 0;
+      margin-bottom: 4rem;
+    }
+
+    .heading-container button[data-v-2edd5f43] {
+      display: flex;
+    }
+
+    .video-container[data-v-2edd5f43] {
+      width: 80%;
+    }
+
+    .button-container[data-v-2edd5f43] {
+      flex-direction: row;
+    }
+
+    .enlarge-btn[data-v-2edd5f43] {
+      display: block;
+    }
+
+    .selector[data-v-2edd5f43] {
+      margin-right: .5rem;
+    }
+
+    .switch[data-v-2edd5f43] {
+      display: flex;
+      margin-left: .5rem;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .in-scoreboard-page .enlarge-btn[data-v-2edd5f43] {
+    display: none;
+  }
+</style>
+<style>
+  .in-scoreboard-page[data-v-4597488c] {
+    margin-top: 6rem;
+  }
+
+  .sc-cards[data-v-4597488c] {
+    margin-bottom: 4rem;
+  }
+
+  .card-big[data-v-4597488c] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .card-big strong[data-v-4597488c] {
+    color: var(--red);
+  }
+
+  .card-big img[data-v-4597488c] {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .cards-bottom[data-v-4597488c] {
+    display: grid;
+    grid-template-rows: repeat(3);
+    grid-template-columns: 1;
+  }
+
+  .sc-card[data-v-4597488c] {
+    padding: 1rem;
+  }
+
+  .sc-card-info[data-v-4597488c] {
+    text-align: center;
+  }
+
+  .sc-card h2[data-v-4597488c] {
+    color: var(--white);
+    margin: 3rem auto;
+    max-width: 26rem;
+  }
+
+  .sc-card h2[data-v-4597488c] {
+    margin-bottom: 1.5rem;
+  }
+
+  .sc-card .learnmore[data-v-4597488c] {
+    margin-bottom: 2.4rem;
+    display: block;
+  }
+
+  .sc-card p[data-v-4597488c] {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .cards-bottom .sc-card-wrapper[data-v-4597488c] {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .cards-bottom .sc-card[data-v-4597488c] {
+    display: flex;
+    width: 100%;
+  }
+
+  .cards-bottom img[data-v-4597488c] {
+    margin-right: 1rem;
+  }
+
+  .laptop[data-v-4597488c] {
+    margin-top: 2rem;
+    width: 100%;
+  }
+
+  @@media screen and (min-width: 500px) {
+    .in-scoreboard-page[data-v-4597488c] {
+      margin-top: 12rem;
+    }
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-cards[data-v-4597488c] {
+      margin-bottom: 8rem;
+    }
+
+    .sc-card-wrapper[data-v-4597488c] {
+      height: 100%;
+    }
+
+    .sc-card[data-v-4597488c] {
+      border-radius: .6rem;
+      padding: 1rem;
+      height: 100%;
+    }
+
+    .sc-card h2[data-v-4597488c] {
+      margin-bottom: 1.5rem;
+    }
+
+    .sc-card .learnmore[data-v-4597488c] {
+      margin-bottom: 2.4rem;
+      display: block;
+    }
+
+    .card-big[data-v-4597488c] {
+      flex-direction: row-reverse;
+      align-items: flex-end;
+      padding-bottom: 0;
+    }
+
+    .card-big img[data-v-4597488c] {
+      max-width: 50%;
+      margin-top: 6rem;
+      margin-bottom: 0;
+    }
+
+    .card-big .sc-card-info[data-v-4597488c] {
+      margin-top: auto;
+      margin-bottom: 2%;
+      width: 40%;
+    }
+
+    .cards-bottom[data-v-4597488c] {
+      display: grid;
+      grid-template-rows: 1;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 0.4rem;
+      grid-gap: 0.4rem;
+    }
+
+    .laptop[data-v-4597488c] {
+      margin-top: 5rem;
+      width: 60%;
+      margin-bottom: -1.8%;
+    }
+
+    .laptop-picture[data-v-4597488c] {
+      padding-top: 60%;
+    }
+
+    .scoreboard-overlay span[data-v-4597488c]:after {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 2px;
+      background: var(--white-50);
+      top: 50%;
+      /* right: 18%; */
+      margin-left: 3%;
+    }
+  }
+
+  @@media screen and (min-width: 1300px) {
+    .sc-card h2[data-v-4597488c] {
+      margin-bottom: 2rem;
+    }
+
+    .sc-card .learnmore[data-v-4597488c] {
+      margin-bottom: 3rem;
+      display: block;
+    }
+  }
+</style>
+<style>
+  img[data-v-3b49203e] {
+    height: auto;
+  }
+
+  .content-wrapper[data-v-3b49203e] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6rem;
+    margin-bottom: 8rem;
+  }
+
+  .bg-image[data-v-3b49203e] {
+    display: none;
+  }
+
+  .background-shadow[data-v-3b49203e] {
+    display: none;
+  }
+
+  .phone-image[data-v-3b49203e] {
+    margin-top: 2rem;
+  }
+
+  .sc-container div[data-v-3b49203e] {
+    text-align: center;
+  }
+
+  .sc-container .h1[data-v-3b49203e] {
+    margin-top: -4rem;
+    margin-bottom: 1rem;
+    max-width: 15rem;
+    color: var(--white);
+  }
+
+  .sc-container p[data-v-3b49203e] {
+    margin-bottom: 5rem;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .content-wrapper[data-v-3b49203e] {
+      flex-direction: row;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    .sc-container .h1[data-v-3b49203e] {
+      max-width: 18rem;
+    }
+
+    .bg-image[data-v-3b49203e] {
+      display: block;
+      max-width: 32.5rem;
+      margin-bottom: 18rem;
+      position: relative;
+    }
+
+    .background-shadow[data-v-3b49203e] {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 50%);
+    }
+
+    .phone-image[data-v-3b49203e] {
+      margin-top: 0;
+      margin-left: -5rem;
+      max-width: 16rem;
+      position: relative;
+    }
+
+    .heading[data-v-3b49203e] {
+      margin-left: 10vw;
+    }
+  }
+</style>
+<style>
+  .sc-card[data-v-5718eb66] {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-heading[data-v-5718eb66] {
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .card-heading .h1[data-v-5718eb66] {
+    max-width: 18.75rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .image-container[data-v-5718eb66] {
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .card-image[data-v-5718eb66] {
+    justify-self: center;
+  }
+
+  .card-info[data-v-5718eb66] {
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .card-info > div[data-v-5718eb66] {
+    display: flex;
+    align-items: center;
+    max-width: 18.75rem;
+    line-height: 1.2;
+  }
+
+  .card-info svg rect[data-v-5718eb66] {
+    fill: var(--black);
+  }
+
+  .card-info div p[data-v-5718eb66] {
+    margin-left: .5rem;
+    color: var(--black);
+    margin-bottom: 0.2em;
+  }
+
+  .sc-card[data-v-5718eb66] {
+    background: var(--gray-5);
+    border-radius: 1rem;
+    padding-top: 3rem;
+  }
+
+  .sc-card .h1[data-v-5718eb66] {
+    color: var(--white);
+  }
+
+  .sc-card img[data-v-5718eb66] {
+    max-width: 25rem;
+    height: auto;
+  }
+
+  .background-shadow[data-v-5718eb66] {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    background: linear-gradient(0deg, rgba(122, 123, 125, 1) 0%, rgba(122, 123, 125, 0) 25%);
+  }
+
+  @@media screen and (min-width: 900px) {
+    .sc-card[data-v-5718eb66] {
+      padding-top: 5rem;
+      padding-right: 5rem;
+      padding-left: 5rem;
+      display: grid;
+      grid-template-rows: repeat(2, auto);
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: "phone heading"
+        "phone info";
+    }
+
+    .card-heading[data-v-5718eb66] {
+      grid-area: heading;
+      margin-top: auto;
+    }
+
+    .card-heading .h1[data-v-5718eb66] {
+      max-width: 21rem;
+      margin-bottom: 2rem;
+    }
+
+    .card-image[data-v-5718eb66] {
+      grid-area: phone;
+      margin-bottom: 0;
+    }
+
+    .card-info[data-v-5718eb66] {
+      grid-area: info;
+    }
+  }
+</style>
+<style>
+  .sc-container-large[data-v-b77fa1fc] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 505px;
+  }
+
+  .sc-container-large h2[data-v-b77fa1fc] {
+    max-width: 44rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--white-70);
+  }
+
+  .more-description[data-v-b77fa1fc] {
+    margin-bottom: 1rem;
+    max-width: 44rem;
+  }
+
+  .more-btn[data-v-b77fa1fc] {
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    padding: .1rem .5rem;
+    color: var(--white-70);
+  }
+
+  .sc-background-img[data-v-b77fa1fc] {
+    display: none;
+  }
+
+  .background-shadow[data-v-b77fa1fc] {
+    display: none;
+  }
+
+  .carousel-reference[data-v-b77fa1fc] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .carousel[data-v-b77fa1fc] {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .carousel-item[data-v-b77fa1fc] {
+    border-radius: 2rem;
+    width: 6rem;
+    height: .5rem;
+    margin-right: .5rem;
+    transition: .2s all ease;
+    background: var(--white-20);
+  }
+
+  @@keyframes fill-b77fa1fc {
+    0% {
+      width: 20%;
+    }
+
+    100% {
+      width: 100%;
+    }
+  }
+
+  .active .animate[data-v-b77fa1fc], .active .no-animate[data-v-b77fa1fc] {
+    background: var(--white-50);
+    height: 100%;
+    border-radius: 2rem;
+  }
+
+  .active .animate[data-v-b77fa1fc] {
+    animation-name: fill-b77fa1fc;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+  }
+
+  .active .no-animate[data-v-b77fa1fc] {
+    width: 100%;
+  }
+
+  .inactive[data-v-b77fa1fc] {
+    cursor: pointer;
+  }
+
+  .profile-card[data-v-b77fa1fc] {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .profile-card img[data-v-b77fa1fc] {
+    max-width: 4rem;
+    border-radius: 100%;
+  }
+
+  .profile-card div[data-v-b77fa1fc] {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+  }
+
+  .profile-card p[data-v-b77fa1fc] {
+    color: var(--white-70);
+  }
+
+  .invisible[data-v-b77fa1fc] {
+    display: none;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container-fullscreen[data-v-b77fa1fc] {
+      margin-top: 10rem;
+    }
+
+    .sc-container-fullscreen h2[data-v-b77fa1fc] {
+      min-height: 14.3rem;
+    }
+
+    .sc-container-large[data-v-b77fa1fc] {
+      margin-top: 8rem;
+    }
+
+    .sc-background-img[data-v-b77fa1fc] {
+      display: block;
+      left: unset;
+      right: 0;
+      width: 50%;
+      border-top-right-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+    }
+
+    .background-shadow[data-v-b77fa1fc] {
+      background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
+      display: block;
+      width: 50%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: -1;
+    }
+
+    .carousel[data-v-b77fa1fc] {
+      margin-top: 0;
+    }
+  }
+</style>
+<style>
+  .sc-container[data-v-6b36a314] {
+    margin-top: 4rem;
+  }
+
+  .coin-wrapper[data-v-6b36a314] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .coin-container[data-v-6b36a314] {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .coin-credit[data-v-6b36a314] {
+    margin-right: -2rem;
+    height: auto;
+  }
+
+  .coin-profile[data-v-6b36a314] {
+    margin-left: -2rem;
+    height: auto;
+  }
+
+  .coin-small[data-v-6b36a314] {
+    width: 60px;
+    height: auto;
+  }
+
+  p[data-v-6b36a314] {
+    color: var(--white-50);
+  }
+
+  .heading-container[data-v-6b36a314] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .heading-first[data-v-6b36a314] {
+    color: var(--white-90);
+  }
+
+  .sc-cards[data-v-6b36a314] {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+    margin-left: -.2rem;
+    margin-right: -.2rem;
+  }
+
+  .sc-card-wrapper[data-v-6b36a314] {
+    padding: .2rem;
+  }
+
+  .sc-card[data-v-6b36a314] {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    border-radius: .6rem;
+    height: 100%;
+  }
+
+  .card-content[data-v-6b36a314] {
+    margin-left: 1rem;
+    width: 100%;
+  }
+
+  .card-content div[data-v-6b36a314] {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .sc-price-tag[data-v-6b36a314] {
+    display: block;
+    margin-left: auto;
+    font-size: 1.125rem;
+    border-radius: 99px;
+    border: 1px solid var(--red);
+    padding: 0px 13px;
+    color: var(--red);
+    margin-bottom: -2px;
+  }
+
+  .participant-container[data-v-6b36a314] {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .participant-container img[data-v-6b36a314] {
+    max-width: 2.9rem;
+  }
+
+  .participant-container h3[data-v-6b36a314] {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  @@media screen and (max-width: 400px) {
+    h2[data-v-6b36a314] {
+      font-size: 1.7rem;
+    }
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container[data-v-6b36a314] {
+      margin-top: 6rem;
+    }
+
+    .coin-wrapper[data-v-6b36a314] {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 4rem;
+    }
+
+    .coin-container[data-v-6b36a314] {
+      margin-right: 1rem;
+      width: 40%;
+    }
+
+    .heading-container[data-v-6b36a314] {
+      margin-left: 1rem;
+    }
+
+    .heading-container .muted[data-v-6b36a314] {
+      max-width: 37rem;
+    }
+
+    .sc-cards[data-v-6b36a314] {
+      grid-template-rows: 1fr;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 4rem;
+    }
+
+    .participant-container[data-v-6b36a314] {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .participant-container h3[data-v-6b36a314] {
+      margin-right: 3rem;
+      margin-left: 1rem;
+      margin-top: 0;
+      margin-bottom: 0;
+      max-width: 12.5rem;
+    }
+
+    .participant-container p[data-v-6b36a314] {
+      max-width: 31.5rem;
+    }
+  }
+</style>
+<style>
+  .trial-card h2[data-v-3d34d95c] {
+    margin-bottom: 3rem;
+    max-width: 34rem;
+    text-align: center;
+    color: var(--white);
+  }
+
+  .trial-card .button[data-v-3d34d95c] {
+    color: var(--blue);
+    background: var(--egg-white);
+  }
+
+    .trial-card .button[data-v-3d34d95c]:hover {
+      background: var(--egg-white-hover);
+    }
+
+    .trial-card .button[data-v-3d34d95c]:active {
+      background: var(--egg-white-active);
+    }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container[data-v-3d34d95c] {
+      display: block;
+    }
+
+    .trial-card[data-v-3d34d95c] {
+      background: var(--blue);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 25.5rem;
+      margin-top: 8rem;
+    }
+
+    .features-form[data-v-3d34d95c] {
+      margin-left: 8rem;
+    }
+  }
+</style>
+<style>
+  .more[data-v-4fef0c4a] {
+    font-weight: normal;
+    font-size: 15px;
+    margin-bottom: 17px;
+    margin-top: -4px;
+    color: var(--white-30);
+    cursor: pointer;
+  }
+
+  .questionmark[data-v-4fef0c4a] {
+    cursor: pointer;
+    transition: .1s all ease;
+  }
+
+    .questionmark[data-v-4fef0c4a]:hover {
+      transform: scale(1.1);
+    }
+
+  .sc-container[data-v-4fef0c4a] {
+    margin-top: 8rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sc-container h2[data-v-4fef0c4a] {
+    text-align: left;
+    margin-bottom: 1rem;
+    color: var(--white-90);
+  }
+
+  .sc-container button[data-v-4fef0c4a] {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2rem;
+  }
+
+  .column-wrapper[data-v-4fef0c4a] {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .column-wrapper[data-v-4fef0c4a] {
+      flex-direction: row;
+    }
+
+    .column-left[data-v-4fef0c4a],
+    .column-right[data-v-4fef0c4a] {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      margin: 0;
+    }
+
+    .column-left[data-v-4fef0c4a] {
+      margin-right: 1rem;
+    }
+
+    .column-right[data-v-4fef0c4a] {
+      margin-left: 1rem;
+    }
+  }
+
+  .sc-card-wrapper[data-v-4fef0c4a] {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .sc-card-wrapper p[data-v-4fef0c4a] {
+    margin-bottom: .5rem;
+  }
+
+  .sc-card[data-v-4fef0c4a] {
+    padding: 1rem;
+    border-radius: .6rem;
+  }
+
+  .card-heading[data-v-4fef0c4a] {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .card-heading p[data-v-4fef0c4a] {
+    margin-left: .5rem;
+  }
+
+  .card-item[data-v-4fef0c4a] {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .card-item p[data-v-4fef0c4a] {
+    margin-right: .5rem;
+    margin-left: .5rem;
+  }
+</style>
+<style>
+  .sc-container[data-v-8a729208] {
+    display: none;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container[data-v-8a729208] {
+      display: block;
+    }
+
+    .federation-card[data-v-8a729208] {
+      margin-top: 8rem;
+      margin-bottom: 6rem;
+      display: flex;
+      flex-direction: column;
+      padding: 8rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-radius: .8rem;
+    }
+
+    .federation-card h2[data-v-8a729208] {
+      max-width: 28.5rem;
+      color: var(--white);
+    }
+
+    .background-shadow[data-v-8a729208] {
+      background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0) 100%);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: -1;
+    }
+
+    .button-container[data-v-8a729208] {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3rem;
+    }
+
+    .button-container button[data-v-8a729208] {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .button-container button img[data-v-8a729208] {
+      margin-left: .5rem;
+    }
+
+    .logo-wrapper[data-v-8a729208] {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 3rem;
+    }
+
+    .logo-wrapper img[data-v-8a729208] {
+      margin: 1rem;
+    }
+
+    .info-container[data-v-8a729208] {
+      width: 100%;
+      display: flex;
+      margin-top: 4rem;
+    }
+
+    .info-item[data-v-8a729208] {
+      display: flex;
+      align-items: center;
+    }
+
+    .info-item p[data-v-8a729208] {
+      margin-left: .5rem;
+    }
+
+    .info-item svg path[data-v-8a729208] {
+      fill: var(--white-50);
+    }
+  }
+</style>
+<style>
+  .sc-container[data-v-5b6a3419] {
+    margin-bottom: 8rem;
+    height: 10rem;
+  }
+
+  .logos-wrapper[data-v-5b6a3419] {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logos[data-v-5b6a3419] {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    transition: .5s all ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .logos img[data-v-5b6a3419] {
+    max-height: 100%;
+    margin: .5rem;
+  }
+
+  @@keyframes fade-in-5b6a3419 {
+    0% {
+      transform: translate3d(-100%, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @@keyframes fade-out-5b6a3419 {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+
+  .fade-in[data-v-5b6a3419] {
+    animation: fade-in-5b6a3419 2s;
+    z-index: 2;
+  }
+
+  .fade-out[data-v-5b6a3419] {
+    animation: fade-out-5b6a3419 2s;
+    z-index: 1;
+  }
+
+  .hidden[data-v-5b6a3419] {
+    display: none;
+  }
+</style>
+<style>
+  .sc-form[data-v-7db5a1ef] {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 4rem 4rem;
+  }
+
+  .sc-form h2[data-v-7db5a1ef] {
+    color: var(--gray-1);
+  }
+
+  .sc-form .sc-btn-primary[data-v-7db5a1ef] {
+    border-radius: .2rem;
+    width: 100%;
+    margin-top: 2rem;
+    /* font-size: 1rem; */
+  }
+
+  .sc-form input[data-v-7db5a1ef] {
+    border-radius: .2rem;
+    width: 100%;
+    background: none;
+    color: var(--gray-1);
+    border: .1rem solid var(--gray-6);
+    margin-top: 2rem;
+    padding: 1.06rem 0.95rem;
+  }
+
+    .sc-form input[data-v-7db5a1ef]:focus {
+      border: .1rem solid var(--blue) !important;
+    }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-form[data-v-7db5a1ef] {
+      margin: 0;
+    }
+  }
+
+  form[data-v-7db5a1ef] {
+    flex-direction: column;
+  }
+</style>
+<style>
+  .sc-container-fullscreen[data-v-3d259dde] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sc-container-large[data-v-3d259dde] {
+    padding-top: 15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .heading-container[data-v-3d259dde] {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+    align-items: center;
+    /* margin-top: 15rem; */
+  }
+
+  .heading-container h1[data-v-3d259dde] {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    max-width: 22rem;
+  }
+
+  .heading-container p[data-v-3d259dde] {
+    max-width: 15.4rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-gradient[data-v-3d259dde] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,8) 20%, rgba(0,0,0,0.5) 100%);
+  }
+
+  .button-container[data-v-3d259dde] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button-container a[data-v-3d259dde] {
+    margin-bottom: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .button-container a img[data-v-3d259dde] {
+    margin-left: .5rem;
+  }
+
+  span[data-v-3d259dde] {
+    color: var(--yellow);
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .heading-wrapper[data-v-3d259dde] {
+      max-width: 40%;
+    }
+
+    .sc-container-fullscreen[data-v-3d259dde] {
+      /* padding-top: 20%;
+            padding-bottom: 10%; */
+      min-height: 75vh;
+      /* max-height: 75vh; */
+      padding-bottom: 20vh;
+    }
+
+    .sc-container-large[data-v-3d259dde] {
+      flex-direction: row;
+    }
+
+    .heading-container[data-v-3d259dde] {
+      flex-direction: column;
+      align-items: flex-start;
+      /* text-align: left; */
+      /* margin-top: 10rem; */
+    }
+
+    .heading-container h1[data-v-3d259dde] {
+      max-width: 55rem;
+      margin-top: 2rem;
+      margin-bottom: 5rem;
+      margin-top: 0;
+    }
+
+    .heading-container p[data-v-3d259dde] {
+      max-width: unset;
+    }
+
+    .hero-gradient[data-v-3d259dde] {
+      background: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,8) 20%, rgba(0,0,0,0.5) 100%);
+    }
+
+    .button-container[data-v-3d259dde] {
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .button-container a[data-v-3d259dde] {
+      margin-left: .5rem;
+      margin-right: .5rem;
+    }
+
+    h1[data-v-3d259dde] {
+      font-size: 3.4rem;
+      margin-bottom: 5rem;
+    }
+  }
+</style>
+<style>
+  body {
+    background: #000;
+  }
+</style>
+<style>
+  .button-container[data-v-453f1426] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .button-container a[data-v-453f1426] {
+    margin: 0 auto;
+  }
+
+    .button-container a[data-v-453f1426]:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+  @@media screen and (min-width: 500px) {
+    .button-container[data-v-453f1426] {
+      flex-direction: row;
+    }
+
+    .button-container a[data-v-453f1426] {
+      margin: 0;
+    }
+
+      .button-container a[data-v-453f1426]:not(:last-child) {
+        margin-right: .5rem;
+        margin-bottom: 0;
+      }
+
+      .button-container a[data-v-453f1426]:not(:first-child) {
+        margin-left: .5rem;
+      }
+  }
+</style>
+<style>
+  .sc-container[data-v-32346a9c] {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .hero-image[data-v-32346a9c] {
+    margin-bottom: -4rem;
+  }
+</style>
+<style>
+  .sc-container[data-v-8a64bdee] {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .text-container[data-v-8a64bdee] {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2[data-v-8a64bdee] {
+    max-width: 33rem;
+    margin-bottom: 1rem;
+  }
+
+  .paragraph-large[data-v-8a64bdee] {
+    max-width: 29rem;
+  }
+
+  img[data-v-8a64bdee] {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  @@media screen and (min-width: 1100px) {
+    .sc-container[data-v-8a64bdee] {
+      margin-top: 6rem;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+
+    .text-container[data-v-8a64bdee] {
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    h2[data-v-8a64bdee] {
+      margin-bottom: 2rem;
+    }
+  }
+</style>
+<style>
+  .sc-container[data-v-a43a860e] {
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .text-container[data-v-a43a860e] {
+    margin-top: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2[data-v-a43a860e] {
+    max-width: 31rem;
+    margin-bottom: 1rem;
+  }
+
+  .paragraph-large[data-v-a43a860e] {
+    max-width: 31rem;
+  }
+
+  @@media screen and (min-width: 1100px) {
+    .sc-container[data-v-a43a860e] {
+      margin-top: 12rem;
+      gap: 2rem;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+
+    img[data-v-a43a860e] {
+      margin-right: 8%;
+    }
+
+    .text-container[data-v-a43a860e] {
+      margin: 0;
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    h2[data-v-a43a860e] {
+      margin-bottom: 2rem;
+    }
+  }
+</style>
+<style>
+  .sc-container[data-v-576a8bad] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 10rem;
+  }
+
+  h2[data-v-576a8bad] {
+    color: var(--white-90);
+    margin-bottom: 2rem;
+  }
+
+  .paragraph-large[data-v-576a8bad] {
+    color: var(--white-70);
+    max-width: 686px;
+  }
+
+  .button-wrapper[data-v-576a8bad] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    z-index: 2;
+  }
+</style>
+<style>
+  .sc-container-fullscreen[data-v-1d3fdef4] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6rem;
+    padding: 0 .5rem;
+  }
+
+  .text-container[data-v-1d3fdef4] {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    width: 100%;
+    max-width: 1500px;
+    padding: 0 0.4rem;
+  }
+
+  .text-container .paragraph-large[data-v-1d3fdef4] {
+    margin-right: .8rem;
+  }
+
+  a.underline[data-v-1d3fdef4] {
+    text-decoration: underline;
+    color: var(--white-70);
+  }
+
+  .card-container[data-v-1d3fdef4] {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 1.4rem;
+  }
+
+  .card-wrapper[data-v-1d3fdef4] {
+    width: 100%;
+    padding: .4rem;
+  }
+
+  .card[data-v-1d3fdef4] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--gray-1);
+    border-radius: 1rem;
+    padding: 1rem 1.5rem;
+    height: 100%;
+    width: 100%;
+  }
+
+  .card h3[data-v-1d3fdef4] {
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+    color: var(--white-70);
+  }
+
+  .card ul[data-v-1d3fdef4] {
+    padding: 0;
+    margin: 0;
+  }
+
+  .card li[data-v-1d3fdef4] {
+    list-style: none;
+  }
+
+  @@media screen and (min-width: 600px) {
+    .card-wrapper[data-v-1d3fdef4] {
+      width: 25%;
+      min-width: 245px;
+    }
+
+    .sc-container .card-wrapper[data-v-1d3fdef4] {
+      min-width: 245px;
+    }
+
+    .card[data-v-1d3fdef4] {
+      padding: 1.5rem;
+    }
+  }
+
+  @@media screen and (min-width: 1100px) {
+    .sc-container-fullscreen[data-v-1d3fdef4] {
+      margin-top: 14rem;
+    }
+  }
+
+  @@media screen and (min-width: 1300px) {
+    .sc-container .text-container[data-v-1d3fdef4] {
+      justify-content: flex-start;
+    }
+  }
+
+  @@media screen and (min-width: 1445px) {
+    .text-container[data-v-1d3fdef4] {
+      justify-content: flex-start;
+    }
+  }
+</style>
+<style>
+  .sc-container[data-v-058af64d] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 10rem;
+  }
+
+  h2[data-v-058af64d] {
+    color: var(--white-90);
+    margin-bottom: 2rem;
+  }
+
+  .paragraph-large[data-v-058af64d] {
+    color: var(--white-70);
+    max-width: 686px;
+  }
+
+  .organizer-btn[data-v-058af64d] {
+    margin-top: 1rem;
+  }
+
+  .bracket-image[data-v-058af64d] {
+    overflow: hidden;
+    max-height: 410px;
+    margin-top: -12rem;
+    position: relative;
+    z-index: -1;
+  }
+
+  .background-shadow[data-v-058af64d] {
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,.3) 100%);
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  @@media screen and (min-width: 600px) {
+    .bracket-image[data-v-058af64d] {
+      margin-top: -19rem;
+    }
+  }
+</style>
+<style>
+  .sc-container-large h1[data-v-2b31bd26],
+  .sc-container-large p[data-v-2b31bd26] {
+    color: var(--white-90);
+  }
+
+  .sc-container-large[data-v-2b31bd26] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5rem;
+  }
+
+  .heading-container[data-v-2b31bd26] {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+  }
+
+  .heading-container .faded[data-v-2b31bd26] {
+    color: var(--white-70);
+  }
+
+  .heading-icon[data-v-2b31bd26] {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-img[data-v-2b31bd26] {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero-img picture[data-v-2b31bd26] {
+    width: 160%;
+    max-width: unset;
+    margin-left: -30%;
+  }
+
+  .hero-gradient[data-v-2b31bd26] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.15) 20%, rgba(0,0,0,0) 50%);
+  }
+
+  .button-container[data-v-2b31bd26] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .hero-img picture[data-v-2b31bd26] {
+      width: 100%;
+      margin-left: unset;
+    }
+  }
+</style>
+<style>
+  .sc-container h2[data-v-4de14eb6] {
+    color: var(--white-90);
+  }
+
+  .sc-container p[data-v-4de14eb6] {
+    color: var(--white-70);
+  }
+
+  .sc-container[data-v-4de14eb6] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+    gap: 2rem;
+  }
+
+  .title-container[data-v-4de14eb6] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .btn-container[data-v-4de14eb6] {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 1rem;
+  }
+
+  .download-btn[data-v-4de14eb6] {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    border: 0.1rem solid var(--white-50);
+    border-radius: 5px;
+    padding: .2rem 0.8rem;
+    color: var(--white-90) !important;
+    text-align: left;
+    /* cursor: pointer; */
+  }
+
+  .download-btn span[data-v-4de14eb6]:first-child {
+    font-size: var(--font-size-extratiny);
+    line-height: 1.2;
+  }
+
+  .download-btn span[data-v-4de14eb6]:last-child {
+    font-size: var(--font-size-medium);
+    line-height: 1.2;
+  }
+
+  .text-section[data-v-4de14eb6] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .sc-container[data-v-4de14eb6] {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 5rem;
+    }
+
+    .title-container[data-v-4de14eb6] {
+      text-align: left;
+      align-items: flex-start;
+    }
+  }
+</style>
+<style>
+  .sc-container h3[data-v-f3ec2d4e] {
+    color: var(--white-90);
+    width: 100%;
+    text-align: left;
+  }
+
+  .sc-container[data-v-f3ec2d4e] {
+    margin-top: 10rem;
+  }
+
+  .streaming-steps[data-v-f3ec2d4e] {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    columns: 3;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .title-step[data-v-f3ec2d4e] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .streaming-step[data-v-f3ec2d4e] {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .streaming-step p[data-v-f3ec2d4e] {
+    color: var(--white-90);
+  }
+
+  .streaming-step span[data-v-f3ec2d4e] {
+    color: var(--yellow);
+    margin-right: .5rem;
+  }
+
+  .streaming-step:first-child .card[data-v-f3ec2d4e] {
+    min-height: 250px;
+  }
+
+  .card[data-v-f3ec2d4e] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    background: var(--gray-1);
+    border-radius: .5rem;
+  }
+
+  .card img[data-v-f3ec2d4e] {
+    width: 100%;
+    max-height: 250px;
+    width: 100%;
+  }
+
+  @@media screen and (min-width: 1000px) {
+    .title-step[data-v-f3ec2d4e] {
+      width: unset;
+    }
+
+    .streaming-step[data-v-f3ec2d4e] {
+      flex-direction: column;
+      width: 402px;
+    }
+
+    .card[data-v-f3ec2d4e] {
+      width: 100%;
+    }
+  }
+</style>
+<style>
+  .sc-container h3[data-v-18a274bc] {
+    color: var(--white-90);
+  }
+
+  .sc-container p[data-v-18a274bc] {
+    color: var(--white-70);
+  }
+
+  .sc-container[data-v-18a274bc] {
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .video-frame[data-v-18a274bc] {
+    position: relative;
+  }
+
+  .video-frame .sc-btn[data-v-18a274bc] {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    gap: .2rem;
+    line-height: 1;
+  }
+
+  .text-section[data-v-18a274bc] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 750px;
+  }
+</style>
+<style>
+  .sc-container h2[data-v-fa9dabce] {
+    color: var(--white-90);
+  }
+
+  .sc-container p[data-v-fa9dabce] {
+    color: var(--white-70);
+    font-size: var(--font-size-tiny);
+  }
+
+  .highlight[data-v-fa9dabce] {
+    color: var(--white);
+  }
+
+  .sc-container[data-v-fa9dabce] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+    margin-top: 10rem;
+  }
+
+  .cards[data-v-fa9dabce] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .6rem;
+    width: 100%;
+  }
+
+  .card[data-v-fa9dabce] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90px;
+    width: 100%;
+    max-width: 240px;
+    background: linear-gradient(180deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.15) 100%);
+    border-radius: .5rem;
+  }
+
+  .card img[data-v-fa9dabce] {
+    max-width: 70%;
+  }
+
+  @@media screen and (min-width: 850px) {
+    .cards[data-v-fa9dabce] {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-height: 140px;
+    }
+
+    .card img[data-v-fa9dabce] {
+      max-width: 60%;
+    }
+  }
+</style>
+<style>
+  .sc-container h2[data-v-0c012f16] {
+    color: var(--white-90);
+  }
+
+  .sc-container p[data-v-0c012f16] {
+    color: var(--white-70);
+  }
+
+  .sc-container[data-v-0c012f16] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5rem;
+    margin-top: 10rem;
+  }
+
+  .text-section[data-v-0c012f16] {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 761px;
+    text-align: left;
+  }
+
+  .info-text[data-v-0c012f16] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sc-container img[data-v-0c012f16] {
+    border-radius: .5rem;
+  }
+
+  @@media screen and (min-width: 1300px) {
+    .sc-container[data-v-0c012f16] {
+      flex-direction: row-reverse;
+    }
+
+    .sc-container img[data-v-0c012f16] {
+      min-width: 761px;
+    }
+
+    .text-section[data-v-0c012f16] {
+      max-width: unset;
+    }
+  }
+</style>
+<style>
+  .sc-container h2[data-v-3eaa2177],
+  .sc-container p span[data-v-3eaa2177] {
+    color: var(--white-90);
+  }
+
+  .sc-container p[data-v-3eaa2177] {
+    color: var(--white-70);
+  }
+
+  .sc-container[data-v-3eaa2177] {
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .top-container[data-v-3eaa2177] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .main-img[data-v-3eaa2177] {
+    border-radius: .5rem;
+  }
+
+  .title-section[data-v-3eaa2177] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 749px;
+  }
+
+  .logo-section[data-v-3eaa2177] {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .bottom-container[data-v-3eaa2177] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .bottom-item[data-v-3eaa2177] {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    width: 100%;
+    max-width: 749px;
+  }
+
+  .bottom-item img[data-v-3eaa2177] {
+    margin-top: .3rem;
+  }
+
+  @@media screen and (min-width: 1300px) {
+    .sc-container[data-v-3eaa2177] {
+      gap: 2rem;
+    }
+
+    .top-container[data-v-3eaa2177] {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .main-img[data-v-3eaa2177] {
+      min-width: 749px;
+    }
+
+    .bottom-container[data-v-3eaa2177] {
+      flex-direction: row;
+    }
+  }
+</style>
+<style>
+  .sc-container h3[data-v-fec68034],
+  .sc-container p[data-v-fec68034] {
+    color: var(--white-90);
+  }
+
+  .sc-container[data-v-fec68034] {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 10rem;
+  }
+
+  .list-container[data-v-fec68034] {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .more-list[data-v-fec68034] {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .list-item[data-v-fec68034] {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--white-10);
+    width: 100%;
+  }
+
+  .list-item[data-v-fec68034] {
+    border-bottom: .1rem solid var(--white-10);
+  }
+
+  .more-list:last-child .list-item[data-v-fec68034]:last-child {
+    border-bottom: none;
+  }
+
+  .right-arrow[data-v-fec68034] {
+    margin-left: auto;
+    margin-right: 1rem;
+  }
+
+  @@media screen and (min-width: 1300px) {
+    .list-container[data-v-fec68034] {
+      flex-wrap: nowrap;
+      gap: 1rem;
+    }
+
+    .more-list .list-item[data-v-fec68034]:last-child {
+      border-bottom: none !important;
+    }
+  }
+</style>
+<style>
+  .sc-badge {
+    background: linear-gradient(0deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.15) 100%);
+    border-radius: 0.5rem;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sc-btn.sc-btn-dark {
+    background: var(--black);
+    border: none;
+  }
+
+    .sc-btn.sc-btn-dark:hover {
+      background: var(--gray-1);
+    }
+</style>
+
+
+<div class="content">
+  <div id="marketingIndex" data-v-app="">
+    <div class="sc-25" page="startpage" style="width: 100%;">
+      <div>
+        <div data-v-2ab2568e="" class="sc-container-fullscreen">
+          <picture data-v-2ab2568e="">
+            <source data-v-2ab2568e="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/primary@2x.webp 2x, https://download.smoothcomp.com/features/jiu-jitsu/primary@1x.webp 1x," type="image/webp">
+            <source data-v-2ab2568e="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/primary@2x.jpg 2x, https://download.smoothcomp.com/features/jiu-jitsu/primary@1x.jpg 1x" type="image/jpg">
+            <img data-v-2ab2568e="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/primary@1x.jpg">
+          </picture>
+          <div data-v-2ab2568e="" class="hero-gradient"></div>
+          <div data-v-2ab2568e="" class="sc-container-large">
+            <div data-v-2ab2568e="" class="heading-container">
+              <h1 data-v-2ab2568e="">
+                <strong data-v-2ab2568e="">We empower the world's greatest tournaments and athletes</strong>
+              </h1>
+              <!---->
+              <!---->
+            </div>
+            <div data-v-2ab2568e="" class="button-container">
+              <a data-v-2ab2568e="" href="/Account/Login" class="sc-btn-primary sc-btn-large">Register For Tourney</a>
+              <a data-v-2ab2568e="" href="/TournamentDirectors/AddTournamentDirectors" class="sc-btn-secondary sc-btn-large">Create Tourney</a>
+            </div>
+          </div>
+        </div>
+        <!--<div data-v-433574c8="" class="sc-container features-header"><h2 data-v-433574c8="">No 1<strong> Tournament software for combat sports</strong></h2></div><div data-v-343913e8="" class="sc-container-fullscreen sports-container" id="sports-cards"><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/jiu-jitsu/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/jiu-jitsu/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x.jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/jiu-jitsu" class="sports-card jiu jitsu"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/jiu-jitsu" class="sc-btn-text sc-btn-large">Jiu Jitsu &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/judo/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/judo/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/judo/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/judo/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(1).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/judo" class="sports-card judo"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/judo" class="sc-btn-text sc-btn-large">Judo &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/karate/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/karate/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/karate/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/karate/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(2).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/karate" class="sports-card karate"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/karate" class="sc-btn-text sc-btn-large">Karate &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/kickboxing/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/kickboxing/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/kickboxing/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/kickboxing/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(3).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/thaiboxing" class="sports-card thaiboxing"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/thaiboxing" class="sc-btn-text sc-btn-large">Thaiboxing &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/wrestling/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/wrestling/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/wrestling/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/wrestling/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(4).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/wrestling" class="sports-card wrestling"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/wrestling" class="sc-btn-text sc-btn-large">Wrestling &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/jjif-ju-jutsu/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/jjif-ju-jutsu/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/jjif-ju-jutsu/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/jjif-ju-jutsu/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(5).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/jjif-ju-jutsu" class="sports-card jjif ju-jutsu"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/jjif-ju-jutsu" class="sc-btn-text sc-btn-large">JJIF Ju-Jutsu &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/taekwondo/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/taekwondo/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/taekwondo/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/taekwondo/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(6).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/taekwondo" class="sports-card taekwondo"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/taekwondo" class="sc-btn-text sc-btn-large">Taekwondo &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/boxing/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/boxing/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/boxing/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/boxing/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(7).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/boxing" class="sports-card boxing"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/boxing" class="sc-btn-text sc-btn-large">Boxing &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="card-wrapper"><picture data-v-343913e8=""><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/mma/thumbnail@2x.webp 2x, https://download.smoothcomp.com/features/mma/thumbnail@1x.webp 1x" type="image/webp"><source data-v-343913e8="" srcset="https://download.smoothcomp.com/features/mma/thumbnail@2x.jpg 2x, https://download.smoothcomp.com/features/mma/thumbnail@1x.jpg 1x" type="image/jpg"><img data-v-343913e8="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/thumbnail@1x(8).jpg"></picture><a data-v-343913e8="" href="https://smoothcomp.com/en/features/mma" class="sports-card mma"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/mma" class="sc-btn-text sc-btn-large">MMA &nbsp; <svg data-v-343913e8="" width="21" height="18" viewBox="0 0 21 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-343913e8="" fill-rule="evenodd" clip-rule="evenodd" d="M10.8787 1.70718L12.2929 0.292969L21 9.00008L12.2929 17.7072L10.8787 16.293L17.1716 10H0.585693V8H17.1715L10.8787 1.70718Z" fill="#F4F6FB" fill-opacity="0.9"></path></svg></a></a></div><div data-v-343913e8="" class="more-wrapper"><div data-v-343913e8="" class="more"><h3 data-v-343913e8="">More sports</h3><div data-v-343913e8="" class="button-wrapper"><a data-v-343913e8="" href="https://smoothcomp.com/en/features/kickboxing" class="sc-btn-secondary more-btn">Kickboxing</a><a data-v-343913e8="" href="https://smoothcomp.com/en/features/sambo" class="sc-btn-secondary more-btn">Sambo</a><a data-v-343913e8="" href="https://smoothcomp.com/en/features/wushusanda" class="sc-btn-secondary more-btn">Wushu Sanda</a><a data-v-343913e8="" href="https://smoothcomp.com/en/features/uww" class="sc-btn-secondary more-btn">UWW Grappling</a><a data-v-343913e8="" href="https://smoothcomp.com/en/features/folkstyle" class="sc-btn-secondary more-btn">Wrestling - Folkstyle</a><a data-v-343913e8="" href="https://smoothcomp.com/en/features/wushu-taolo" class="sc-btn-secondary more-btn">Wushu Taolo</a><a data-v-343913e8="" class="sc-btn-secondary more-btn">+ More</a></div></div></div></div><div data-v-62b9b590="" class="sc-container-large sc-cards" id="featurecards"><div class="sc-card-wrapper" data-v-62b9b590=""><div class="sc-card" data-v-62b9b590=""><h3 class="sc-card-title" data-v-62b9b590=""><strong data-v-62b9b590="">The bracket builder </strong>will do the heavy lifting.</h3><img src="./Tournament software for combat sports - Smoothcomp_files/bracket-builder.svg" loading="lazy" data-v-62b9b590=""></div></div><div class="sc-card-wrapper" data-v-62b9b590=""><div class="sc-card" data-v-62b9b590=""><h3 class="sc-card-title" data-v-62b9b590=""><strong data-v-62b9b590="">Handle registrations, </strong>payments and even SMS notifications.</h3><div class="card-notification" data-v-62b9b590=""><img src="./Tournament software for combat sports - Smoothcomp_files/messages.svg" loading="lazy" data-v-62b9b590=""><div style="display:flex;flex-direction:column;" data-v-62b9b590=""><div style="display:flex;justify-content:space-between;" data-v-62b9b590=""><p class="paragraph-large" data-v-62b9b590="">SC Tournament</p><p class="paragraph-large muted" data-v-62b9b590="">1m ago</p></div><p class="paragraph-tiny" data-v-62b9b590="">Hi Anna! We're all really excited that...</p></div></div><picture data-v-62b9b590=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/phone@2x.webp 2x,
+                            https://download.smoothcomp.com/features/misc/phone@1x.webp 1x
+                        " type="image/webp" data-v-62b9b590=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/phone@2x.png 2x,
+                            https://download.smoothcomp.com/features/misc/phone@1x.png 1x
+                        " type="image/png" data-v-62b9b590=""><img loading="lazy" class="phone-image" src="./Tournament software for combat sports - Smoothcomp_files/phone@1x.png" data-v-62b9b590=""></picture></div></div><div data-v-62b9b590="" class="sc-card-wrapper"><div data-v-62b9b590="" class="sc-card live-card"><h3 data-v-62b9b590="" class="sc-card-title"><strong data-v-62b9b590="">Go live with style. </strong>Built in streaming with digital scoreboards.</h3><div data-v-baf68686="" data-v-62b9b590="" class="laptop"><div data-v-baf68686="" class="frame-on laptop-screen"><div data-v-baf68686="" class="live"><span data-v-baf68686="" class="rec-icon"></span> Live </div><div data-v-baf68686="" class="laptop-picture"><picture data-v-baf68686=""><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features//jiu-jitsu/secondary@2x.webp 2x, https://download.smoothcomp.com/features//jiu-jitsu/secondary@1x.webp 1x" type="image/webp"><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features//jiu-jitsu/secondary@2x.jpg 2x, https://download.smoothcomp.com/features//jiu-jitsu/secondary@1x.jpg 1x" type="image/jpg"><img data-v-baf68686="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/secondary@1x.jpg"></picture></div><picture data-v-baf68686=""><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@2x.webp 2x, https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@1x.webp 1x" type="image/webp"><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@2x.png 2x, https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@1x.png 1x" type="image/png"><img data-v-baf68686="" class="scoreboard-overlay" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/tv-overlay@1x.png"></picture></div><picture data-v-baf68686=""><source data-v-baf68686="" srcset="
+                    https://download.smoothcomp.com/features/misc/laptop-bottom@2x.webp 2x,
+                    https://download.smoothcomp.com/features/misc/laptop-bottom@1x.webp 1x
+                " type="image/webp"><source data-v-baf68686="" srcset="
+                    https://download.smoothcomp.com/features/misc/laptop-bottom@2x.png 2x,
+                    https://download.smoothcomp.com/features/misc/laptop-bottom@1x.png 1x
+                " type="image/png"><img data-v-baf68686="" class="laptop-frame" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/laptop-bottom@1x.png"></picture></div></div></div><div class="sc-card-wrapper" data-v-62b9b590=""><div class="sc-card" data-v-62b9b590=""><h3 class="sc-card-title" data-v-62b9b590=""><strong data-v-62b9b590="">Reach our global community</strong> of 1 million players.</h3><picture data-v-62b9b590=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/community-faces@2x.webp 2x,
+                            https://download.smoothcomp.com/features/misc/community-faces@1x.webp 1x
+                        " type="image/webp" data-v-62b9b590=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/community-faces@2x.png 2x,
+                            https://download.smoothcomp.com/features/misc/community-faces@1x.png 1x
+                        " type="image/png" data-v-62b9b590=""><img loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/community-faces@1x.png" data-v-62b9b590=""></picture></div></div></div><div data-v-40a8e5aa="" class="sc-container"><div data-v-40a8e5aa="" class="title-container"><picture data-v-40a8e5aa=""><source data-v-40a8e5aa="" srcset="
+                        https://download.smoothcomp.com/features/misc/bracket-illustration@2x.webp 2x,
+                        https://download.smoothcomp.com/features/misc/bracket-illustration@1x.webp 1x
+                    " type="image/webp" width="1297" height="568"><source data-v-40a8e5aa="" srcset="
+                        https://download.smoothcomp.com/features/misc/bracket-illustration@2x.png 2x,
+                        https://download.smoothcomp.com/features/misc/bracket-illustration@1x.png 1x
+                    " type="image/jpg" width="1297" height="568"><img data-v-40a8e5aa="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/bracket-illustration@1x.png" width="1297" height="568"></picture><div data-v-40a8e5aa="" class="background-shadow"></div><h2 data-v-40a8e5aa="" class="h1"><strong data-v-40a8e5aa="">Go big. Our bracket builder can handle it.</strong></h2></div><div data-v-40a8e5aa="" class="card-container-all"><div class="sc-cards card-container-small" data-v-40a8e5aa=""><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/single-elimination.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">Single elimination</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/double-elimination.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">Double elimination</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/round-robin.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">Round robin</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/3-players.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">3 players with comeback</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/multistage.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">Multistage</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/judges-score.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">Voting with judges score</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/placement-bracket.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">Placement bracket</p></div></div><div class="sc-card-wrapper" data-v-40a8e5aa=""><div class="sc-card" data-v-40a8e5aa=""><img src="./Tournament software for combat sports - Smoothcomp_files/2-players.svg" loading="lazy" data-v-40a8e5aa=""><p data-v-40a8e5aa="">2 players - best of three</p></div></div></div><div data-v-40a8e5aa="" class="sc-cards"><div data-v-40a8e5aa="" class="sc-card-wrapper community-card-wrapper"><div data-v-40a8e5aa="" class="sc-card"><div data-v-40a8e5aa="" class="relative community-card"><h2 data-v-40a8e5aa=""><strong>Missing something?</strong><br>Let's talk!</h2><img data-v-40a8e5aa="" src="./Tournament software for combat sports - Smoothcomp_files/illustration-connection.svg" class="community-card-img" loading="lazy"><p data-v-40a8e5aa="">Smoothcomp has grown thanks to our community. How can we make your sport better?</p><div data-v-40a8e5aa="" style="width: 100%; justify-content: flex-start; margin-top: 16px;"><a data-v-40a8e5aa="" href="https://smoothcomp.com/support" class="sc-btn-text sc-btn-large" style="padding-left: 0px;">Support &nbsp; <img src="./Tournament software for combat sports - Smoothcomp_files/arrow-up-right.svg" loading="lazy"></a></div></div></div></div></div></div></div><div data-v-2edd5f43="" class="sc-container"><div data-v-2edd5f43="" style="display: flex; flex-direction: column; align-items: center; width: 100%;"><div data-v-2edd5f43="" class="video-container"><div data-v-2edd5f43="" class="tv-screen tv-hidden tv-overlay-off"><video data-v-2edd5f43="" src="https://download.smoothcomp.com/features/jiu-jitsu//spectator.mp4" playsinline="" loop="" __idm_id__="32194561"></video></div><div data-v-2edd5f43="" class="laptop-screen"><div data-v-2edd5f43="" class="video-wrapper"><video data-v-2edd5f43="" src="https://download.smoothcomp.com/features/jiu-jitsu//moderator.mp4" playsinline="" loop="" __idm_id__="32194562"></video></div><picture data-v-2edd5f43=""><source data-v-2edd5f43="" srcset="
+                                https://download.smoothcomp.com/features/misc/laptop@2x.webp 2x,
+                                https://download.smoothcomp.com/features/misc/laptop@1x.webp 1x
+                            " type="image/webp"><source data-v-2edd5f43="" srcset="
+                                https://download.smoothcomp.com/features/misc/laptop@2x.png 2x,
+                                https://download.smoothcomp.com/features/misc/laptop@1x.png 1x
+                            " type="image/png"><img data-v-2edd5f43="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/laptop@1x.png"></picture><svg data-v-2edd5f43="" class="cable cable-hidden" width="67" height="144" viewBox="0 0 67 144" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-2edd5f43="" d="M0.935059 141.16H24.0001C46.0915 141.16 64.0001 123.252 64.0001 101.16V31.614C64.0001 15.8994 51.2609 3.16016 35.5463 3.16016V3.16016" stroke="#2E2F33" stroke-width="5"></path></svg></div></div><div data-v-2edd5f43="" style="display: none;"><button data-v-2edd5f43="" class="btn-primary"> Play </button><button data-v-2edd5f43="" class="btn-secondary"> Pause </button><button data-v-2edd5f43="" class="btn-danger"> Stop </button></div><div data-v-2edd5f43="" class="button-container"><div data-v-36894412="" data-v-2edd5f43="" class="dropdown selector"><select data-v-36894412="" id="sport-select" name="sports"><option data-v-36894412="" value="10">Boxing</option><option data-v-36894412="" value="1">Jiu Jitsu</option><option data-v-36894412="" value="8">JJIF Ju-Jutsu</option><option data-v-36894412="" value="4">Judo</option><option data-v-36894412="" value="5">Karate</option><option data-v-36894412="" value="12">Kickboxing</option><option data-v-36894412="" value="11">MMA</option><option data-v-36894412="" value="13">Sambo</option><option data-v-36894412="" value="9">Taekwondo</option><option data-v-36894412="" value="6">Thaiboxing</option><option data-v-36894412="" value="17">UWW Grappling</option><option data-v-36894412="" value="7">Wrestling</option><option data-v-36894412="" value="18">Wrestling - Folkstyle</option><option data-v-36894412="" value="14">Wushu Sanda</option><option data-v-36894412="" value="19">Wushu Taolo</option></select></div><div data-v-59d9219a="" data-v-2edd5f43="" class="slider-switch switch"><div data-v-59d9219a="" class="slider-right active"><svg data-v-59d9219a="" width="24" height="25" viewBox="0 0 24 25" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><g data-v-59d9219a="" opacity="0.5"><path data-v-59d9219a="" fill-rule="evenodd" clip-rule="evenodd" d="M4 9.16016C4 8.05559 4.89543 7.16016 6 7.16016H18C19.1046 7.16016 20 8.05559 20 9.16016V15.1602C20 16.2647 19.1046 17.1602 18 17.1602H6C4.89543 17.1602 4 16.2647 4 15.1602V9.16016ZM18 9.16016H6V15.1602H18V9.16016Z" fill="white"></path></g></svg><p data-v-59d9219a="">Single display</p></div><div data-v-59d9219a="" class="slider-left inactive"><svg data-v-59d9219a="" width="24" height="25" viewBox="0 0 24 25" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-59d9219a="" fill-rule="evenodd" clip-rule="evenodd" d="M10 4.16016C8.89543 4.16016 8 5.05559 8 6.16016V8.16016H10V6.16016H22V12.1602H18V14.1602H22C23.1046 14.1602 24 13.2647 24 12.1602V6.16016C24 5.05559 23.1046 4.16016 22 4.16016H10ZM2 10.1602C0.895431 10.1602 0 11.0556 0 12.1602V18.1602C0 19.2647 0.895432 20.1602 2 20.1602H14C15.1046 20.1602 16 19.2647 16 18.1602V12.1602C16 11.0556 15.1046 10.1602 14 10.1602H2ZM2 18.1602V12.1602H14V18.1602H2Z" fill="black"></path></svg><p data-v-59d9219a="">Dual display</p></div></div><button data-v-2edd5f43="" class="sc-btn-text sc-btn-medium sc-btn-muted enlarge-btn" style="margin-left: 1rem;"><svg data-v-2edd5f43="" width="24" height="11" viewBox="0 0 24 11" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-2edd5f43="" fill-rule="evenodd" clip-rule="evenodd" d="M20.1716 6.29148L15.084 6.29144L15.084 4.29143L20.1716 4.29148L17.6492 1.76897L19.0634 0.354752L24 5.29148L19.0423 10.25L17.6281 8.83579L20.1716 6.29148Z" fill="white"></path><path data-v-2edd5f43="" fill-rule="evenodd" clip-rule="evenodd" d="M3.8284 4.3135L8.91596 4.31355L8.91596 6.31355L3.8284 6.3135L6.35078 8.83601L4.93657 10.2502L-2.95048e-05 5.3135L4.95766 0.354981L6.37187 1.76919L3.8284 4.3135Z" fill="white"></path></svg> &nbsp; Enlarge</button></div></div><div data-v-2edd5f43="" class="heading-container"><div data-v-2edd5f43=""><h2 data-v-2edd5f43="" class="h1"><strong>The scoreboard, </strong>powered by the bracket system (and you).</h2><div data-v-2edd5f43="" class="link-container"><a data-v-2edd5f43="" href="https://smoothcomp.com/features/scoreboard" class="sc-btn-text sc-btn-medium">Learn more &nbsp; <span data-v-2edd5f43="" class="icon icon-chevron-right"></span></a><a data-v-2edd5f43="" href="https://smoothcomp.com/features/scoreboard#download" class="sc-btn-text sc-btn-medium">Try for free &nbsp; <span data-v-2edd5f43="" class="icon icon-chevron-right"></span></a></div></div></div></div><div data-v-4597488c="" class="sc-cards sc-container"><div data-v-4597488c=""><div data-v-4597488c="" class="sc-card-wrapper"><div data-v-4597488c="" class="sc-card card-big" style="border-top-right-radius: 0.6rem; border-top-left-radius: 0.6rem;"><div data-v-baf68686="" data-v-4597488c="" class="laptop"><div data-v-baf68686="" class="frame-off laptop-screen"><div data-v-baf68686="" class="live"><span data-v-baf68686="" class="rec-icon"></span> Live </div><div data-v-baf68686="" class="laptop-picture"><picture data-v-baf68686=""><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features//jiu-jitsu/secondary@2x.webp 2x, https://download.smoothcomp.com/features//jiu-jitsu/secondary@1x.webp 1x" type="image/webp"><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features//jiu-jitsu/secondary@2x.jpg 2x, https://download.smoothcomp.com/features//jiu-jitsu/secondary@1x.jpg 1x" type="image/jpg"><img data-v-baf68686="" class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/secondary@1x.jpg"></picture></div><picture data-v-baf68686=""><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@2x.webp 2x, https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@1x.webp 1x" type="image/webp"><source data-v-baf68686="" srcset="https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@2x.png 2x, https://download.smoothcomp.com/features/jiu-jitsu/tv-overlay@1x.png 1x" type="image/png"><img data-v-baf68686="" class="scoreboard-overlay" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/tv-overlay@1x.png"></picture></div>-->
+        <!---->
+        <!--</div><p data-v-4597488c="" class="scoreboard-overlay visible-xs visible-sm margin-top-xs-16"><span data-v-4597488c="" class="relative">Automatic scoreboard in stream</span></p><div data-v-4597488c="" class="sc-card-info"><h2 data-v-4597488c="" class="h1"><strong>Go live.</strong> Give your players something to remember.</h2><a data-v-4597488c="" class="learnmore sc-btn-medium sc-btn-secondary" href="https://smoothcomp.com/features/streaming" style="display: inline-block;">Learn more &nbsp; <span data-v-4597488c="" class="icon icon-chevron-right"></span></a><p data-v-4597488c="" class="scoreboard-overlay hidden-xs hidden-sm"><span data-v-4597488c="" class="relative">Automatic scoreboard in stream</span></p></div></div></div><div data-v-4597488c="" class="cards-bottom"><div data-v-4597488c="" class="sc-card-wrapper"><div data-v-4597488c="" class="sc-card"><img data-v-4597488c="" src="./Tournament software for combat sports - Smoothcomp_files/mobile-stream.svg" loading="lazy"><p data-v-4597488c=""><strong>Stream with iPhones, iPads and Android devices</strong> using the Smoothstreamer app</p></div></div><div data-v-4597488c="" class="sc-card-wrapper"><div data-v-4597488c="" class="sc-card"><img data-v-4597488c="" src="./Tournament software for combat sports - Smoothcomp_files/computer-stream.svg" loading="lazy"><p data-v-4597488c=""><strong>Stream with computer,</strong> using OBS or any other software</p></div></div><div data-v-4597488c="" class="sc-card-wrapper"><div data-v-4597488c="" class="sc-card" style="border-bottom-right-radius: 0.6rem; border-bottom-left-radius: 0.6rem;"><img data-v-4597488c="" src="./Tournament software for combat sports - Smoothcomp_files/mix-stream.svg" loading="lazy"><p data-v-4597488c=""><strong>Mix &amp; match.</strong> Play around with what you have and scale up</p></div></div></div></div></div><div data-v-3b49203e="" class="sc-container"><div data-v-3b49203e="" class="content-wrapper"><div class="bg-image" data-v-3b49203e=""><picture data-v-3b49203e=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/next-match-board@2x.webp 2x,
+                            https://download.smoothcomp.com/features/misc/next-match-board@1x.webp 1x
+                        " type="image/webp" width="520" height="407" data-v-3b49203e=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/next-match-board@2x.png 2x,
+                            https://download.smoothcomp.com/features/misc/next-match-board@1x.png 1x
+                        " type="image/png" width="520" height="407" data-v-3b49203e=""><img loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/next-match-board@1x.png" width="520" height="407" data-v-3b49203e=""></picture><div class="background-shadow" data-v-3b49203e=""></div></div><picture data-v-3b49203e=""><source srcset="
+                        https://download.smoothcomp.com/features/misc/next-match-phone@2x.webp 2x,
+                        https://download.smoothcomp.com/features/misc/next-match-phone@1x.webp 1x
+                    " type="image/webp" width="259" height="395" data-v-3b49203e=""><source srcset="
+                        https://download.smoothcomp.com/features/misc/next-match-phone@2x.png 2x,
+                        https://download.smoothcomp.com/features/misc/next-match-phone@1x.png 1x
+                    " type="image/png" width="259" height="395" data-v-3b49203e=""><img class="phone-image" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/next-match-phone@1x.png" width="259" height="395" data-v-3b49203e=""></picture><div data-v-3b49203e="" class="heading"><h2 data-v-3b49203e="" class="h1">When's my next match?</h2><h3 data-v-3b49203e="">said no one ever again</h3></div></div></div><div data-v-5718eb66="" class="sc-container"><div data-v-5718eb66="" class="sc-card-wrapper"><div data-v-5718eb66="" class="sc-card"><div data-v-5718eb66="" class="card-heading"><img data-v-5718eb66="" src="./Tournament software for combat sports - Smoothcomp_files/smoothcomp-id.svg" loading="lazy"><h2 data-v-5718eb66="" class="h1">Check-in like a five star hotel</h2></div><div class="image-container card-image" data-v-5718eb66=""><picture data-v-5718eb66=""><source srcset="
+                                https://download.smoothcomp.com/features/misc/check-in-phone@2x.webp 2x,
+                                https://download.smoothcomp.com/features/misc/check-in-phone@1x.webp 1x
+                            " type="image/webp" width="461" height="521" data-v-5718eb66=""><source srcset="
+                                https://download.smoothcomp.com/features/misc/check-in-phone@2x.png 2x,
+                                https://download.smoothcomp.com/features/misc/check-in-phone@1x.png 1x
+                            " type="image/png" width="461" height="521" data-v-5718eb66=""><img class="card-image" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/check-in-phone@1x.png" width="461" height="521" data-v-5718eb66=""></picture><div class="background-shadow" data-v-5718eb66=""></div></div><div data-v-5718eb66="" class="card-info"><div data-v-5718eb66=""><div class="svg-container" data-v-5718eb66=""><svg width="52" height="52" viewBox="0 0 52 52" fill="none"
+              xmlns="http://www.w3.org/2000/svg" data-v-5718eb66=""><path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 9.5C11.2909 9.5 9.5 11.2909 9.5 13.5V18.5H7.5V13.5C7.5 10.1863 10.1863 7.5 13.5 7.5H18.5V9.5H13.5Z" fill="black" data-v-5718eb66=""></path><path fill-rule="evenodd" clip-rule="evenodd" d="M33.5 42.5L38.5 42.5C40.7091 42.5 42.5 40.7091 42.5 38.5L42.5 33.5L44.5 33.5L44.5 38.5C44.5 41.8137 41.8137 44.5 38.5 44.5L33.5 44.5L33.5 42.5Z" fill="black" data-v-5718eb66=""></path><path fill-rule="evenodd" clip-rule="evenodd" d="M42.5 18.5L42.5 13.5C42.5 11.2909 40.7091 9.5 38.5 9.5L33.5 9.5L33.5 7.5L38.5 7.5C41.8137 7.5 44.5 10.1863 44.5 13.5L44.5 18.5L42.5 18.5Z" fill="black" data-v-5718eb66=""></path><path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 33.5L9.5 38.5C9.5 40.7091 11.2909 42.5 13.5 42.5L18.5 42.5L18.5 44.5L13.5 44.5C10.1863 44.5 7.5 41.8137 7.5 38.5L7.5 33.5L9.5 33.5Z" fill="black" data-v-5718eb66=""></path><path fill-rule="evenodd" clip-rule="evenodd" d="M22.5 18.5H18.5V22.5H22.5V18.5ZM16.5 16.5V24.5H24.5V16.5H16.5Z" fill="black" data-v-5718eb66=""></path><path fill-rule="evenodd" clip-rule="evenodd" d="M22.5 29.5H18.5V33.5H22.5V29.5ZM16.5 27.5V35.5H24.5V27.5H16.5Z" fill="black" data-v-5718eb66=""></path><path fill-rule="evenodd" clip-rule="evenodd" d="M33.5 18.5H29.5V22.5H33.5V18.5ZM27.5 16.5V24.5H35.5V16.5H27.5Z" fill="black" data-v-5718eb66=""></path><path d="M32.5 32.5H35.5V35.5H32.5V32.5Z" fill="black" data-v-5718eb66=""></path><path d="M32.5 29.5H35.5V32.5H32.5V29.5Z" fill="black" data-v-5718eb66=""></path><path d="M29.5 32.5H32.5V35.5H29.5V32.5Z" fill="black" data-v-5718eb66=""></path><path d="M29.5 26.5H32.5V29.5H29.5V26.5Z" fill="black" data-v-5718eb66=""></path><path d="M24.5 24.5H27.5V27.5H24.5V24.5Z" fill="black" data-v-5718eb66=""></path><path d="M26.5 29.5H29.5V32.5H26.5V29.5Z" fill="black" data-v-5718eb66=""></path></svg></div><p data-v-5718eb66="">Works with any QR and barcode reader</p></div><div data-v-5718eb66=""><div data-v-5718eb66="" class="svg-container"><svg data-v-5718eb66="" width="52" height="52" viewBox="0 0 52 52" fill="none"
+              xmlns="http://www.w3.org/2000/svg"><path data-v-5718eb66="" fill-rule="evenodd" clip-rule="evenodd" d="M41 8H11C7.13401 8 4 11.134 4 15V36C4 39.866 7.13401 43 11 43H41C44.866 43 48 39.866 48 36V15C48 11.134 44.866 8 41 8ZM11 6C6.02944 6 2 10.0294 2 15V36C2 40.9706 6.02944 45 11 45H41C45.9706 45 50 40.9706 50 36V15C50 10.0294 45.9706 6 41 6H11Z" fill="#131313"></path><path data-v-5718eb66="" fill-rule="evenodd" clip-rule="evenodd" d="M9.28739 20.2507C8.72575 19.4439 9.02261 18.348 9.87097 17.8556L17.8247 13.2392C18.6731 12.7468 19.7455 13.0582 20.4167 13.7755C20.9272 14.3209 21.5163 14.7909 22.1669 15.1685C23.3323 15.8449 24.6543 16.201 26 16.201C27.3457 16.201 28.6677 15.8449 29.8331 15.1685C30.4837 14.7909 31.0728 14.3209 31.5832 13.7754C32.2545 13.0582 33.3269 12.7468 34.1752 13.2392L42.129 17.8556C42.9774 18.348 43.2742 19.4438 42.7126 20.2507C41.0078 22.6999 38.7865 24.751 36.199 26.2528C33.0981 28.0525 29.5806 29 26 29C22.4194 29 18.9019 28.0525 15.801 26.2528C13.2135 24.751 10.9922 22.6999 9.28739 20.2507ZM22.5393 19.428L23.3111 18.1418L20.7386 16.5983L19.9669 17.8845L17.6176 21.8L16.8458 23.0862L19.4183 24.6297L20.19 23.3435L22.5393 19.428Z" fill="#131313"></path></svg></div><p data-v-5718eb66="">Instant weighins with our supported smart-scales</p></div></div></div></div></div><div data-v-b77fa1fc="" class="sc-container-large"><picture data-v-b77fa1fc=""><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/covers/fflutte@2x.webp 2x, https://download.smoothcomp.com/features/references/covers/fflutte@1x.webp 1x, " type="image/webp"><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/covers/fflutte@2x.jpg 2x, https://download.smoothcomp.com/features/references/covers/fflutte@1x.jpg 1x, " type="image/jpg"><img data-v-b77fa1fc="" class="sc-background-img" loading="lazy" src="https://download.smoothcomp.com/features/references/covers/fflutte@1x.jpg"></picture><div data-v-b77fa1fc="" class="background-shadow"></div><img data-v-b77fa1fc="" src="./Tournament software for combat sports - Smoothcomp_files/quote.svg" loading="lazy"><div data-v-b77fa1fc="" class="carousel-container"><div data-v-b77fa1fc="" class="invisible"><h2 data-v-b77fa1fc="">Smoothcomp is by far the single most powerful customer service improvement tool we have implemented in the past 26 years of business. I highly recommend it to anyone running tournaments!"</h2>-->
+        <!---->
+        <!--<div data-v-b77fa1fc="" class="profile-card"><picture data-v-b77fa1fc=""><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/kipp-kollar@2x.webp 2x, https://download.smoothcomp.com/features/references/kipp-kollar@1x.webp 1x, " type="image/webp"><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/kipp-kollar@2x.jpg 2x, https://download.smoothcomp.com/features/references/kipp-kollar@1x.jpg 1x, " type="image/jpg"><img data-v-b77fa1fc="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/kipp-kollar@1x.jpg"></picture><div data-v-b77fa1fc=""><p data-v-b77fa1fc="">Kipp Kollar</p><p data-v-b77fa1fc="">President of NAGA</p></div></div></div><div data-v-b77fa1fc="" class="invisible"><h2 data-v-b77fa1fc="">Swedish Judo Federation have now run almost 30 competitions at all levels including team competitions and championships!"</h2><p data-v-b77fa1fc="" class="more-description">"Works great, easy to use and to understand both for organisers, clubs, players and coaches. Also the best live broadcast solution I have worked with!"</p><div data-v-b77fa1fc="" class="profile-card"><picture data-v-b77fa1fc=""><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/profiles/johan-orrbo@2x.webp 2x, https://download.smoothcomp.com/features/references/profiles/johan-orrbo@1x.webp 1x, " type="image/webp"><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/profiles/johan-orrbo@2x.jpg 2x, https://download.smoothcomp.com/features/references/profiles/johan-orrbo@1x.jpg 1x, " type="image/jpg"><img data-v-b77fa1fc="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/johan-orrbo@1x.jpg"></picture><div data-v-b77fa1fc=""><p data-v-b77fa1fc="">Johan Orrbo</p><p data-v-b77fa1fc="">Swedish Judo Federation</p></div></div></div><div data-v-b77fa1fc="" class="invisible"><h2 data-v-b77fa1fc="">Smoothcomp is the future of a comprehensive software and streaming platform for wrestling."</h2><p data-v-b77fa1fc="" class="more-description">"They have been the leader in combat sport software and streaming services for many years. Their willingness and capability to build solutions for organizations and event managers is what sets them apart from the competition."</p><div data-v-b77fa1fc="" class="profile-card"><picture data-v-b77fa1fc=""><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/profiles/nathan-eichorst@2x.webp 2x, https://download.smoothcomp.com/features/references/profiles/nathan-eichorst@1x.webp 1x, " type="image/webp"><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/profiles/nathan-eichorst@2x.jpg 2x, https://download.smoothcomp.com/features/references/profiles/nathan-eichorst@1x.jpg 1x, " type="image/jpg"><img data-v-b77fa1fc="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/nathan-eichorst@1x.jpg"></picture><div data-v-b77fa1fc=""><p data-v-b77fa1fc="">Nathan Eichorst</p><p data-v-b77fa1fc="">Tournament director, Dan Gable Donnybrook</p></div></div></div><div data-v-b77fa1fc="" class="carousel-reference"><h2 data-v-b77fa1fc="">After having used several competition management systems for more than 30 years, the French Wrestling Federation (FFLDA) has been using the Smoothcomp platform for 3 years for all national and international competitions and they were then considerably improved."</h2>-->
+        <!---->
+        <!--<div data-v-b77fa1fc="" class="profile-card"><picture data-v-b77fa1fc=""><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/profiles/jean-marc-gourdin@2x.webp 2x, https://download.smoothcomp.com/features/references/profiles/jean-marc-gourdin@1x.webp 1x, " type="image/webp"><source data-v-b77fa1fc="" srcset="https://download.smoothcomp.com/features/references/profiles/jean-marc-gourdin@2x.jpg 2x, https://download.smoothcomp.com/features/references/profiles/jean-marc-gourdin@1x.jpg 1x, " type="image/jpg"><img data-v-b77fa1fc="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/jean-marc-gourdin@1x.jpg"></picture><div data-v-b77fa1fc=""><p data-v-b77fa1fc="">Jean-Marc Gourdin</p><p data-v-b77fa1fc="">National Technical Director, FFLutte</p></div></div></div><div data-v-b77fa1fc="" class="carousel"><div data-v-b77fa1fc="" class="carousel-item inactive"><div data-v-b77fa1fc="" class="animate"></div></div><div data-v-b77fa1fc="" class="carousel-item inactive"><div data-v-b77fa1fc="" class="animate"></div></div><div data-v-b77fa1fc="" class="carousel-item inactive"><div data-v-b77fa1fc="" class="animate"></div></div><div data-v-b77fa1fc="" class="carousel-item active"><div data-v-b77fa1fc="" class="animate"></div></div></div></div></div><div data-v-6b36a314="" class="sc-container"><div data-v-6b36a314="" class="coin-wrapper"><div class="coin-container" data-v-6b36a314=""><picture data-v-6b36a314=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/coin-credit@2x.webp 2x,
+                            https://download.smoothcomp.com/features/misc/coin-credit@1x.webp 1x
+                        " type="image/webp" width="298" height="298" data-v-6b36a314=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/coin-credit@2x.png 2x,
+                            https://download.smoothcomp.com/features/misc/coin-credit@1x.png 1x
+                        " type="image/png" width="298" height="298" data-v-6b36a314=""><img class="coin-credit" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/coin-credit@1x.png" width="298" height="298" data-v-6b36a314=""></picture><picture data-v-6b36a314=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/coin-profile@2x.webp 2x,
+                            https://download.smoothcomp.com/features/misc/coin-profile@1x.webp 1x
+                        " type="image/webp" width="298" height="298" data-v-6b36a314=""><source srcset="
+                            https://download.smoothcomp.com/features/misc/coin-profile@2x.png 2x,
+                            https://download.smoothcomp.com/features/misc/coin-profile@1x.png 1x
+                        " type="image/png" width="298" height="298" data-v-6b36a314=""><img class="coin-profile" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/coin-profile@1x.png" width="298" height="298" data-v-6b36a314=""></picture></div><div data-v-6b36a314="" class="heading-container"><h2 data-v-6b36a314="" class="h1 heading-first">Simple pricing.</h2><h2 data-v-6b36a314="" class="h1 heading-second">1 credit = 1 athlete</h2></div></div><div data-v-6b36a314="" class="sc-cards"><div data-v-6b36a314="" class="sc-card-wrapper"><div data-v-6b36a314="" class="sc-card"><picture data-v-6b36a314=""><source data-v-6b36a314="" srcset="
+                                https://download.smoothcomp.com/features/misc/coin-credit@2x.webp 2x,
+                                https://download.smoothcomp.com/features/misc/coin-credit@1x.webp 1x
+                            " type="image/webp" width="298" height="298"><source data-v-6b36a314="" srcset="
+                                https://download.smoothcomp.com/features/misc/coin-credit@2x.png 2x,
+                                https://download.smoothcomp.com/features/misc/coin-credit@1x.png 1x
+                            " type="image/png" width="298" height="298"><img data-v-6b36a314="" class="coin-small" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/coin-credit@1x.png" width="298" height="298"></picture><div data-v-6b36a314="" style="margin-left: 1rem;"><p data-v-6b36a314="">Pay as you go</p><p data-v-6b36a314=""><strong>1.25 EUR </strong>/ credit</p></div></div></div><div data-v-6b36a314="" class="sc-card-wrapper"><div data-v-6b36a314="" class="sc-card"><picture data-v-6b36a314=""><source data-v-6b36a314="" srcset="
+                                https://download.smoothcomp.com/features/misc/coin-credit@2x.webp 2x,
+                                https://download.smoothcomp.com/features/misc/coin-credit@1x.webp 1x
+                            " type="image/webp" width="298" height="298"><source data-v-6b36a314="" srcset="
+                                https://download.smoothcomp.com/features/misc/coin-credit@2x.png 2x,
+                                https://download.smoothcomp.com/features/misc/coin-credit@1x.png 1x
+                            " type="image/png" width="298" height="298"><img data-v-6b36a314="" class="coin-small" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/coin-credit@1x.png" width="298" height="298"></picture><div data-v-6b36a314="" class="card-content"><div data-v-6b36a314=""><p data-v-6b36a314="" style="color: var(--yellow);">Buy 1000 credits</p><span data-v-6b36a314="" class="sc-price-tag" style="color: var(--yellow); border-color: var(--yellow);"> -28% </span></div><p data-v-6b36a314=""><strong>0.9 EUR </strong>/ credit</p></div></div></div><div data-v-6b36a314="" class="sc-card-wrapper"><div data-v-6b36a314="" class="sc-card"><picture data-v-6b36a314=""><source data-v-6b36a314="" srcset="
+                                https://download.smoothcomp.com/features/misc/coin-credit@2x.webp 2x,
+                                https://download.smoothcomp.com/features/misc/coin-credit@1x.webp 1x
+                            " type="image/webp" width="298" height="298"><source data-v-6b36a314="" srcset="
+                                https://download.smoothcomp.com/features/misc/coin-credit@2x.png 2x,
+                                https://download.smoothcomp.com/features/misc/coin-credit@1x.png 1x
+                            " type="image/png" width="298" height="298"><img data-v-6b36a314="" class="coin-small" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/coin-credit@1x.png" width="298" height="298"></picture><div data-v-6b36a314="" class="card-content"><div data-v-6b36a314=""><p data-v-6b36a314="" style="color: var(--red);">Buy 5000 credits</p><span data-v-6b36a314="" class="sc-price-tag" style="color: var(--red); border-color: var(--red);"> -52% </span></div><p data-v-6b36a314=""><strong>0.6 EUR </strong>/ credit</p></div></div></div></div><div data-v-6b36a314="" class="participant-container"><img data-v-6b36a314="" src="./Tournament software for combat sports - Smoothcomp_files/participant.svg" loading="lazy"><h3 data-v-6b36a314="">What counts as an athlete?</h3><p data-v-6b36a314="">An athlete is one individual competitor per event. They can register in multiple entries and still only count as one credit. If an athlete drops out before the event, you keep the credit.</p></div></div><div data-v-3d34d95c="" class="sc-container"><div data-v-3d34d95c="" class="trial-card" id="createevent"><div data-v-3d34d95c=""><h2 data-v-3d34d95c="" id="test2">Create your first event today 👊</h2><a data-v-3d34d95c="" href="https://smoothcomp.com/en/organizer/create" class="button sc-btn-secondary sc-btn-large">Get Started</a></div></div></div><div data-v-4fef0c4a="" class="sc-container"><h2 data-v-4fef0c4a="">All in one package</h2><div data-v-4fef0c4a="" class="column-wrapper"><div data-v-4fef0c4a="" class="column-left"><div data-v-4fef0c4a="" class="sc-card-wrapper"><div data-v-4fef0c4a="" class="card-heading"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/profile.svg" loading="lazy"><p data-v-4fef0c4a="">Registration &amp; Payment</p></div><div data-v-4fef0c4a="" class="sc-card"><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Manage entries</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Payments through Stripe, Paypal and more <img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/about-question.svg" class="questionmark" loading="lazy"></p>-->
+        <!---->
+        <!--</div></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Custom payment <img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/about-question.svg" class="questionmark" loading="lazy"></p>-->
+        <!---->
+        <!--</div></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Discounts &amp; Coupons</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Refunds <img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/about-question.svg" class="questionmark" loading="lazy"></p>-->
+        <!---->
+        <!--</div></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Late and early bird fees</p></div></div></div></div><div data-v-4fef0c4a="" class="sc-card-wrapper"><div data-v-4fef0c4a="" class="card-heading"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/chat.svg" loading="lazy"><p data-v-4fef0c4a="">Communication</p></div><div data-v-4fef0c4a="" class="sc-card"><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Custom event page</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Custom SMS and emails</p></div></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Export registrations to Mailchimp or similar</p></div></div></div><div data-v-4fef0c4a="" class="sc-card-wrapper"><div data-v-4fef0c4a="" class="card-heading"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/bracket.svg" loading="lazy"><p data-v-4fef0c4a="">Brackets &amp; Scheduling</p></div><div data-v-4fef0c4a="" class="sc-card"><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Automatic bracket generation</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Drag and drop of bracket planning</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Real time estimation</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">TV-Mode for schedules</p></div></div></div></div><div data-v-4fef0c4a="" class="column-right"><div data-v-4fef0c4a="" class="sc-card-wrapper"><div data-v-4fef0c4a="" class="card-heading"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/scoreboard.svg" loading="lazy"><p data-v-4fef0c4a="">Scoreboard</p></div><div data-v-4fef0c4a="" class="sc-card"><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Works seamlessly with the bracket system <img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/about-question.svg" class="questionmark" loading="lazy"></p>-->
+        <!---->
+        <!--</div></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Tablet &amp; desktop ready</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Embed scoreboard in streaming</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><div data-v-4fef0c4a=""><p data-v-4fef0c4a="">Free app for Mac and PC with dedicated TV-Mode <img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/about-question.svg" class="questionmark" loading="lazy"></p>-->
+        <!---->
+        <!--</div></div></div></div><div data-v-4fef0c4a="" class="sc-card-wrapper"><div data-v-4fef0c4a="" class="card-heading"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/podium.svg" loading="lazy"><p data-v-4fef0c4a="">Podium</p></div><div data-v-4fef0c4a="" class="sc-card"><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Ranking lists for best team, club, junior, adult and more</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Public result page after the event</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">TV-Mode for price ceremony</p></div></div></div><div data-v-4fef0c4a="" class="sc-card-wrapper"><div data-v-4fef0c4a="" class="card-heading"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/play.svg" loading="lazy"><p data-v-4fef0c4a="">Livestreaming</p></div><div data-v-4fef0c4a="" class="sc-card"><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Add PPV (Pay per view) to your event</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Integrated scoreboard in streaming</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Youtube streaming</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Works with all softwares, for example Ecamm, OBS and vMix</p></div><div data-v-4fef0c4a="" class="card-item"><img data-v-4fef0c4a="" src="./Tournament software for combat sports - Smoothcomp_files/check.svg" loading="lazy"><p data-v-4fef0c4a="">Free streaming app for iPhone and iPad</p></div></div></div></div></div></div><div data-v-8a729208="" class="sc-container"><div class="federation-card" data-v-8a729208=""><picture data-v-8a729208=""><source srcset="
+                        https://download.smoothcomp.com/features/misc/skyline@2x.webp 2x,
+                        https://download.smoothcomp.com/features/misc/skyline@1x.webp 1x
+                    " type="image/webp" data-v-8a729208=""><source srcset="
+                        https://download.smoothcomp.com/features/misc/skyline@2x.jpg 2x,
+                        https://download.smoothcomp.com/features/misc/skyline@1x.jpg 1x
+                    " type="image/jpg" data-v-8a729208=""><img class="sc-background-img" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/skyline@1x.jpg" data-v-8a729208=""></picture><div class="background-shadow" data-v-8a729208=""></div><h2 data-v-8a729208="">Paving the way for federations across all sports</h2><div class="button-container" data-v-8a729208=""><a href="https://smoothcomp.com/features/federation-platform" class="sc-btn-secondary sc-btn-large" data-v-8a729208="">Federation platform <img src="./Tournament software for combat sports - Smoothcomp_files/arrow-up-right.svg" loading="lazy" data-v-8a729208=""></a></div><div class="info-container" data-v-8a729208=""><div class="info-item" data-v-8a729208=""><svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+              xmlns="http://www.w3.org/2000/svg" data-v-8a729208=""><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7106 16.0269L20.0034 8.73404L18.5892 7.31982L11.2964 14.6126L6.7106 10.0269L5.29639 11.4411L11.2964 17.4411L12.0034 16.734L12.7106 16.0269Z" fill="white" data-v-8a729208=""></path></svg><p data-v-8a729208="">Membership management for athletes and academies</p></div><div class="info-item" data-v-8a729208=""><svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+              xmlns="http://www.w3.org/2000/svg" data-v-8a729208=""><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7106 16.0269L20.0034 8.73404L18.5892 7.31982L11.2964 14.6126L6.7106 10.0269L5.29639 11.4411L11.2964 17.4411L12.0034 16.734L12.7106 16.0269Z" fill="white" data-v-8a729208=""></path></svg><p data-v-8a729208="">Your own landing page with your own subdomain</p></div><div class="info-item" data-v-8a729208=""><svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+              xmlns="http://www.w3.org/2000/svg" data-v-8a729208=""><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7106 16.0269L20.0034 8.73404L18.5892 7.31982L11.2964 14.6126L6.7106 10.0269L5.29639 11.4411L11.2964 17.4411L12.0034 16.734L12.7106 16.0269Z" fill="white" data-v-8a729208=""></path></svg><p data-v-8a729208="">Ranking lists with support for seasons and tours</p></div><div class="info-item" data-v-8a729208=""><svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+              xmlns="http://www.w3.org/2000/svg" data-v-8a729208=""><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7106 16.0269L20.0034 8.73404L18.5892 7.31982L11.2964 14.6126L6.7106 10.0269L5.29639 11.4411L11.2964 17.4411L12.0034 16.734L12.7106 16.0269Z" fill="white" data-v-8a729208=""></path></svg><p data-v-8a729208="">Import and export with custom metadata</p></div></div></div></div><div data-v-5b6a3419="" class="sc-container"><div data-v-5b6a3419="" class="logos-wrapper"><div data-v-5b6a3419="" class="logos fade-in"><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/grappling@2x.png 2x, https://download.smoothcomp.com/features/misc/grappling@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/grappling@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/svensk-judo@2x.png 2x, https://download.smoothcomp.com/features/misc/svensk-judo@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/svensk-judo@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/ajp@2x.png 2x, https://download.smoothcomp.com/features/misc/ajp@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/ajp@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/naga-logo@2x.png 2x, https://download.smoothcomp.com/features/misc/naga-logo@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/naga-logo@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/sbjjf@2x.png 2x, https://download.smoothcomp.com/features/misc/sbjjf@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/sbjjf@1x.png"></picture></picture></div><div data-v-5b6a3419="" class="logos hidden"><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/grappling@2x.png 2x, https://download.smoothcomp.com/features/misc/grappling@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/grappling@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/svensk-judo@2x.png 2x, https://download.smoothcomp.com/features/misc/svensk-judo@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/svensk-judo@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/ajp@2x.png 2x, https://download.smoothcomp.com/features/misc/ajp@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/ajp@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/naga-logo@2x.png 2x, https://download.smoothcomp.com/features/misc/naga-logo@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/naga-logo@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/sbjjf@2x.png 2x, https://download.smoothcomp.com/features/misc/sbjjf@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/sbjjf@1x.png"></picture></picture></div><div data-v-5b6a3419="" class="logos fade-out"><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/grappling@2x.png 2x, https://download.smoothcomp.com/features/misc/grappling@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/grappling@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/svensk-judo@2x.png 2x, https://download.smoothcomp.com/features/misc/svensk-judo@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/svensk-judo@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/ajp@2x.png 2x, https://download.smoothcomp.com/features/misc/ajp@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/ajp@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/naga-logo@2x.png 2x, https://download.smoothcomp.com/features/misc/naga-logo@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/naga-logo@1x.png"></picture></picture><picture data-v-5b6a3419=""><picture data-v-5b6a3419=""><source data-v-5b6a3419="" srcset="https://download.smoothcomp.com/features/misc/sbjjf@2x.png 2x, https://download.smoothcomp.com/features/misc/sbjjf@1x.png 1x" type="image/png"><img data-v-5b6a3419="" loading="lazy" src="./Tournament software for combat sports - Smoothcomp_files/sbjjf@1x.png"></picture></picture></div></div></div><div class="sc-container margin-bottom-xs-128"><div class="row"><div class="col-sm-8 col-sm-offset-2"><div data-v-7db5a1ef="" class="sc-form features-form"><h2 data-v-7db5a1ef="">Create your first event today 👊</h2><form data-v-7db5a1ef="" action="https://smoothcomp.com/en/organizer/create" method="get" class="full-width"><input data-v-7db5a1ef="" type="text" name="organizer" placeholder="Name of organization"><button data-v-7db5a1ef="" type="submit" class="sc-btn-primary sc-btn-large">Become an Organizer</button></form></div></div></div></div>-->
+      </div>
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+    </div>
+  </div>
+</div>
+
+
+
+

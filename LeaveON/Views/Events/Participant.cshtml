@@ -1,0 +1,289 @@
+@model List<TourneyRepo.Models.Competitor>
+@using Microsoft.AspNet.Identity;
+@using TourneyRepo.Models
+@{
+  ViewBag.Title = "Participant";
+}
+
+<style>
+  .section.public-registrations .participants-desktop .participant-td-club {
+    min-width: 120px !important;
+  }
+</style>
+
+<div class="container" style="margin-top:50px;margin-bottom:20px;">
+  <section class="padding-top-xs-0 padding-top-sm-32 padding-bottom-xs-0 hidden-print hidden-tv">
+    <div id="eventHeader" class="relative">
+
+      <div class="row">
+        <div id="cover" class="col-sm-7 col-md-8 col-lg-8">
+          <div class="cover-wrapper">
+            <div class="cover-image">
+              <img class="" style="" alt="" src="@ViewBag.image">
+            </div>
+            <div class="cover-shadow"></div>
+            <div class="cover-heading">
+              <div class="cover-date visible-xs">
+                @ViewBag.eventDate
+                <span class="muted"></span>
+              </div>
+
+              <h1>@Html.ActionLink((string)ViewBag.name, "Participant", new { id = ViewBag.Id })</h1>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div id="schedule" class="col-sm-5 col-md-4 col-lg-4">
+          <div class="schedule-container">
+
+            <div class="item date event hidden-xs">
+              <span class="icon icon-fighters"></span>
+              <div class="text">
+                <div class="title">
+                  Tournament duration
+                </div>
+                <strong>
+                  @ViewBag.eventDate
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-12">
+          <nav class="navbar navbar-default navbar-event">
+            <div class="navbar-header">
+
+
+              @{ if (!ViewBag.isAnyCompetitorRemaining)
+                      {
+                            <a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("Profile","Competitors",new { id =  ViewBag.EventId })">Register For Tournament</a>
+
+                      }
+                      if (User.Identity.IsAuthenticated && User.Identity.GetUserId() == ViewBag.CreatedBy)
+                      {<a class="btn btn-secondary navbar-btn text-xs-center" href="@Url.Action("UpdateEvent", "Events", new { id = ViewBag.EventId })">Edit Tournament</a> } }
+
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="not-active noChilds">
+                <a href="@Url.Action("EventDetails","Events",new { id =  ViewBag.Id.Replace(" ","")})">
+                  <span>
+                    <span class="icon icon-info visible-xs"></span>
+                    Info<span class="hidden-xs">rmation</span>
+                  </span>
+                </a>
+              </li>
+              <li class="active  noChilds ">
+                <a href="@Url.Action("Participant","Events",new { id =  ViewBag.Id })">
+                  <span>
+                    <span class="icon icon-form visible-xs"></span>
+                    Registrations
+                    <span class="badge hidden-xs">@ViewBag.totalCount</span>
+                  </span>
+                </a>
+              </li>
+              <li class="not-active noChilds ">
+                <a href="@Url.Action("Brackets","Events",new { id = ViewBag.Id })">
+                  <span>
+                    <span class="icon icon-form visible-xs"></span>
+                    Brackets
+                  </span>
+                </a>
+              </li>
+
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="content">
+
+
+  <section class="boost margin-top-xs-32 padding-top-xs-32 margin-top-lg-64 padding-top-lg-64 sc-26 public-registrations">
+
+    <div class="container container-fluid-large">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1 class="pull-left margin-right-xs-8 font-size-h2 margin-bottom-xs-16 margin-bottom-sm-32">Participants</h1>
+        </div>
+      </div>
+    </div>
+    <div id="registrations">
+      <div class="container container-fluid-large margin-bottom-sm-64 margin-bottom-xs-64">
+        <div class="well well-inverted full-width margin-bottom-xs-8">
+          @using (Html.BeginForm("Participant", "Events", FormMethod.Get))
+
+          {
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group margin-bottom-md-0">
+
+                  <input type="text" value="@ViewBag.CurrentFilter" name="SearchString" placeholder="Search athlete or division..." class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-4" style="margin-bottom: 10px; display: flex;">
+                <input class="btn btn-info btn-md" type="submit" value="Filter" style="margin-right:10px; padding-left: 50px; padding-right: 50px;" />
+
+                <input class="btn btn-danger btn-md" type="button" id="btnReset" value="Reset" style=" padding-left: 50px; padding-right: 50px;">
+
+              </div>
+            </div>
+
+          }
+
+        </div> <!---->
+      </div>
+      <div class="container container-fluid-large">
+
+        @{
+          foreach (var item in Model)
+          {
+                <div class="participant-group margin-bottom-xs-64">
+                  <div class="heading-container flex-center">
+                    <h2 class="group-name margin-xs-0">Youth / @(item.Gender == true ? "Men" : "Female") / Youth A / @item.Belt (@item.Weight lbs)</h2>
+                  </div>
+                  <div class="participants-table-head participant-tr muted margin-bottom-xs-8 hidden-xs hidden-sm hidden-md participants-desktop">
+                    <span class="participant-td participant-td-athlete padding-left-xs-0 margin-right-xs-4">Athlete</span>
+                    <span class="participant-td participant-td-birth">Age</span>
+                    <span class="participant-td participant-td-registration">Registration</span>
+                    <span class="participant-td participant-td-registration">City</span>
+                    <span class="participant-td participant-td-credential margin-right-xs-16">School</span>
+                  </div>
+
+                  <div class="profile-cards participants-desktop visible-lg">
+                    <div class="profile-card">
+                      <div class="participant-tr participant-tr-main flex-center">
+                        <div class="participant-td participant-td-athlete">
+                          <div class="profile-image-wrapper"><img src="@(String.IsNullOrEmpty(item.Path)?"https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png":item.Path)" loading="lazy"></div>
+
+                          <div class="profile-card-name font-size-medium truncate">
+                            <a href="/Competitors/UserProfile/@item.Id" class="truncate block">
+                              <span>
+                                @item.Name
+                              </span>
+                            </a>
+
+                            <div class="profile-country truncate flex-center truncate" style="height: auto;"><span class="flag-icon margin-right-xs-4 flag-icon"></span> <div class="truncate muted country-name"><span class="font-size-tiny">@item.State</span></div></div>
+
+                          </div>
+                        </div>
+                        <div class="participant-td participant-td-birth">
+                          <div>@item.Age</div>
+
+                        </div>
+
+
+                        <div class="participant-td participant-td-registration">
+
+                          <div>
+                            <div class="truncate-2-rows">
+                              @(item.Gender == true ? "Men" : "Female")
+                            </div> <!---->
+                          </div><div>
+                            <div class="truncate-2-rows">
+                              Youth A
+                            </div> <!---->
+                          </div><div>
+                            <div class="truncate-2-rows">
+                              @item.Belt (@item.Weight lbs)
+                            </div> <!---->
+                          </div>
+                        </div>
+
+                        <div class="participant-td participant-td-registration">
+
+                          <span>@item.City</span>
+
+                        </div>
+
+                        <div class="participant-td participant-td-credential margin-right-xs-8">
+                          <span>@item.School</span>
+                        </div>
+                      </div> <!----> <!---->
+                    </div>
+                  </div>
+
+                  <div class="profile-cards participants-mobile hidden-lg">
+                    <div class="sc-card margin-bottom-xs-16 relative">
+                      <div class="more-button default"><span class="dot"></span> <span class="dot"></span> <span class="dot"></span></div> <div class="sc-card-body">
+                        <div class="sc-card-body-athlete">
+                          <div class="profile-image-wrapper"><img src="@(String.IsNullOrEmpty(item.Path)?"https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png":item.Path)" loading="lazy"></div> <div class="profile-card-name font-size-medium truncate">
+                            <a href="https://immaf.smoothcomp.com/en/profile/644465" class="truncate block">
+                              <span>
+                                @item.Name
+                              </span>
+                            </a>
+                          </div>
+                        </div> <!---->
+
+                      </div> <div class="sc-card-footer profile-card-more hide">
+                        <table class="table margin-bottom-xs-8">
+                          <tbody>
+                            <tr>
+                              <th class="no-wrap truncate" style="width: 1%; max-width: 50%;">
+                                Age
+                              </th>
+                              <td>
+                                @item.Age
+                              </td>
+                            </tr>
+                            <tr><th class="no-wrap truncate" style="width: 1%; max-width: 50%;"><span>Registration</span></th> <td><div>@(item.Gender == true ? "Men" : "Female")</div> <!----></td></tr>
+                            <tr><th class="no-wrap truncate" style="width: 1%; max-width: 50%;"><span>City</span></th> <td><div>@item.City</div> <!----></td></tr>
+                            <tr><th class="no-wrap truncate" style="width: 1%; max-width: 50%;"><span>School</span></th> <td><div>@item.School</div> <!----></td></tr>
+                            <tr><th class="no-wrap truncate" style="width: 1%; max-width: 50%;"><span>Age group</span></th> <td><div>Youth A</div> <!----></td></tr>
+                            <tr><th class="no-wrap truncate" style="width: 1%; max-width: 50%;"><span>Weight</span></th> <td><div>@Html.Encode(((List<Belt>) ViewBag.Belts).FirstOrDefault(y=>y.BeltId.ToString()==item.Belt)?.BeltName) (@item.Weight lbs)</div> <!----></td></tr>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+          }
+        }
+        <!---->
+      </div>
+    </div>
+    <div class="sticky-search disappear">
+      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 9C16 12.866 12.866 16 9 16C5.13401 16 2 12.866 2 9C2 5.13401 5.13401 2 9 2C12.866 2 16 5.13401 16 9ZM14.5698 16.0699C13.0377 17.2787 11.1031 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 11.1469 17.2482 13.1183 15.9936 14.6652L20.0564 18.728L18.6422 20.1422L14.5698 16.0699Z" fill="#F4F6FB"></path>
+      </svg>
+    </div>
+  </section>
+</div>
+
+<script>
+
+  $(".more-button").click(function () {
+
+    if ($(this).hasClass("default")) {
+
+      $(this).removeClass("default")
+      $(this).addClass("active");
+      $(this).next().next().removeClass("hide");
+      $(this).next().next().addClass("show");
+    } else {
+      $(this).next().next().removeClass("show");
+      $(this).next().next().addClass("hide")
+      $(this).removeClass("active")
+      $(this).addClass("default");
+    }
+    debugger
+
+  });
+
+
+  $("#btnReset").click(function () {
+    $(document).find("input").val('');
+    window.history.pushState({}, document.title, window.location.href.split('?')[0]);
+    window.location.reload();
+  })
+</script>

@@ -1,0 +1,750 @@
+@model List<Tuple<string, string>>
+@{
+  Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>Tournament Viewer</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
+
+  <style type="text/css" media="print">
+    @@page {
+      size: auto; /* auto is the initial value */
+      margin: 0mm; /* this affects the margin in the printer settings */
+    }
+
+
+    @@media print {
+      #printPageButton {
+        display: none;
+      }
+
+      div.jQBracket {
+        font-family: Arial;
+        font-size: 14px;
+        position: relative;
+      }
+
+        div.jQBracket .tools {
+          position: absolute;
+          top: 0;
+          color: #fff;
+        }
+
+          div.jQBracket .tools span {
+            cursor: pointer;
+            margin: 5px;
+            display: block;
+            text-align: center;
+            width: 18px;
+            height: 18px;
+            background-color: #666;
+          }
+
+            div.jQBracket .tools span:hover {
+              background-color: #999;
+            }
+
+        div.jQBracket .finals {
+          float: right;
+          right: 0;
+          clear: right;
+          position: relative;
+        }
+
+        div.jQBracket .bracket {
+          float: right;
+          clear: left;
+        }
+
+        div.jQBracket .loserBracket {
+          float: right;
+          clear: left;
+          position: relative;
+        }
+
+        div.jQBracket .round {
+          position: relative;
+          float: left;
+        }
+
+        div.jQBracket .match {
+          position: relative;
+        }
+
+        div.jQBracket .editable {
+          cursor: pointer;
+        }
+
+        div.jQBracket .team {
+          position: relative;
+          z-index: 1;
+          float: left;
+          background-color: #eee;
+          cursor: default;
+        }
+
+          div.jQBracket .team:first-child {
+            border-bottom: 1px solid #999;
+          }
+
+          div.jQBracket .team input {
+            font-size: 14px;
+            padding: 0;
+            width: 100%;
+            border: 0;
+            margin: 0;
+            outline: 0;
+          }
+
+          div.jQBracket .team div.label {
+            padding: 3px;
+            position: absolute;
+            height: 22px;
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+          }
+
+            div.jQBracket .team div.label[disabled] {
+              cursor: default;
+            }
+
+          div.jQBracket .team div.score {
+            float: right;
+            padding: 3px;
+            background-color: rgba(255, 255, 255, .3);
+            text-align: center;
+            box-sizing: border-box;
+          }
+
+            div.jQBracket .team div.score input {
+              text-align: center;
+            }
+
+            div.jQBracket .team div.score[disabled] {
+              color: #999;
+              cursor: default;
+            }
+
+            div.jQBracket .team div.label input.error, div.jQBracket .team div.score input.error {
+              background-color: #fcc;
+            }
+
+          div.jQBracket .team.np {
+            background-color: #666;
+            color: #eee;
+          }
+
+          div.jQBracket .team.na {
+            background-color: #999;
+            color: #ccc;
+          }
+
+          div.jQBracket .team.win {
+            color: #333;
+          }
+
+            div.jQBracket .team.win div.score {
+              color: #060;
+            }
+
+          div.jQBracket .team.lose div.score {
+            color: #900;
+          }
+
+          div.jQBracket .team.lose {
+            background-color: #ddd;
+            color: #999;
+          }
+
+          div.jQBracket .team.tie div.score {
+            color: #00f;
+          }
+
+          div.jQBracket .team.highlightWinner {
+            background-color: #da0;
+            color: #000;
+          }
+
+          div.jQBracket .team.highlightLoser {
+            background-color: #ccc;
+            color: #000;
+          }
+
+          div.jQBracket .team.highlight {
+            background-color: #3c0;
+            color: #000;
+          }
+
+          div.jQBracket .team.bye {
+            background-color: #999;
+            color: #ccc;
+          }
+
+        div.jQBracket .teamContainer {
+          z-index: 1;
+          position: relative;
+          float: left;
+        }
+
+        div.jQBracket .connector {
+          border: 2px solid #666;
+          border-left-style: none;
+          position: absolute;
+          z-index: 1;
+        }
+
+          div.jQBracket .connector div.connector {
+            border: 0;
+            border-bottom: 2px solid #666;
+            height: 0;
+            position: absolute;
+          }
+
+            div.jQBracket .connector.highlightWinner, div.jQBracket .connector div.connector.highlightWinner {
+              border-color: #da0;
+            }
+
+            div.jQBracket .connector.highlightLoser, div.jQBracket .connector div.connector.highlightLoser {
+              border-color: #ccc;
+            }
+
+            div.jQBracket .connector.highlight, div.jQBracket .connector div.connector.highlight {
+              border-color: #0c0;
+            }
+
+        div.jQBracket .np .connector, div.jQBracket .np .connector div.connector {
+          border-color: #999;
+        }
+
+        div.jQBracket .bubble {
+          height: 22px;
+          line-height: 22px;
+          width: 30px;
+          right: -35px;
+          position: absolute;
+          text-align: center;
+          font-size: 11px;
+        }
+
+          div.jQBracket .bubble:after {
+            content: "";
+            position: absolute;
+            top: 6px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+          }
+
+          div.jQBracket .bubble:after {
+            left: -5px;
+            border-left: 0;
+          }
+
+        div.jQBracket .win .bubble {
+          background-color: #da0;
+          color: #960;
+        }
+
+          div.jQBracket .win .bubble:after {
+            border-right-color: #da0;
+          }
+
+          div.jQBracket .win .bubble.third {
+            background-color: #963;
+            color: #d95;
+          }
+
+            div.jQBracket .win .bubble.third:after {
+              border-right: 6px solid #963;
+            }
+
+        div.jQBracket .lose .bubble {
+          background-color: #ccc;
+          color: #333;
+        }
+
+          div.jQBracket .lose .bubble:after {
+            border-right-color: #ccc;
+          }
+
+          div.jQBracket .lose .bubble.fourth {
+            background-color: #678;
+            color: #ccd;
+          }
+
+            div.jQBracket .lose .bubble.fourth:after {
+              border-right: 6px solid #678;
+            }
+
+        div.jQBracket.rl .finals {
+          float: left;
+          left: 0;
+          clear: left;
+        }
+
+        div.jQBracket.rl .bracket {
+          float: left;
+          clear: right;
+        }
+
+        div.jQBracket.rl .loserBracket {
+          float: left;
+          clear: right;
+        }
+
+        div.jQBracket.rl .round {
+          margin-right: 0;
+          float: right;
+        }
+
+        div.jQBracket.rl .team {
+          float: right;
+        }
+
+          div.jQBracket.rl .team div.label {
+            right: 0;
+          }
+
+          div.jQBracket.rl .team div.score {
+            float: left;
+          }
+
+        div.jQBracket.rl .teamContainer {
+          float: right;
+        }
+
+        div.jQBracket.rl .connector {
+          border-left-style: solid;
+          border-right-style: none;
+          border-width: 2px;
+        }
+
+          div.jQBracket.rl .connector.highlightWinner, div.jQBracket.rl .connector div.connector.highlightWinner {
+            border-color: #da0;
+          }
+
+          div.jQBracket.rl .connector.highlightLoser, div.jQBracket.rl .connector div.connector.highlightLoser {
+            border-color: #ccc;
+          }
+
+          div.jQBracket.rl .connector.highlight, div.jQBracket.rl .connector div.connector.highlight {
+            border-color: #0c0;
+          }
+
+        div.jQBracket.rl .bubble {
+          left: -35px;
+        }
+
+          div.jQBracket.rl .bubble.third {
+            background-color: #963;
+            color: #310;
+          }
+
+          div.jQBracket.rl .bubble.fourth {
+            background-color: #678;
+            color: #ccd;
+          }
+
+          div.jQBracket.rl .bubble:after {
+            left: auto;
+            right: -5px;
+            border-left: 5px solid transparent;
+            border-right: 0;
+          }
+
+          div.jQBracket.rl .bubble.third:after {
+            border-right: 0;
+            border-left: 6px solid #963;
+          }
+
+          div.jQBracket.rl .bubble.fourth:after {
+            border-right: 0;
+            border-left: 6px solid #678;
+          }
+
+        div.jQBracket.rl .highlightWinner .bubble:after {
+          border-left-color: #da0;
+        }
+
+        div.jQBracket.rl .highlightLoser .bubble:after {
+          border-left-color: #ccc;
+        }
+
+      .team {
+        padding: 10px;
+      }
+    }
+  </style>
+  <style>
+
+    .button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+
+    .team {
+      padding: 10px;
+      background-color: #eee !important;
+    }
+
+
+    .container {
+      //margin: auto;
+      width: 900px;
+    }
+
+    /*.child {*/
+    /* Center vertically and horizontally */
+    /*position: absolute;
+      top: 65%;
+      margin: -25px -10px 0 -100px;*/ /* Apply negative top and left margins to truly center the element */
+    /*}*/
+  </style>
+
+  <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      margin-bottom: 10px;
+    }
+
+    li {
+      margin: 5px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body class="container-fluid">
+  <div id="printPageButton">
+    <br /><br /><button type="button" class="button" id="print">Print</button> &nbsp;&nbsp; <button type="button" class="button" id="printImage">Download Image</button> &nbsp;&nbsp;
+  </div>
+  <br />
+  <br />
+  <div id="printTournamentAsJpg">
+    <div class="row text-center">
+      <div class="col-sm-12">
+        <h3 style="text-align:center">@ViewBag.Tournament - @ViewBag.GroupMessage    </h3>
+      </div>
+    </div>
+    <div class="row text-center" style="font-size:12px;">
+      <div class="col-sm-2">
+        <b>Event:@ViewBag.Event</b>
+      </div>
+      <div class="col-sm-4">
+        <b>Division:@ViewBag.Division</b>
+      </div>
+      <div class="col-sm-2">
+        <b>Gender:@ViewBag.GenderText</b>
+      </div>
+      <div class="col-sm-2">
+        <b>Belt Division:@ViewBag.BeltDevision</b>
+      </div>
+      <div class="col-sm-2">
+        <b>Ring#: @ViewBag.RingAssignment</b>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <br />
+      <br />
+      <div class="col-sm-2">
+        <b>Match 1</b>
+      </div>
+      <div class="col-sm-4">
+        <u>@Model[0].Item1 <sup><b>@Model[0].Item2</b></sup>&nbsp;&nbsp;&nbsp;</u>
+        <br />
+        <u>@Model[1].Item1 <sup><b>@Model[1].Item2</b></sup>&nbsp;&nbsp;&nbsp;</u>
+      </div>
+      <div class="col-sm-4">
+        <b>TOTAL POINTS:</b><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> <input type="checkbox" value="" />
+        <br />
+        <b>TOTAL POINTS:</b><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> <input type="checkbox" value="" />
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-sm-2">
+        <b>Match 2</b>
+      </div>
+      <div class="col-sm-4">
+        <u>@Model[0].Item1 <sup><b>@Model[0].Item2</b></sup>&nbsp;&nbsp;&nbsp;</u>
+        <br />
+        <u>@Model[1].Item1 <sup><b>@Model[1].Item2</b></sup>&nbsp;&nbsp;&nbsp;</u>
+      </div>
+      <div class="col-sm-4">
+        <b>TOTAL POINTS:</b><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> <input type="checkbox" value="" />
+        <br />
+        <b>TOTAL POINTS:</b><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> <input type="checkbox" value="" />
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-sm-5">
+        <p style="position:absolute; bottom:0;">&copy; 2022 Tourney Wizard. All rights reserved.</p>
+      </div>
+      <div class="col-sm-4">
+        <p style="position:absolute; bottom:0;" class="text-bold"><b>@ViewBag.BracketEl</b></p>
+      </div>
+    </div>
+  </div>
+
+
+  <link href="~/Content/jquery.bracket.min.css" rel="stylesheet" />
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="~/Scripts/jquery.bracket.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script>
+$(function () {
+      $("#sortable").sortable({
+        revert: true,
+        stop: function (event, ui) {
+          $('#sortable hr').remove();
+          $('#sortable li').each(function (index) {
+            if ((index + 1) % 2 == 0) {
+              $(this).after('<hr>');
+            }
+
+          });
+        }
+      });
+
+      $("ul, li").disableSelection();
+});
+
+function viewCompetitor() {
+      $('#competModal').modal('show');
+}
+
+$("#shuffleCompetitor").submit(function (eventObj) {
+      $('#procMessage').show();
+
+      var compLists = [];
+      var listItems = $("#sortable li");
+      listItems.each(function (idx, li) {
+        compLists.push($(li).find('span').attr('id'));
+      });
+
+      $('#Competitors').val(compLists.toString());
+
+      return true;
+});
+
+
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var element = $("#printTournamentAsJpg")[0]; // global variable
+      var getCanvas; // global variable
+
+      $("#printImage").click(function () {
+        html2canvas($("#printTournamentAsJpg")[0]).then((canvas) => {
+          console.log("done ... ");
+          $("#copyDiv").append(canvas);
+
+          canvas.toBlob(function (blob) {
+            window.saveAs(blob, 'tournament.jpg');
+          });
+        });
+      })
+
+       $("#print").click(function () {
+         window.print();
+        })
+
+
+      var singleElimination = {
+        teams: [
+          @Html.Raw(ViewBag.Teams)
+        ],
+        results: [
+            @ViewBag.Results
+        ]
+
+
+      //  //teams: [
+      //  //  ['Shianna Grendell', '--BYE--'],
+      //  //  ['wyatt beaudoin', '--BYE--'],
+      //  //  ['Gavin Johnson', 'Nathan Woodhouse'],
+      //  //  ['Loki Riogeist', 'Angel Griggs'],
+      //  //  ['Ariany Andres', 'Ariany Andres'],
+      //  //  ['test compet', '--BYE--'],
+      //  //],
+      //  //results: [
+      //  //  [
+      //  //    [
+      //  //      [null, null], [null, null], [null, null], [null, null], [null, null], [null, null],
+      //  //    ],
+      //  //    [[null, null], [null, null], [null, null],], [[null, null], [null, null],], [[null, null], [null, null]]]
+      //  //]
+      //  // teams: [
+      //  //  ['Oliver', 'Amelia'], ['Sophia', 'Ava'],
+      //  //],
+      //  //results: [
+      //  //  [[[null, null], [null, null],]
+      //  //    , [[null, null]]],
+      //  //  [[[null, null], [null, null],], [[null, null]]]
+      //  //]
+      //  //teams: [
+      //  //  ["Team 1", "Team 2"],
+      //  //  ["Team 3", "Team 4"],
+      //  //  //["Team 5", "Team 6"],
+      //  //  //["Team 7", "Team 8"]
+      //  //],
+      //  //results: [[ /* WINNER BRACKET */
+      //  //  //[[null,null], [null,null], [null], [null,null]],
+      //  //  [[null, null], [null, null]],
+      //  //  [[null, null]]
+      //  //], [         /* LOSER BRACKET */
+      //  //  //[[null,null], [null, null], [null, null], [null, null]],
+      //  //  [[null, null], [null, null]],
+      //  //  [[null, null]]
+      //  //]]
+      //  //  teams: [
+      //  //  ["Team 1", "Team 2"],
+      //  //  ["Team 3", "Team 4"],
+      //  //  ["Team 5", "Team 6"],
+      //  //  ["Team 7", "Team 8"]
+      //  //],
+      //  //results: [
+      //  //  [
+      //  //    [[null, null], [null, null], [null, null], [null, null]],
+      //  //    [[null, null], [null, null]],
+      //  //    [[null, null], [null, null]]
+      //  //  ]
+      //  //]
+
+      //  // teams: [
+      //  //  ["Team 1", "Team 2"],
+      //  //  ["Team 3", null],
+      //  //  ["Team 4", null],
+      //  //  ["Team 5", null]
+      //  //],
+      //  //results: [
+      //  //  [
+      //  //    [[1, 0], [null, null], [null, null], [null, null]],
+      //  //    [[null, null], [1, 4]],
+      //  //    [[null, null], [null, null]]
+      //  //  ]
+      //  //]
+
+
+      //  //"teams": [              // Matchups
+      //  //  ["Team 1", "Team 2"], // First match
+      //  //  ["Team 3", "Team 4"]  // Second match
+      //  //],
+      //  //"results": [            // List of brackets (single elimination, so only one bracket)
+      //  //  [                     // List of rounds in bracket
+      //  //    [                   // First round in this bracket
+      //  //      [null, null],           // Team 1 vs Team 2
+      //  //      //[null, null]            // Team 3 vs Team 4
+      //  //    ],
+      //  //    //[                   // Second (final) round in single elimination bracket
+      //  //    //  //[5, 6],           // Match for first place
+      //  //    //  //[7, 8]            // Match for 3rd place
+      //  //    //]
+      //  //  ]
+      //  //]
+      }
+      $('.demo').bracket({
+        init: singleElimination,
+        teamWidth: 150,
+        scoreWidth: 110,
+        matchMargin: 100,
+        roundMargin: 30,
+        skipGrandFinalComeback: false,
+      });
+
+      $(".score").css({
+        fontSize: 9
+      });
+
+      switch (@ViewBag.Bracket) {
+        case 1:
+          $('.demo .match').last().remove();
+          break;
+        case 2:
+          $('.demo .finals .match .teamContainer').last().remove();
+          break;
+        case 5:
+          if ($("#printTournamentAsJpg .demo").length == 0) {
+            $("#printTournamentAsJpg .row:eq(2)").remove();
+            $("#printTournamentAsJpg .row:eq(2)").remove();
+            $("#printTournamentAsJpg .row:eq(1)").after('<img src="/Images/2Match.jpeg" alt="Nature" class=" mt-5" width="850" height="220">');
+          }
+          break;
+        default:
+          break;
+      }
+
+
+      $(".label").each(function (index) {
+        if ($(this).text() == 'TBD') {
+          $(this).text('');
+        }
+      });
+
+      //$(".win .label").each(function (index) {
+      //  $(this).text('--BYE--');
+      //});
+
+      var schoolNames =  @Html.Raw(ViewBag.SchoolArray);
+      $("div[data-resultid]").each(function (index) {
+        $(this).text(schoolNames[index]);
+      });
+
+      var comSchools = @Html.Raw(ViewBag.ComSchoolArray);
+      $(".team").each(function (index) {
+        var comText = $(this).children().eq(0).text();
+        var schoolText = $(this).children().eq(1).text();
+        if (comText !== '--BYE--' && schoolText === '--') {
+          $(this).children().eq(1).text(comSchools[comText]);
+        } else if (comText === '--BYE--') {
+          $(this).children().eq(1).text('--');
+        }
+
+      });
+
+      //window.print();
+    });
+
+    function saveFn(data, userData) {
+      var json = jQuery.toJSON(data)
+      $('#saveOutput').text('POST ' + userData + ' ' + json)
+      /* You probably want to do something like this
+      jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+                                    dataType: 'json',
+                                    type: 'post',
+                                    data: json})
+      */
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+@using Microsoft.AspNet.Identity
+@{
+  ViewBag.Title = "ProfileSetting";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+
+<style>
+
+  #File-error {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+  }
+</style>
+
+<section>
+  <div class="container">
+   
+    <h1>Add Athlete</h1>
+    <div class="row">
+      <div style="display: flex; justify-content: left; align-items: center; padding-left: 15px; padding-bottom: 15px;" id="LockProfileHide">
+        <h3 style="color:red;font-weight:500;margin-left:10px" id="LockProfileError">
+        </h3>
+
+      </div>
+
+
+      <form method="POST" id="FormValidation">
+        <div class="col-md-12 col-lg-7 margin-bottom-xs-32 margin-bottom-lg-0">
+
+          <div id="userSettings">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title pull-left">Registeration Details</h3>
+              </div>
+              <ul class="list-group form-horizontal">
+                <li class="list-group-item">
+                  <div data-field-name="Name">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">First Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Name" id="Name_text" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Name">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Last Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="LName" id="LName_text" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Age">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Date of Birth</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="DOB" autocomplete="off" id="DOB_text" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Age">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Age</label>
+                      <div class="col-sm-9">
+                        <input type="text" disabled name="Age" id="Age_text" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Weight">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Weight</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Weight" id="Weight_text" placeholder="" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Email">
+                    <div class="row">
+                      <label class="hidden">Email</label>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label text-align-left">Gender</label>
+                          <div class="col-sm-9">
+                            <select class="form-control" id="Gender_text" name="Gender">
+                              <option disabled="disabled" selected value="-1">Select Gender</option>
+                              <option value="true">Male</option>
+                              <option value="false">Female</option>
+                            </select>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="School">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Martial Art School</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="School" id="School_text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+              </ul>
+            </div>
+            
+
+
+          </div>
+          <div class="controlpanel controlpanel-floating">
+            <button type="button" id="UpdateProfileBtn" class="btn btn-warning" style="display: inline-flex; align-items: center;float:right;">Save changes <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+          </div>
+
+        </div>
+
+        <div id="userClubs" class="col-md-5 col-sm-12 margin-top-sm-0 margin-top-xs-128">
+          <div class="panel panel-default image-input-component profile-image">
+            <div class="panel-heading">
+              <div class="panel-controls">
+                <!---->
+                <div class="pull-sm-right pull-xs-left clear-xs">
+                  <!---->
+                  <label class="btn btn-secondary btn-file" style="position:relative;">
+                    <span>Select image</span>
+                    <input type="file" name="image" onchange="encodeImgtoBase64(this)" id="File" accept="image/*" style="visibility: hidden; height: 3px; width: 115px;" >
+                  </label>
+                </div>
+              </div>
+              <h3 class="panel-title">Profile image</h3>
+            </div>
+            <!---->
+            <!---->
+            <div class="preview">
+              <div class="placeholder guillotine-window"><img style="height:200px;" id="ImageDisplay" src="/build/webpack/img/placeholder-image-profile.7c8daa2577de9f4cdf896b613ca20750.png" class="full-width"></div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Belt/Skill levels
+              </h3>
+            </div>
+            <div class="panel-footer">
+
+              <select class="form-control" id="Belt_text" name="Belt" style=" height: 50px;">
+                <option disabled="disabled" selected value="-1">Select Belt</option>
+                @{ for (int z = 0; z < ViewBag.Belts.Count; z++)
+                  {
+                    <option value="@ViewBag.Belts[z].BeltId">@ViewBag.Belts[z].BeltName</option>
+ } }
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<script>
+
+  $(document).ready(function () {
+    $('input[name="DOB"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy",
+      maxDate: new Date(),
+      firstDay: 1,
+      isRTL: false,
+      showMonthAfterYear: false,
+      yearSuffix: '',
+      //minDate: 0,
+      //maxDate: '+12M +0D',
+      defaultDate: new Date(2005, 0, 1),
+      yearRange: "-100:+1",
+      changeMonth: true,
+      changeYear: true,
+      numberOfMonths: 2,
+      showButtonPanel: true
+    });
+  });
+
+  $('#UpdateProfileBtn').click(function () {
+    if ($("#FormValidation").valid())
+    {
+
+      UpdateProfile();
+    }
+
+  });
+
+  $("#FormValidation").validate({
+    errorClass: "text-danger font-weight-bold errorClass",
+    errorElement: "div",
+    rules: {
+      Name: {
+        required: true
+      },
+      LName: {
+        required: true
+      },
+      DOB: {
+        required: true
+      },
+      Age: {
+        required: true,
+        number: true
+      },
+      Weight: {
+        required: true,
+        number: true
+      },
+      Gender: {
+        required: true
+      },
+      State: {
+        required: true
+      },
+      City: {
+        required: true
+      },
+      Address: {
+        required: true
+      },
+      ZipCode: {
+        required: true,
+        number: true
+      },
+      Email: {
+        required: true,
+        email: true
+      },
+      Phone: {
+        required: true,
+        number: true
+      },
+      School: {
+        required: true
+      },
+      Belt: {
+        required: true
+      },
+      image: {
+        required:true,
+      }
+
+    },
+    highlight: function (inputelement, errorClass) {
+      $(inputelement).removeClass(errorClass)
+    }
+  });
+
+  function encodeImgtoBase64(element) {
+
+    var file = element.files[0];
+
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+
+      $("#File").attr("value", reader.result);
+      $("#ImageDisplay").attr("src", reader.result);
+
+    }
+
+    reader.readAsDataURL(file);
+
+  }
+
+
+  function UpdateProfile() {
+    $("#Loading_Show").show();
+    $.ajax({
+      url: "/Competitors/AddUpdateMember",
+      data: JSON.stringify({
+        Id:Number(@ViewBag.Id),
+        Name: $("#Name_text").val(),
+        LastName: $("#LName_text").val(),
+        Age: Number($("#Age_text").val()),
+        Weight:Number( $("#Weight_text").val()),
+        Gender: $("#Gender_text").val(),
+        Coutry: $("#Country_text").val(),
+        State: $("#State_text").val(),
+        City: $("#City_text").val(),
+        Address: $('#Address_text').val(),
+        DOB: new Date($('#DOB_text').val()).toISOString(),
+        Email: $("#Email_text").val(),
+        Phone: $("#Phone_text").val(),
+        School: $("#School_text").val(),
+        Zip: $("#ZipCode_text").val(),
+        ProfilePath: $("#File").attr("value"),
+        Belt: $("#Belt_text").val(),
+      }),
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#Loading_Show").hide();
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var EventId = window.location.pathname.split("/")[3];
+        var ProfileId = urlParams.get('ProfileId');
+
+        if (EventId != undefined) {
+          window.location.href = "/Competitors/Profile/" + EventId;
+        }
+        else if (ProfileId != undefined) {
+          window.location.href = "/Events/Events";
+        }
+        else {
+          window.location.href = "/Competitors/Profile";
+        }
+      },
+      error: function (errormessage) {
+        $("#Loading_Show").hide();
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+
+  $("#DOB_text").change(function () {
+    debugger;
+    var differenceMs = new Date() - new Date($(this).val());
+    var differenceYears = differenceMs / (1000 * 60 * 60 * 24 * 365);
+    var age = Math.round(differenceYears);
+    $("#Age_text").val(age);
+  });
+
+ 
+
+</script>

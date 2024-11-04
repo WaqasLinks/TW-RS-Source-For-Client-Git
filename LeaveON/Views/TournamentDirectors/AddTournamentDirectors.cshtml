@@ -1,0 +1,325 @@
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<section>
+  <div class="sc-25 registration-form">
+    <div class="form-header">
+      <h1 class="form-heading">
+        Exciting times!
+        <br> Let's get
+        <span>started</span> on <br/> Tourney Wizard
+      </h1>
+      <picture><source srcset="https://download.smoothcomp.com/features/misc/spotlightsdark@2x.webp 2x, https://download.smoothcomp.com/features/misc/spotlightsdark@2x.webp 1x" type="image/webp"> <source srcset="https://download.smoothcomp.com/features/misc/spotlightsdark@2x.jpg 2x, https://download.smoothcomp.com/features/misc/spotlightsdark@2x.jpg 1x" type="image/jpg"> <img loading="lazy" src="https://download.smoothcomp.com/features/misc/spotlightsdark@2x.jpg" class="sc-background-img"></picture>
+      <div class="background-shadow"></div>
+    </div>
+    <div class="container" style="margin-top:50px;">
+
+      <div id="ErrorAppend" >
+
+      </div>
+
+      <form id="FormTournamentDirectors" method="POST">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="FirtName" type="text" id="FirtNameId" value="@ViewBag.User.UserName" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Firt Name</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="LastName" type="text" id="LastNameId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Last Name</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="Email" type="text" id="EmailId" value="@ViewBag.User.Email" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Email</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="Address" type="text" id="AddressId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Address</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="City" type="text" id="CityId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">City</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="Zip" type="text" id="ZipId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Zip</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="Country" type="text" id="CountryId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Country</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="Phone" type="text" id="PhoneId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Phone</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="file" type="file" id="file" placeholder=" " class="form-input-text">
+              <label class="form-input-label" style=" margin-top: -18px; font-size: 1rem;">Profile</label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="AccountHolderName" type="text" id="AccountHolderNameId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Account Holder Name</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="AccountNumber" type="text" id="AccountNumberId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Account Number</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-input-wrapper">
+              <input name="RoutingNumber" type="text" id="RoutingNumberId" placeholder=" " class="form-input-text">
+              <label class="form-input-label">Routing Number</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div class="col-md-4">
+
+            <div id="recaptcha" class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey" data-callback="vcc" style="padding-top: 10px;"></div>
+
+          </div>
+
+          <div class="col-md-8">
+            <div class="form-input-wrapper" style=" margin-top: 25px;">
+              <button type="button" id="btnAddTournamentDirectors" class="btn btn-info btn-md" style="height: 42px;align-items: center; display: flex; justify-content: center; float: right; padding-left: 50px; padding-right: 50px; ">Submit <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .error {
+    font-size: 12px;
+    color: red;
+  }
+</style>
+
+<script>
+
+  $("#btnAddTournamentDirectors").click(function () {
+     $("#ErrorAppend").html("");
+    if ($("#FormTournamentDirectors").valid()) {
+      var response = grecaptcha.getResponse();
+      if (response.length == 0) {
+
+        $("#ErrorAppend").append(`<h5 style="color:red">Please verify reCAPTCHA</h5>`);
+      }
+      else {
+        AddTournamentDirectors();
+      }
+    }
+
+  })
+
+
+  function AddTournamentDirectors() {
+
+    $("#Loading_Show").show();
+
+    var formData = new FormData();
+
+    formData.append("FirstName", $("#FirtNameId").val());
+    formData.append("LastName", $("#LastNameId").val());
+    formData.append("Address", $("#AddressId").val());
+    formData.append("Zip", $("#ZipId").val());
+    formData.append("City", $("#CityId").val());
+    formData.append("Country", $("#CountryId").val());
+    formData.append("Email", $("#EmailId").val());
+    formData.append("Phone", $("#PhoneId").val());
+    formData.append("AccountHolderName", $("#AccountHolderNameId").val());
+    formData.append("AccountNumber", $("#AccountNumberId").val());
+    formData.append("RoutingNumber", $("#RoutingNumberId").val());
+    formData.append("ImageFile", $('#file').prop('files')[0]);
+
+    $.ajax({
+      url: "/TournamentDirectors/AddTournamentDirectors",
+      data: formData,
+      type: "POST",
+      processData: false,
+      contentType: false,
+      success: function (result) {
+        $("#Loading_Show").hide();
+
+        grecaptcha.reset();
+
+        if (result.success) {
+
+          window.location.href = "/Events/AddEvent"
+
+
+        }
+        else {
+
+          $("#ErrorAppend").append(`<h5 style="color:red">${result.message}</h5>`);
+
+        }
+      },
+      error: function (errormessage) {
+        $("#Loading_Show").hide();
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+  $("#FormTournamentDirectors").validate({
+    rules: {
+      FirtName: {
+        required: true,
+
+      },
+      //LastName: {
+      //  required: true,
+
+      //},
+
+      Address: {
+        required: true,
+
+      },
+      //Zip: {
+      //  required: true,
+
+      //},
+      //City: {
+      //  required: true,
+
+      //},
+      //Country: {
+      //  required: true,
+
+      //},
+      Email: {
+        required: true,
+
+      },
+      //Phone: {
+      //  required: true,
+
+      //},
+      AccountHolderName: {
+        required: true,
+
+      },
+      AccountNumber: {
+        required: true,
+
+      },
+      RoutingNumber: {
+        required: true,
+
+      },
+
+      //file: {
+      //  required: true,
+
+      //},
+
+    },
+    messages: {
+
+      FirtName: {
+        required: "This FirtName feild is required",
+
+      },
+      LastName: {
+        required: "This LastName feild is required",
+
+      },
+
+      Address: {
+        required: "This Address feild is required",
+
+      },
+      Zip: {
+        required: "This Zip feild is required",
+
+      },
+
+      City: {
+        required: "This City feild is required",
+
+      },
+
+      Country: {
+        required: "This Country feild is required",
+
+      },
+
+      Email: {
+        required: "This Email feild is required",
+
+      },
+
+      Phone: {
+        required: "This Phone feild is required",
+
+      },
+
+      AccountHolderName: {
+        required: "This Account Holder Name feild is required",
+
+      },
+      AccountNumber: {
+        required: "This Account Number feild is required",
+
+      },
+      RoutingNumber: {
+        required: "This Routing Number feild is required",
+
+      },
+      file: {
+        required: "This file feild is required",
+
+      },
+
+    }
+  });
+  
+
+</script>

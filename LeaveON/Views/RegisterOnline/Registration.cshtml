@@ -1,0 +1,997 @@
+@*@model TourneyRepo.Models.Competitor*@
+@using TourneyRepo.Models
+@{
+  ViewBag.Title = "Create";
+  Layout = null;
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">*@
+<link href="~/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+
+
+<style>
+  .error {
+    font-size: 12px;
+    color: red;
+  }
+
+  .modal-backdrop {
+    background-color: #00000080 !important;
+  }
+
+  #File-error {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+  }
+
+  .note-toolbar {
+    display: none;
+  }
+
+  .note-editable {
+    border: 2px solid grey;
+    border-radius: 5px;
+    color: #ffffff; /* White color */
+  }
+</style>
+
+
+
+
+<section>
+  <div id="loginPage" class="container">
+    <div class="row" style="margin-top:40px;">
+      <div class="col-sm-6" style="margin-top:20px;">
+        <h1>Information</h1>
+        @Html.Raw(HttpUtility.HtmlDecode(ViewBag.Description))
+
+      </div>
+      <div class="col-sm-6">
+        <div class="panel flip card margin-bottom-xs-64 flipped panel-default bg-black">
+          <div class="panel-body margin-vertical-xs-16 margin-horizontal-xs-32 face front color-white">
+            <form method="POST" action="/RegisterOnline/Registration" accept-charset="UTF-8" class="create-account" id="createForm">
+              @{
+                <div id="appendMember">
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="row">
+
+                        <div class="col-sm-9">
+                          <label for="selectMember">Select Member</label>
+                          <select class="form-control memberId">
+                            @foreach (var item in ((List<Competitor>)ViewBag.AllProfiles))
+                            {
+                              if (item.Id == ViewBag.CurrentCompetId)
+                              {
+                                <option selected value="@item.Id">@(item.Name), @(item.Age)y, @(((List<Belt>)ViewBag.Belts).FirstOrDefault(x=>x.BeltId.ToString()==item.Belt)?.BeltName), @(item.Gender==true?"Male":"Female"), @(item.Weight)lbs, @(item.School)</option>
+                              }
+                              else
+                              {
+                                <option value="@item.Id">@(item.Name), @(item.Age)y, @(((List<Belt>)ViewBag.Belts).FirstOrDefault(x=>x.BeltId.ToString()==item.Belt)?.BeltName), @(item.Gender==true?"Male":"Female"), @(item.Weight)lbs, @(item.School)</option>
+                              }
+
+                            }
+                          </select>
+                        </div>
+                        <div class="col-sm-3 btn-group btn-sm" style="margin-top:30px;">
+                          <button type="button" class="btn btn-warning editMember"><span class="icon icon-pencil"></span></button>
+                          <button type="button" class="btn btn-danger removeMember"><span class="icon icon-delete"></span></button>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-check form-check-inline" style="margin-top:15px;">
+                        @for (int i = 0; i < (((List<TournamentEventRealtion>)ViewBag.TournamentEvents).Count()); i++)
+                        {
+                          if (i == 0)
+                          {
+                            <input checked class="form-check-input eventId" type="checkbox" value="@ViewBag.TournamentEvents[i].EventId">
+                          }
+                          else
+                          {
+                            <input class="form-check-input eventId" type="checkbox" value="@ViewBag.TournamentEvents[i].EventId">
+                          }
+
+                          <label class="form-check-label" for="inlineCheckbox1">@ViewBag.TournamentEvents[i].EventName</label>}
+                      </div>
+                    </div>
+                    <p style="font-size:18px;">Sub Total: $<span class="eventFee">@ViewBag.EventFee</span></p>
+
+                    <hr />
+                  </div>
+                </div>
+              }
+              <div class="row" style="float:right;">
+                <input type="button" value="Add Member" class="btn btn-warning btn-md" id="AddMember" />
+              </div>
+
+              <div class="col-sm-12" style="margin-top:25px;margin-bottom:20px;">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#stripe">Stripe</a></li>
+                  @*<li><a data-toggle="tab" href="#paypal">PayPal</a></li>
+                  <li><a data-toggle="tab" href="#applepay">Apple Pay</a></li>*@
+                </ul>
+
+                <div class="tab-content">
+                  <div id="stripe" class="tab-pane in active">
+                    <div class="form-group">
+                      <label for="CardNo">Card Number</label>
+                      <input class="form-control text-box single-line" id="CardNo" name="CardNo" maxlength="16" type="text" value="">
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label class="" for="ExpMonth">Exp Month</label>
+                          <input class="form-control text-box single-line" id="ExpMonth" name="ExpMonth" maxlength="2" type="text" value="">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="" for="ExpYear">Exp Year</label>
+                          <input class="form-control text-box single-line" id="ExpYear" name="ExpYear" maxlength="4" type="text" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label class="" for="Zip">Zip Code</label>
+                          <input class="form-control text-box single-line" id="Zip" name="Zip" type="text" value="">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="" for="CVC">CVC</label>
+                          <input class="form-control text-box single-line" id="CVC" name="CVC" maxlength="3" type="text" value="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @*<div id="applepay" class="tab-pane">
+                    <div class="form-group">
+                      <label for="CardNo">Card Number</label>
+                      <input class="form-control text-box single-line" id="CardNo" name="CardNo" maxlength="16" type="text" value="">
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label class="" for="ExpMonth">Exp Month</label>
+                          <input class="form-control text-box single-line" id="ExpMonth" name="ExpMonth" maxlength="2" type="text" value="">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="" for="ExpYear">Exp Year</label>
+                          <input class="form-control text-box single-line" id="ExpYear" name="ExpYear" maxlength="4" type="text" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <label class="" for="Zip">Zip Code</label>
+                          <input class="form-control text-box single-line" id="Zip" name="Zip" type="text" value="">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="" for="CVC">CVC</label>
+                          <input class="form-control text-box single-line" id="CVC" name="CVC" maxlength="3" type="text" value="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="paypal" class="tab-pane">
+                    <div class="form-group" align="center">
+                      <button id="submitPaypal" type="button" class="btn" style="width: 85%; margin-bottom: 25px; border-radius: 23px; color: black; background-color: #ffc439; "> Pay with <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAxcHgiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAxMDEgMzIiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaW5ZTWluIG1lZXQiIHhtbG5zPSJodHRwOiYjeDJGOyYjeDJGO3d3dy53My5vcmcmI3gyRjsyMDAwJiN4MkY7c3ZnIj48cGF0aCBmaWxsPSIjMDAzMDg3IiBkPSJNIDEyLjIzNyAyLjggTCA0LjQzNyAyLjggQyAzLjkzNyAyLjggMy40MzcgMy4yIDMuMzM3IDMuNyBMIDAuMjM3IDIzLjcgQyAwLjEzNyAyNC4xIDAuNDM3IDI0LjQgMC44MzcgMjQuNCBMIDQuNTM3IDI0LjQgQyA1LjAzNyAyNC40IDUuNTM3IDI0IDUuNjM3IDIzLjUgTCA2LjQzNyAxOC4xIEMgNi41MzcgMTcuNiA2LjkzNyAxNy4yIDcuNTM3IDE3LjIgTCAxMC4wMzcgMTcuMiBDIDE1LjEzNyAxNy4yIDE4LjEzNyAxNC43IDE4LjkzNyA5LjggQyAxOS4yMzcgNy43IDE4LjkzNyA2IDE3LjkzNyA0LjggQyAxNi44MzcgMy41IDE0LjgzNyAyLjggMTIuMjM3IDIuOCBaIE0gMTMuMTM3IDEwLjEgQyAxMi43MzcgMTIuOSAxMC41MzcgMTIuOSA4LjUzNyAxMi45IEwgNy4zMzcgMTIuOSBMIDguMTM3IDcuNyBDIDguMTM3IDcuNCA4LjQzNyA3LjIgOC43MzcgNy4yIEwgOS4yMzcgNy4yIEMgMTAuNjM3IDcuMiAxMS45MzcgNy4yIDEyLjYzNyA4IEMgMTMuMTM3IDguNCAxMy4zMzcgOS4xIDEzLjEzNyAxMC4xIFoiPjwvcGF0aD48cGF0aCBmaWxsPSIjMDAzMDg3IiBkPSJNIDM1LjQzNyAxMCBMIDMxLjczNyAxMCBDIDMxLjQzNyAxMCAzMS4xMzcgMTAuMiAzMS4xMzcgMTAuNSBMIDMwLjkzNyAxMS41IEwgMzAuNjM3IDExLjEgQyAyOS44MzcgOS45IDI4LjAzNyA5LjUgMjYuMjM3IDkuNSBDIDIyLjEzNyA5LjUgMTguNjM3IDEyLjYgMTcuOTM3IDE3IEMgMTcuNTM3IDE5LjIgMTguMDM3IDIxLjMgMTkuMzM3IDIyLjcgQyAyMC40MzcgMjQgMjIuMTM3IDI0LjYgMjQuMDM3IDI0LjYgQyAyNy4zMzcgMjQuNiAyOS4yMzcgMjIuNSAyOS4yMzcgMjIuNSBMIDI5LjAzNyAyMy41IEMgMjguOTM3IDIzLjkgMjkuMjM3IDI0LjMgMjkuNjM3IDI0LjMgTCAzMy4wMzcgMjQuMyBDIDMzLjUzNyAyNC4zIDM0LjAzNyAyMy45IDM0LjEzNyAyMy40IEwgMzYuMTM3IDEwLjYgQyAzNi4yMzcgMTAuNCAzNS44MzcgMTAgMzUuNDM3IDEwIFogTSAzMC4zMzcgMTcuMiBDIDI5LjkzNyAxOS4zIDI4LjMzNyAyMC44IDI2LjEzNyAyMC44IEMgMjUuMDM3IDIwLjggMjQuMjM3IDIwLjUgMjMuNjM3IDE5LjggQyAyMy4wMzcgMTkuMSAyMi44MzcgMTguMiAyMy4wMzcgMTcuMiBDIDIzLjMzNyAxNS4xIDI1LjEzNyAxMy42IDI3LjIzNyAxMy42IEMgMjguMzM3IDEzLjYgMjkuMTM3IDE0IDI5LjczNyAxNC42IEMgMzAuMjM3IDE1LjMgMzAuNDM3IDE2LjIgMzAuMzM3IDE3LjIgWiI+PC9wYXRoPjxwYXRoIGZpbGw9IiMwMDMwODciIGQ9Ik0gNTUuMzM3IDEwIEwgNTEuNjM3IDEwIEMgNTEuMjM3IDEwIDUwLjkzNyAxMC4yIDUwLjczNyAxMC41IEwgNDUuNTM3IDE4LjEgTCA0My4zMzcgMTAuOCBDIDQzLjIzNyAxMC4zIDQyLjczNyAxMCA0Mi4zMzcgMTAgTCAzOC42MzcgMTAgQyAzOC4yMzcgMTAgMzcuODM3IDEwLjQgMzguMDM3IDEwLjkgTCA0Mi4xMzcgMjMgTCAzOC4yMzcgMjguNCBDIDM3LjkzNyAyOC44IDM4LjIzNyAyOS40IDM4LjczNyAyOS40IEwgNDIuNDM3IDI5LjQgQyA0Mi44MzcgMjkuNCA0My4xMzcgMjkuMiA0My4zMzcgMjguOSBMIDU1LjgzNyAxMC45IEMgNTYuMTM3IDEwLjYgNTUuODM3IDEwIDU1LjMzNyAxMCBaIj48L3BhdGg+PHBhdGggZmlsbD0iIzAwOWNkZSIgZD0iTSA2Ny43MzcgMi44IEwgNTkuOTM3IDIuOCBDIDU5LjQzNyAyLjggNTguOTM3IDMuMiA1OC44MzcgMy43IEwgNTUuNzM3IDIzLjYgQyA1NS42MzcgMjQgNTUuOTM3IDI0LjMgNTYuMzM3IDI0LjMgTCA2MC4zMzcgMjQuMyBDIDYwLjczNyAyNC4zIDYxLjAzNyAyNCA2MS4wMzcgMjMuNyBMIDYxLjkzNyAxOCBDIDYyLjAzNyAxNy41IDYyLjQzNyAxNy4xIDYzLjAzNyAxNy4xIEwgNjUuNTM3IDE3LjEgQyA3MC42MzcgMTcuMSA3My42MzcgMTQuNiA3NC40MzcgOS43IEMgNzQuNzM3IDcuNiA3NC40MzcgNS45IDczLjQzNyA0LjcgQyA3Mi4yMzcgMy41IDcwLjMzNyAyLjggNjcuNzM3IDIuOCBaIE0gNjguNjM3IDEwLjEgQyA2OC4yMzcgMTIuOSA2Ni4wMzcgMTIuOSA2NC4wMzcgMTIuOSBMIDYyLjgzNyAxMi45IEwgNjMuNjM3IDcuNyBDIDYzLjYzNyA3LjQgNjMuOTM3IDcuMiA2NC4yMzcgNy4yIEwgNjQuNzM3IDcuMiBDIDY2LjEzNyA3LjIgNjcuNDM3IDcuMiA2OC4xMzcgOCBDIDY4LjYzNyA4LjQgNjguNzM3IDkuMSA2OC42MzcgMTAuMSBaIj48L3BhdGg+PHBhdGggZmlsbD0iIzAwOWNkZSIgZD0iTSA5MC45MzcgMTAgTCA4Ny4yMzcgMTAgQyA4Ni45MzcgMTAgODYuNjM3IDEwLjIgODYuNjM3IDEwLjUgTCA4Ni40MzcgMTEuNSBMIDg2LjEzNyAxMS4xIEMgODUuMzM3IDkuOSA4My41MzcgOS41IDgxLjczNyA5LjUgQyA3Ny42MzcgOS41IDc0LjEzNyAxMi42IDczLjQzNyAxNyBDIDczLjAzNyAxOS4yIDczLjUzNyAyMS4zIDc0LjgzNyAyMi43IEMgNzUuOTM3IDI0IDc3LjYzNyAyNC42IDc5LjUzNyAyNC42IEMgODIuODM3IDI0LjYgODQuNzM3IDIyLjUgODQuNzM3IDIyLjUgTCA4NC41MzcgMjMuNSBDIDg0LjQzNyAyMy45IDg0LjczNyAyNC4zIDg1LjEzNyAyNC4zIEwgODguNTM3IDI0LjMgQyA4OS4wMzcgMjQuMyA4OS41MzcgMjMuOSA4OS42MzcgMjMuNCBMIDkxLjYzNyAxMC42IEMgOTEuNjM3IDEwLjQgOTEuMzM3IDEwIDkwLjkzNyAxMCBaIE0gODUuNzM3IDE3LjIgQyA4NS4zMzcgMTkuMyA4My43MzcgMjAuOCA4MS41MzcgMjAuOCBDIDgwLjQzNyAyMC44IDc5LjYzNyAyMC41IDc5LjAzNyAxOS44IEMgNzguNDM3IDE5LjEgNzguMjM3IDE4LjIgNzguNDM3IDE3LjIgQyA3OC43MzcgMTUuMSA4MC41MzcgMTMuNiA4Mi42MzcgMTMuNiBDIDgzLjczNyAxMy42IDg0LjUzNyAxNCA4NS4xMzcgMTQuNiBDIDg1LjczNyAxNS4zIDg1LjkzNyAxNi4yIDg1LjczNyAxNy4yIFoiPjwvcGF0aD48cGF0aCBmaWxsPSIjMDA5Y2RlIiBkPSJNIDk1LjMzNyAzLjMgTCA5Mi4xMzcgMjMuNiBDIDkyLjAzNyAyNCA5Mi4zMzcgMjQuMyA5Mi43MzcgMjQuMyBMIDk1LjkzNyAyNC4zIEMgOTYuNDM3IDI0LjMgOTYuOTM3IDIzLjkgOTcuMDM3IDIzLjQgTCAxMDAuMjM3IDMuNSBDIDEwMC4zMzcgMy4xIDEwMC4wMzcgMi44IDk5LjYzNyAyLjggTCA5Ni4wMzcgMi44IEMgOTUuNjM3IDIuOCA5NS40MzcgMyA5NS4zMzcgMy4zIFoiPjwvcGF0aD48L3N2Zz4" /></button>
+                    </div>
+                  </div>*@
+                </div>
+              </div>
+
+              @*<div class="form-group" style="margin-top:100px">
+      <label for="CardNo">Card Number</label>
+      <input class="form-control text-box single-line" id="CardNo" name="CardNo" maxlength="16" type="text" value="">
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="" for="ExpMonth">Exp Month</label>
+          <input class="form-control text-box single-line" id="ExpMonth" name="ExpMonth" maxlength="2" type="text" value="">
+        </div>
+        <div class="col-sm-6">
+          <label class="" for="ExpYear">Exp Year</label>
+          <input class="form-control text-box single-line" id="ExpYear" name="ExpYear" maxlength="4" type="text" value="">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <label class="" for="Zip">Zip Code</label>
+          <input class="form-control text-box single-line" id="Zip" name="Zip" type="text" value="">
+        </div>
+        <div class="col-sm-6">
+          <label class="" for="CVC">CVC</label>
+          <input class="form-control text-box single-line" id="CVC" name="CVC" maxlength="3" type="text" value="">
+        </div>
+      </div>
+    </div>*@
+
+              <div class="form-group mt-3">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div id="summernote"></div>
+
+                    <input checked class="form-check-input" type="checkbox" id="termscondi">
+                    <label class="form-check-label" for="inlineCheckbox1">I have read the policy terms & conditions.</label>
+
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+
+                <label for="signature">Digital Signature</label>
+                <div id="target" class="drawpad-dashed"></div>
+              </div>
+
+
+              <div class="row" style=" display: flex; justify-content: left; align-items: center; padding-bottom: 15px;">
+                <div class="col">
+
+                  <div id="recaptcha" class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey" data-callback="vcc" style="padding-top: 10px; padding-left: 18px;"></div>
+
+                </div>
+              </div>
+
+
+
+
+              <div class="form-group">
+                <div class="class=" card-footer">
+                  <span id="btnText">you selected 1 member and 1 event</span>
+                  <button id="comp_save" type="button" class="btn btn-warning" style="align-items: center; display: flex; justify-content: center; width: 180px; margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: 0%"><span id="btnRegisterText" style="font-weight:bolder;">Pay $@(ViewBag.EventFee) to Register</span> <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+                </div>
+              </div>
+
+
+
+              <div id="error" class="text-danger text-bold" style="display:none;">hee</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<div id="MyModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal Content: begins -->
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Update Profile Details</h4>
+      </div>
+
+      <!-- Modal Body -->
+
+      <div class="modal-body">
+
+        <div id="appendMemberProfile">
+          <form method="POST" id="FormValidation">
+            <div class="col-md-12 col-lg-7 margin-bottom-xs-32 margin-bottom-lg-0">
+
+              <div id="userSettings">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title pull-left">Registeration Details</h3>
+                  </div>
+                  <ul class="list-group form-horizontal">
+                    <li class="list-group-item">
+                      <div data-field-name="Name">
+                        <div class="row">
+                          <label class="col-sm-3 control-label text-align-left">First Name</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="Name" id="Name_text" placeholder="" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item">
+                      <div data-field-name="Name">
+                        <div class="row">
+                          <label class="col-sm-3 control-label text-align-left">Last Name</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="LName" id="LName_text" placeholder="" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item">
+                      <div data-field-name="Age">
+                        <div class="row">
+                          <label class="col-sm-3 control-label text-align-left">DOB</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="DOB" id="DOB_text" placeholder="" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item">
+                      <div data-field-name="Age">
+                        <div class="row">
+                          <label class="col-sm-3 control-label text-align-left">Age</label>
+                          <div class="col-sm-9">
+                            <input type="text" disabled name="Age" id="Age_text" placeholder="" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item">
+                      <div data-field-name="Weight">
+                        <div class="row">
+                          <label class="col-sm-3 control-label text-align-left">Weight</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="Weight" id="Weight_text" placeholder="" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item">
+                      <div data-field-name="Email">
+                        <div class="row">
+                          <label class="hidden">Email</label>
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="col-sm-3 control-label text-align-left">Gender</label>
+                              <div class="col-sm-9">
+                                <select class="form-control" id="Gender_text" name="Gender">
+                                  <option disabled="disabled" selected value="-1">Select Gender</option>
+                                  <option value="true">Male</option>
+                                  <option value="false">Female</option>
+                                </select>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                    <li class="list-group-item">
+                      <div data-field-name="School">
+                        <div class="row">
+                          <label class="col-sm-3 control-label text-align-left">School</label>
+                          <div class="col-sm-9">
+                            <input type="text" name="School" id="School_text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </li>
+                  </ul>
+                </div>
+
+
+
+              </div>
+              <div class="controlpanel controlpanel-floating">
+                <button type="button" id="UpdateProfileBtn" class="btn btn-warning" style="display: inline-flex; align-items: center;float:right;">Save changes <img id="Loading_Show2" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+              </div>
+
+            </div>
+
+            <div id="userClubs" class="col-md-5 col-sm-12 margin-top-sm-0 margin-top-xs-128">
+              <div class="panel panel-default image-input-component profile-image">
+                <div class="panel-heading">
+                  <div class="panel-controls">
+                    <!---->
+                    <div class="pull-sm-right pull-xs-left clear-xs">
+                      <!---->
+                      <label class="btn btn-secondary btn-file" style="position:relative;">
+                        <span>Select image</span>
+                        <input type="file" name="image" onchange="encodeImgtoBase64(this)" id="File" accept="image/*" style="visibility: hidden; height: 3px; width: 115px;">
+                      </label>
+                    </div>
+                  </div>
+                  <h3 class="panel-title">Profile image</h3>
+                </div>
+                <!---->
+                <!---->
+                <div class="preview">
+                  <div class="placeholder guillotine-window"><img style="height:200px;" id="ImageDisplay" src="/build/webpack/img/placeholder-image-profile.7c8daa2577de9f4cdf896b613ca20750.png" class="full-width"></div>
+                </div>
+
+                <div class="clearfix"></div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">
+                    Belt/Skill levels
+                  </h3>
+                </div>
+                <div class="panel-footer">
+
+                  <select class="form-control" id="Belt_text" name="Belt" style=" height: 50px;">
+                    <option disabled="disabled" selected value="-1">Select Belt</option>
+                    @{ for (int z = 0; z < ViewBag.Belts.Count; z++)
+                      {
+                        <option value="@ViewBag.Belts[z].BeltId">@ViewBag.Belts[z].BeltName</option>
+                      } }
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          @*<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button id="btnPrint" type="button" class="btn btn-info">Submit</button>*@
+        </div>
+        <!-- Modal Content: ends -->
+
+      </div>
+    </div>
+  </div>
+</div>
+@*<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+
+<!--<script src="~/plugins/select2/js/select2.full.min.js"></script>-->
+@*Signature Scenario*@
+<!--<link href="~/Content/Custom/css/jquery-drawpad.css" rel="stylesheet" />-->
+@*<script src="/path/to/cdn/jquery.min.js"></script>*@
+<!--<script src="~/Content/Custom/js/jquery-drawpad.js"></script>-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+
+<script>
+  var compLists = @Html.Raw(Json.Encode(ViewBag.AllProfiles));
+  var allBelts = @Html.Raw(Json.Encode(ViewBag.Belts));
+
+  $(document).ready(function () {
+//    if (window.ApplePaySession) {
+//      var merchantIdentifier = 'tourneywizard.com';
+//      var promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
+//      promise.then(function (canMakePayments) {
+//        if (canMakePayments)
+//         // Display Apple Pay Buttons here…
+//});
+//    }
+
+    $(".nav-tabs li").click(function () {
+      $(".nav-tabs li").removeClass("active");
+      var eventClicked = $(this).children('a').attr("href");
+      if (eventClicked == "#paypal") { $("#comp_save").hide(); $("#submitPaypal").show();}
+      if (eventClicked == "#stripe") { $("#submitPaypal").hide(); $("#comp_save").show(); }
+      $(this).addClass("active");
+    });
+
+    $('#summernote').summernote({
+      placeholder: 'Terms & Conditions.',
+      tabsize: 1,
+      height: 200,
+      codemirror: {
+        mode: 'text/html',
+        htmlMode: true,
+        lineNumbers: true,
+        theme: 'monokai'
+      },
+
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link']],
+        ['view', ['codeview', 'help']]
+      ],
+    });
+    $("#summernote").summernote('code', "<p style='font-weight:bold;'>Assumptions of Responsibility and Risk</p> <p>The instructors, coaches, leadership team, or other students may have some first aid and CPR skills. At their discretion, I authorize them to use those skills and techniques to assist in any circumstance in which they judge their skills would be necessary or helpful.</p><p> Martial art tournaments are a potentially dangerous activity.Bumps, bruises, scrapes, scratches, and soreness are commonplace, and most students will encounter this sort of minor injury from time to time in their training.More serious injuries are possible, including sprains, strains, twists, cramps, and injuries of similar magnitude, and students can expect to encounter these injuries infrequently.The possibility of more serious harm exists, including fractured bones, broken bones, and torn ligaments, though not all students experience such serious injuries.</p ><p>I understand the above statement of risk and the rights and responsibilities of students. I assume responsibility for my safety (or my child's safety), understanding and accepting the risks involved with martial arts. Even if the staff has informed me no serious injuries have ever happened in this school or with any of the instructors, I understand that this does not mean that there is no possibility of harm. By assuming this risk, I completely absolve all the instructors, staff, guests, students, landlords, management companies, and any other parties of liability for my harm unless intentionally caused in criminal conduct.</p><p>By giving my authorization, I assume responsibility for all decisions made, provided they are reasonable under the circumstances based on the knowledge and understanding of the person making the decisions. I trust their judgment and offer them the benefit of the doubt in any claim or legal proceeding. This presumption may only be overcome by clear and convincing evidence that they acted with malice or willful gross negligence, and if so, they may still be liable.</p><p style='font-weight:bold;'>Must be 18 years or older to sign.</p>");
+    $('#summernote').summernote('disable');
+
+    $('input[name="DOB"]').datepicker({
+      language: "en",
+      autoclose: true,
+      format: "mm/dd/yyyy",
+      maxDate: new Date()
+    });
+
+
+  });
+
+  $(document).on('click', '.eventId', function () {
+    var curLength = $(this).parent().find('input:checked').length;
+    if (curLength > 1) $(this).parent().parent().parent().find('.eventFee').text(@(ViewBag.EventFee)+((curLength - 1) *@(ViewBag.OtherEventFee)));
+    else if(curLength == 1) $(this).parent().parent().parent().find('.eventFee').text(@(ViewBag.EventFee));
+    else $(this).parent().parent().parent().find('.eventFee').text('0');
+
+    UpdateRegisterText();
+  });
+
+  function UpdateRegisterText() {
+    var totalFee = 0;
+    for (var u = 0; u < $('.eventFee').length; u++) {
+      totalFee += Number($('.eventFee:eq(' + u + ')').text());
+    }
+    $("#btnRegisterText").text('Pay $' + totalFee + ' to Register');
+
+    var totalEVLength = $('.eventId:checked').length;
+    var toalMemLength = $('.memberId').length;
+    $("#btnText").text('you selected ' + toalMemLength + (toalMemLength == 1 ? ' member' : ' members') + ' and ' + totalEVLength + (totalEVLength == 1 ? ' event' : ' events'));
+  }
+
+  $(document).on("click", ".removeMember", function () {
+    $(this).parent().parent().parent().parent().remove();
+    var filteredList = $('.memberId').map(function () {
+      return Number($(this).val());
+    }).get();
+    var filteredData = compLists.filter(x => !filteredList.includes(x.Id));
+    if (filteredData.length > 0) $("#AddMember").show();
+
+    UpdateRegisterText();
+  });
+
+  $("#AddMember").click(function () {
+    debugger;
+    var filteredList = $('.memberId').map(function () {
+      return Number($(this).val());
+    }).get();
+    var filteredData = compLists.filter(x => !filteredList.includes(x.Id));
+    if (filteredData.length == 0) return;
+    var appendData = `
+              <div class="row">
+                    <div class="form-group">
+                      <div class="row">
+
+                        <div class="col-sm-9">
+                          <label for="selectMember">Select Member</label>
+                          <select class="form-control memberId">`;
+    for (var i = 0; i < filteredData.length; i++) {
+      appendData += `<option value="${filteredData[i].Id}">${filteredData[i].Name}, ${filteredData[i].Age}y, ${allBelts.filter(x => x.BeltId.toString() == filteredData[i].Belt)[0]?.BeltName}, ${filteredData[i].Gender == true ? "Male" : "Female"}, ${filteredData[i].Weight}lbs, ${filteredData[i].School}</option>`;
+    }
+
+    appendData += `</select>
+                        </div>
+                       <div class="col-sm-3 btn-group btn-sm" style="margin-top:30px;">
+                            <button type="button" class="btn btn-warning editMember"><span class="icon icon-pencil"></span></button>
+                            <button type="button" class="btn btn-danger removeMember"><span class="icon icon-delete"></span></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-check form-check-inline" style="margin-top:15px;">
+                        @for (int i = 0; i < (((List<TournamentEventRealtion>)ViewBag.TournamentEvents).Count()); i++)
+                        {
+                          if (i == 0)
+                          {
+                            <input checked class="form-check-input eventId" type="checkbox" value="@ViewBag.TournamentEvents[i].EventId">
+                          }
+                          else
+                          {
+                            <input class="form-check-input eventId" type="checkbox" value="@ViewBag.TournamentEvents[i].EventId">
+                          }
+
+                          <label class="form-check-label" for="inlineCheckbox1">@ViewBag.TournamentEvents[i].EventName</label>}
+
+                      </div>
+                    </div>
+                    <p style="font-size:18px;">Sub Total: $<span class="eventFee">@ViewBag.EventFee</span></p>
+                    <hr />
+                  </div>`;
+    $("#appendMember").append(appendData);
+    if (filteredData.length == 1) $("#AddMember").hide();
+
+    UpdateRegisterText();
+  });
+
+  $("#createForm").validate({
+    errorClass: "text-danger font-weight-bold errorClass",
+    errorElement: "div",
+
+
+    rules: {
+      Name: {
+        required: true
+      },
+      Age: {
+        required: true,
+        number: true
+      },
+      Weight: {
+        required: true,
+        number: true
+      },
+      Gender: {
+        required: true
+      },
+      State: {
+        required: true
+      },
+      City: {
+        required: true
+      },
+      Address: {
+        required: true
+      },
+      Zip: {
+        required: true,
+        number: true
+      },
+      Email: {
+        required: true,
+        email: true
+      },
+      Phone: {
+        required: true,
+        number: true
+      },
+      School: {
+        required: true
+      },
+      Belt: {
+        required: true
+      },
+      CardNo: {
+        required: true,
+        number: true,
+        minlength: 16,
+        maxlength:16
+      },
+      ExpMonth: {
+        required: true,
+        number: true,
+        minlength: 2,
+        maxlength:2
+      },
+      ExpYear: {
+        required: true,
+        number: true,
+        minlength: 4,
+        maxlength: 4
+      },
+      CVC: {
+        required: true,
+        number: true,
+        minlength: 3,
+        maxlength: 3
+      }
+    },
+    highlight: function (inputelement, errorClass) {
+      $(inputelement).removeClass(errorClass)
+    }
+  });
+
+
+
+
+
+  $('#comp_save,#submitPaypal').click(function () {
+    debugger;
+    var eventClicked = $(this).attr("id");
+    if (eventClicked == "comp_save" && !$("#createForm").valid()) return;
+
+      var response = grecaptcha.getResponse();
+      if (response.length == 0) {
+        $("#error").show(); $("#error").text('Please verify reCAPTCHA');
+      }
+      else if (!$("#termscondi").is(":checked")) {
+        $("#error").show(); $("#error").text('Please accept terms & conditions.');
+      }
+      else {
+        $("#Loading_Show").show();
+        ////var eventsIds = [];
+        ////$('[name="customSwitch"]:checkbox:checked').each(function (i) {
+        ////  eventsIds.push($(this).val());
+        ////});
+
+        var memberData = [];
+        for (let index = 0; index < $('.memberId').length; index++) {
+          var seltectedEvents = [];
+          $('.memberId:eq(' + index + ')').parent().parent().parent().parent().find('.eventId:checked').each(function (i, v) {
+            seltectedEvents.push(Number(v.value));
+          });
+          memberData.push({ CompetitorId: Number($('.memberId:eq(' + index + ')').val()), EventIds: seltectedEvents });
+        }
+
+        $.ajax({
+          type: 'POST',
+          url: '@Url.Action("Registration", "RegisterOnline")',
+          data: {
+            _competitor: {
+              ////Name: $("#Name").val(), Age: $("#Age").val(), Weight: $("#Weight").val(), Gender: $("#Gender").val(), State: $("#State").val(),
+              ////City: $("#City").val(), Address: $("#Address").val(), Zip: $("#Zip").val(), Email: $("#Email").val(), Phone: $("#Phone").val(),
+              ////School: $("#School").val(), Belt: $("#Belt").val(), Path: $("#target canvas").get(0).toDataURL(),
+              ////Event: eventsIds.toString(),
+              Event: @ViewBag.TournamentId,
+              ////Id: Number(window.location.search.split('&')[1].split('=')[1])
+            },
+            _card: { CardNo: $("#CardNo").val(), ExpMonth: $("#ExpMonth").val(), ExpYear: $("#ExpYear").val(), CVC: $("#CVC").val() },
+            _competitorEvents: memberData
+
+          },
+          success: function (res) {
+
+
+            $("#Loading_Show").hide();
+
+            if (!res.success) { $("#error").show(); $("#error").text(res.error); }
+            else window.location.href = "/Events/Events";
+
+            console.log(res);
+          },
+          error: function (errormessage) {
+            $("#Loading_Show").hide();
+            console.log(errormessage.responseText);
+          }
+        });
+      }
+
+  });
+
+    @*$(function () {
+      $("#comp_save").click(function () {
+          var div = $("#target");
+            var canvas = div["children"]()[0];
+            image = canvas.toDataURL("image/png");
+            newimage = image.replace('data:image/png;base64,', '');
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SignatureSave", "RegisterOnline")',
+                data: {
+                    imageData: newimage
+                },
+
+                success: function (data) {
+                    alert("success" );
+                }
+            });
+       });
+    });*@
+
+  var currComptId = 0;
+  var CurrProfilePath = null;
+  $(document).on('click', '.editMember', function(){
+    currComptId = $(this).parent().parent().find('select').val();
+    $.ajax({
+      url: "/Competitors/GetProfileById/" + currComptId,
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        debugger;
+        $("#Name_text").val(result.Name);
+        $("#LName_text").val(result.LastName);
+        $("#Weight_text").val(result.Weight);
+        $("#Gender_text").val((result.Gender == true ? "true" : "false"));
+        $("#DOB_text").datepicker('setDate', new Date(parseInt(result.DOB.substr(6))));
+        $("#School_text").val(result.School);
+        $("#ImageDisplay").prop("src", (result.ProfilePath == null ? "/build/webpack/img/placeholder-image-profile.7c8daa2577de9f4cdf896b613ca20750.png" : result.ProfilePath));
+          CurrProfilePath = result.ProfilePath;
+        $("#Belt_text").val(result.Belt);
+        var differenceMs = new Date() - new Date(parseInt(result.DOB.substr(6)));
+        var differenceYears = differenceMs / (1000 * 60 * 60 * 24 * 365);
+        var age = Math.round(differenceYears);
+        $("#Age_text").val(age);
+
+        $("#MyModal").modal('show');
+      },
+      error: function (errormessage) {
+        console.log(errormessage.responseText);
+      }
+    });
+  });
+
+
+  $('#UpdateProfileBtn').click(function () {
+    if ($("#FormValidation").valid())
+    {
+
+      UpdateProfile();
+    }
+
+  });
+
+  $("#FormValidation").validate({
+    errorClass: "text-danger font-weight-bold errorClass",
+    errorElement: "div",
+    rules: {
+      Name: {
+        required: true
+      },
+      LName: {
+        required: true
+      },
+      DOB: {
+        required: true
+      },
+      Age: {
+        required: true,
+        number: true
+      },
+      Weight: {
+        required: true,
+        number: true
+      },
+      Gender: {
+        required: true
+      },
+      State: {
+        required: true
+      },
+      City: {
+        required: true
+      },
+      Address: {
+        required: true
+      },
+      ZipCode: {
+        required: true,
+        number: true
+      },
+      Email: {
+        required: true,
+        email: true
+      },
+      Phone: {
+        required: true,
+        number: true
+      },
+      School: {
+        required: true
+      },
+      Belt: {
+        required: true
+      },
+      image: {
+        required:(CurrProfilePath == null ?"true" : "false")
+      }
+
+    },
+    highlight: function (inputelement, errorClass) {
+      $(inputelement).removeClass(errorClass)
+    }
+  });
+
+  function encodeImgtoBase64(element) {
+
+    var file = element.files[0];
+
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+
+      $("#File").attr("value", reader.result);
+      $("#ImageDisplay").attr("src", reader.result);
+
+    }
+
+    reader.readAsDataURL(file);
+
+  }
+
+
+  function UpdateProfile() {
+    $("#Loading_Show2").show();
+    $.ajax({
+      url: "/Competitors/AddUpdateMember",
+      data: JSON.stringify({
+        Id: Number(currComptId),
+        Name: $("#Name_text").val(),
+        LastName: $("#LName_text").val(),
+        Age: Number($("#Age_text").val()),
+        Weight:Number( $("#Weight_text").val()),
+        Gender: $("#Gender_text").val(),
+        DOB: new Date($('#DOB_text').val()).toISOString(),
+        School: $("#School_text").val(),
+        ProfilePath: $("#File").attr("value"),
+        Belt: $("#Belt_text").val(),
+      }),
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#Loading_Show2").hide();
+
+        var memberData = [];
+        for (let index = 0; index < $('.memberId').length; index++) {
+          var seltectedEvents = [];
+          $('.memberId:eq(' + index + ')').parent().parent().parent().parent().find('.eventId:checked').each(function (i, v) {
+            seltectedEvents.push(Number(v.value));
+          });
+          memberData.push({ CompetitorId: Number($('.memberId:eq(' + index + ')').val()), EventIds: seltectedEvents });
+        }
+        $("#appendMember").empty();
+
+        for (var g = 0; g < memberData.length; g++) {
+          var appendData = `
+              <div class="row">
+                    <div class="form-group">
+                      <div class="row">
+
+                        <div class="col-sm-9">
+                          <label for="selectMember">Select Member</label>
+                          <select class="form-control memberId">`;
+          for (var i = 0; i < compLists.length; i++) {
+            debugger
+            if (memberData[g].CompetitorId == compLists[i].Id && compLists[i].Id == currComptId) {
+              appendData += `<option selected value="${compLists[i].Id}">${$("#Name_text").val()}, ${$("#Age_text").val()}y, ${allBelts.filter(x => x.BeltId.toString() == $("#Belt_text").val())[0]?.BeltName}, ${$("#Gender_text").val() == "true" ? "Male" : "Female"}, ${$("#Weight_text").val()}lbs, ${$("#School_text").val()}</option>`;
+            } else if (memberData[g].CompetitorId == compLists[i].Id ) {
+              appendData += `<option selected value="${compLists[i].Id}">${compLists[i].Name}, ${compLists[i].Age}y, ${allBelts.filter(x => x.BeltId.toString() == compLists[i].Belt)[0]?.BeltName}, ${compLists[i].Gender == true ? "Male" : "Female"}, ${compLists[i].Weight}lbs, ${compLists[i].School}</option>`;
+            } else {
+              appendData += `<option value="${compLists[i].Id}">${compLists[i].Name}, ${compLists[i].Age}y, ${allBelts.filter(x => x.BeltId.toString() == compLists[i].Belt)[0]?.BeltName}, ${compLists[i].Gender == true ? "Male" : "Female"}, ${compLists[i].Weight}lbs, ${compLists[i].School}</option>`;
+
+            }
+    }
+
+    appendData += `</select>
+                        </div>
+                       <div class="col-sm-3 btn-group btn-sm" style="margin-top:30px;">
+                            <button type="button" class="btn btn-warning editMember"><span class="icon icon-pencil"></span></button>
+                            <button type="button" class="btn btn-danger removeMember"><span class="icon icon-delete"></span></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-check form-check-inline" style="margin-top:15px;">
+                        @for (int i = 0; i < (((List<TournamentEventRealtion>)ViewBag.TournamentEvents).Count()); i++)
+                        {
+                          if (i == 0)
+                          {
+                            <input checked class="form-check-input eventId" type="checkbox" value="@ViewBag.TournamentEvents[i].EventId">
+                          }
+                          else
+                          {
+                            <input class="form-check-input eventId" type="checkbox" value="@ViewBag.TournamentEvents[i].EventId">
+                          }
+                          <label class="form-check-label" for="inlineCheckbox1">@ViewBag.TournamentEvents[i].EventName</label>}
+
+                      </div>
+                    </div>
+                    <p style="font-size:18px;">Sub Total: $<span class="eventFee">@ViewBag.EventFee</span></p>
+                    <hr />
+                  </div>`;
+    $("#appendMember").append(appendData);
+        }
+
+
+
+        $("#MyModal").modal('hide');
+      },
+      error: function (errormessage) {
+        $("#Loading_Show2").hide();
+        console.log(errormessage.responseText);
+      }
+    });
+  }
+
+
+  $("#DOB_text").change(function () {
+    debugger;
+    var differenceMs = new Date() - new Date($(this).val());
+    var differenceYears = differenceMs / (1000 * 60 * 60 * 24 * 365);
+    var age = Math.round(differenceYears);
+    $("#Age_text").val(age);
+  });
+</script>
+
+
+
+@* End *@

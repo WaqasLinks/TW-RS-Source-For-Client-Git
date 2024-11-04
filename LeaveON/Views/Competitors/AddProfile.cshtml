@@ -1,0 +1,158 @@
+
+@{
+  ViewBag.Title = "AddProfile";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<style>
+  .error {
+    font-size: 12px;
+    color: red;
+  }
+
+</style>
+<div class="content">
+  <section>
+    <div id="addUserPage" class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <h1>Add profile</h1>
+          <div class="alert alert-info">
+            @*You can link up to 7 accounts (8 in total with counting your own profile).<br><br> <strong>Coach?</strong> If you are a coach we recommend you add your members through the academy page and handle event registrations from there. This page is only meant for family members.*@
+            Create New Profile
+          </div> <div>
+            <div class="form form-inline margin-bottom-sm-32">
+              <div class="form-group muted">
+                <button type="button" class="btn btn-secondary">
+                  Create a new profile
+                </button>
+              </div>
+
+            </div>
+          </div>
+          <div class="panel panel-default" style="">
+            <div class="panel-heading">
+              <h3 class="panel-title">Create a new profile</h3>
+            </div>
+            <div class="panel-body">
+              <form id="FormValidate" class="form form-horizontal">
+                <input name="_token" type="hidden" value="EeyzGWEjiZhqFLHw7EE1NdbzeL6TvgFwGJueacZZ">
+                <input type="hidden" name="_next_url" value="">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <label class="control-label">Name</label>
+                    <input type="text" name="Name" value="" id="name_id" required="required" class="form-control">
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="control-label">Email</label>
+                    <input type="text" name="Email" id="email_id" value="" required="required" class="form-control">
+                  </div>
+                </div>
+                <div class="col">
+
+                  <div id="recaptcha" class="g-recaptcha" data-sitekey="@ViewBag.recaptchaKey" data-callback="vcc" style="padding-bottom:10px;"></div>
+
+                </div>
+                <div class="form-inline">
+                  <div class="form-group">
+                    <div class="col-sm-6">
+                      <button type="button" id="btnAddProfile" style="display: flex; width: 190px; align-items: center;" class="btn btn-primary">Create a new profile <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+  $("#FormValidate").validate({
+    rules: {
+      Name: {
+        required: true,
+
+      },
+      Email: {
+        required: true,
+
+      },
+
+   
+    },
+    messages: {
+
+      Name: {
+        required: "This Name feild is required",
+
+      },
+      Email: {
+        required: "This Email feild is required",
+
+      },
+
+   
+    },
+
+  });
+ 
+
+  $("#btnAddProfile").click(function () {
+
+    if ($("#FormValidate").valid()) {
+
+      var response = grecaptcha.getResponse();
+      if (response.length == 0) {
+
+        alert("Please verify reCAPTCHA");
+      }
+      else {
+        AddProfile();
+      }
+
+    }
+  });
+
+  function AddProfile() {
+    $("#Loading_Show").show();
+    $.ajax({
+      url: "/Competitors/AddProfile",
+      data: JSON.stringify({
+        Name: $("#name_id").val(),
+        Email: $("#email_id").val(),
+       
+      }),
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#Loading_Show").hide();
+        grecaptcha.reset();
+        var EventId = window.location.pathname.split("/")[3];
+        if (EventId != undefined) {
+
+          window.location.href = "/Competitors/Profile/" + EventId;
+        }
+        else {
+
+          window.location.href = "/Competitors/Profile";
+        }
+
+       
+      },
+      error: function (errormessage) {
+        $("#Loading_Show").hide();
+        alert(errormessage.responseText);
+      }
+    });
+  }
+</script>

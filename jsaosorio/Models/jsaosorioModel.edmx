@@ -1,0 +1,861 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="jsaosorioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BioStarEmpNum" Type="int" />
+          <Property Name="Hometown" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="UserLeavePolicyId" Type="int" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="BaseDaily">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsSelected" Type="bit" Nullable="false" />
+          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="deal" Type="nvarchar" MaxLength="500" />
+          <Property Name="agent" Type="nvarchar" MaxLength="500" />
+          <Property Name="Cor" Type="nvarchar" MaxLength="500" />
+          <Property Name="Neg" Type="nvarchar" MaxLength="500" />
+          <Property Name="date" Type="nvarchar" MaxLength="500" />
+          <Property Name="type" Type="nvarchar" MaxLength="500" />
+          <Property Name="datechange" Type="nvarchar" MaxLength="500" />
+          <Property Name="other1" Type="nvarchar" MaxLength="500" />
+          <Property Name="other2" Type="nvarchar" MaxLength="500" />
+          <Property Name="other3" Type="nvarchar" MaxLength="500" />
+          <Property Name="Traffic_Share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Rank" Type="nvarchar" MaxLength="500" />
+          <Property Name="Monthly_Visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="Unique_Vistiors" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_Share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_Share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Visit_Duration" Type="nvarchar" MaxLength="500" />
+          <Property Name="Pages_Visit_1" Type="nvarchar" MaxLength="500" />
+          <Property Name="Bounce_Rate" Type="nvarchar" MaxLength="500" />
+          <Property Name="AdSense" Type="nvarchar" MaxLength="500" />
+          <Property Name="Country" Type="nvarchar" MaxLength="500" />
+          <Property Name="Top_country" Type="nvarchar" MaxLength="500" />
+          <Property Name="Website_category" Type="nvarchar" MaxLength="500" />
+          <Property Name="Website_type" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_Desktop_Traffic_Change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_desktop_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_mobile_web_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_mobile_web_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Unique_visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_unique_visitors_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_unique_visitors_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_desktop_unique_visitors_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_desktop_unique_visitors_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_mobile_web_unique_visitors_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_mobile_web_unique_visitors_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_traffic_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_traffic_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Pages_Visit_2" Type="nvarchar" MaxLength="500" />
+          <Property Name="Total_page_views" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_total_page_views_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_total_page_views_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_Desktop_page_views_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_desktop_page_views_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_mobile_web_page_views_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_mobile_web_page_views_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Monthly_desktop_traffic" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_unique_visitors" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_visit_duration" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_pages_per_visit" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_total_page_views" Type="nvarchar" MaxLength="500" />
+          <Property Name="Desktop_bounce_rate" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_web_monthly_traffic" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_web_unique_visitors" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_web_visit_duration" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_web_pages_visit" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_web_total_page_views" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mobile_web_bounce_rate" Type="nvarchar" MaxLength="500" />
+          <Property Name="Direct_traffic_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mail_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Referrals_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Social_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Organic_search_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Paid_search_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Display_ads_traffic_share" Type="nvarchar" MaxLength="500" />
+          <Property Name="Direct_traffic" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_direct_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_Direct_Traffic_Change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Mail_visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_mail_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_mail_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Referral_visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_referrals_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_referrals_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Social_visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_social_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_social_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Organic_search_visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_organic_search_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_organic_search_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Paid_search_visits" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_paid_search_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_paid_search_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Display_ad_traffic" Type="nvarchar" MaxLength="500" />
+          <Property Name="MoM_display_traffic_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="YoY_display_visits_change" Type="nvarchar" MaxLength="500" />
+          <Property Name="Company_name" Type="nvarchar" MaxLength="500" />
+          <Property Name="HQ_address" Type="nvarchar" MaxLength="500" />
+          <Property Name="HQ_city" Type="nvarchar" MaxLength="500" />
+          <Property Name="HQ_state" Type="nvarchar" MaxLength="500" />
+          <Property Name="HQ_country" Type="nvarchar" MaxLength="500" />
+          <Property Name="HQ_postal_code" Type="nvarchar" MaxLength="500" />
+          <Property Name="Employees" Type="nvarchar" MaxLength="500" />
+          <Property Name="Revenue" Type="nvarchar" MaxLength="500" />
+          <Property Name="Phone_number" Type="nvarchar" MaxLength="500" />
+          <Property Name="Email_address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Male_distribution" Type="nvarchar" MaxLength="500" />
+          <Property Name="Female_distribution" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ages_18_24" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ages_25_34" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ages_35_44" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ages_45_54" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ages_55_64" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ages_65_Plus" Type="nvarchar" MaxLength="500" />
+          <Property Name="aux_visit_duration" Type="nvarchar" MaxLength="500" />
+          <Property Name="Aux_Neg" Type="nvarchar" MaxLength="500" />
+          <Property Name="Aux_Date_Day" Type="nvarchar" MaxLength="500" />
+          <Property Name="Aux_Date_Month" Type="nvarchar" MaxLength="500" />
+          <Property Name="Aux_Date_Year" Type="nvarchar" MaxLength="500" />
+          <Property Name="UploadId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="BaseHistorical">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="500" />
+          <Property Name="old" Type="nvarchar" MaxLength="500" />
+          <Property Name="new_data" Type="nvarchar" MaxLength="500" />
+          <Property Name="Current_Status" Type="nvarchar" MaxLength="500" />
+          <Property Name="type" Type="nvarchar" MaxLength="500" />
+          <Property Name="Super_Agency" Type="nvarchar" MaxLength="500" />
+          <Property Name="datechange" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Upload">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BaseDaily_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseDaily" Type="Self.BaseDaily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaseDaily">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaseDaily_Upload">
+          <End Role="Upload" Type="Self.Upload" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseDaily" Type="Self.BaseDaily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Upload">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaseDaily">
+              <PropertyRef Name="UploadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="jsaosorioModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BaseDaily" EntityType="Self.BaseDaily" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BaseHistorical" EntityType="Self.BaseHistorical" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Upload" EntityType="Self.Upload" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BaseDaily_AspNetUsers" Association="Self.FK_BaseDaily_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="BaseDaily" EntitySet="BaseDaily" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaseDaily_Upload" Association="Self.FK_BaseDaily_Upload">
+            <End Role="Upload" EntitySet="Upload" />
+            <End Role="BaseDaily" EntitySet="BaseDaily" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="jsaosorioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BioStarEmpNum" Type="Int32" />
+          <Property Name="Hometown" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="UserLeavePolicyId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="BaseDailies" Relationship="Self.FK_BaseDaily_AspNetUsers" FromRole="AspNetUsers" ToRole="BaseDaily" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="jsaosorioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="jsaosorioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="jsaosorioModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
+        <EntityType Name="BaseDaily">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AspNetUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="deal" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="agent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Cor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Neg" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="datechange" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="other1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="other2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="other3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Traffic_Share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Rank" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Monthly_Visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Unique_Vistiors" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_Share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_Share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Visit_Duration" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Pages_Visit_1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Bounce_Rate" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdSense" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Top_country" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Website_category" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Website_type" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_Desktop_Traffic_Change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_desktop_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_mobile_web_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_mobile_web_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Unique_visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_unique_visitors_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_unique_visitors_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_desktop_unique_visitors_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_desktop_unique_visitors_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_mobile_web_unique_visitors_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_mobile_web_unique_visitors_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_traffic_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_traffic_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Pages_Visit_2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Total_page_views" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_total_page_views_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_total_page_views_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_Desktop_page_views_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_desktop_page_views_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_mobile_web_page_views_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_mobile_web_page_views_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Monthly_desktop_traffic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_unique_visitors" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_visit_duration" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_pages_per_visit" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_total_page_views" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Desktop_bounce_rate" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_web_monthly_traffic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_web_unique_visitors" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_web_visit_duration" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_web_pages_visit" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_web_total_page_views" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile_web_bounce_rate" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Direct_traffic_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mail_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Referrals_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Social_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Organic_search_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Paid_search_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Display_ads_traffic_share" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Direct_traffic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_direct_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_Direct_Traffic_Change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Mail_visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_mail_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_mail_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Referral_visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_referrals_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_referrals_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Social_visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_social_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_social_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Organic_search_visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_organic_search_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_organic_search_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Paid_search_visits" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_paid_search_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_paid_search_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Display_ad_traffic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MoM_display_traffic_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YoY_display_visits_change" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Company_name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HQ_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HQ_city" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HQ_state" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HQ_country" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HQ_postal_code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Employees" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Revenue" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone_number" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Email_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Male_distribution" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Female_distribution" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Ages_18_24" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Ages_25_34" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Ages_35_44" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Ages_45_54" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Ages_55_64" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Ages_65_Plus" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="aux_visit_duration" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Aux_Neg" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Aux_Date_Day" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Aux_Date_Month" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Aux_Date_Year" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_BaseDaily_AspNetUsers" FromRole="BaseDaily" ToRole="AspNetUsers" />
+          <Property Name="UploadId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Upload" Relationship="jsaosorioModel.FK_BaseDaily_Upload" FromRole="BaseDaily" ToRole="Upload" />
+          <Property Name="IsSelected" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BaseDaily_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseDaily" Type="Self.BaseDaily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaseDaily">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="jsaosorioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="BaseDailies" EntityType="Self.BaseDaily" />
+          <AssociationSet Name="FK_BaseDaily_AspNetUsers" Association="Self.FK_BaseDaily_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="BaseDaily" EntitySet="BaseDailies" />
+          </AssociationSet>
+          <EntitySet Name="AspNetRoles" EntityType="jsaosorioModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="jsaosorioModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="jsaosorioModel.AspNetUserLogin" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="jsaosorioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="jsaosorioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="jsaosorioModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="BaseHistoricals" EntityType="jsaosorioModel.BaseHistorical" />
+          <EntitySet Name="Uploads" EntityType="jsaosorioModel.Upload" />
+          <AssociationSet Name="FK_BaseDaily_Upload" Association="jsaosorioModel.FK_BaseDaily_Upload">
+            <End Role="Upload" EntitySet="Uploads" />
+            <End Role="BaseDaily" EntitySet="BaseDailies" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="jsaosorioModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="jsaosorioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="jsaosorioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="jsaosorioModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="jsaosorioModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="jsaosorioModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="jsaosorioModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="jsaosorioModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="jsaosorioModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="BaseHistorical">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="old" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="new_data" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Current_Status" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Super_Agency" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="datechange" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Upload">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BaseDailies" Relationship="jsaosorioModel.FK_BaseDaily_Upload" FromRole="Upload" ToRole="BaseDaily" />
+        </EntityType>
+        <Association Name="FK_BaseDaily_Upload">
+          <End Type="jsaosorioModel.Upload" Role="Upload" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="jsaosorioModel.BaseDaily" Role="BaseDaily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Upload">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaseDaily">
+              <PropertyRef Name="UploadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="jsaosorioModelStoreContainer" CdmEntityContainer="jsaosorioEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="jsaosorioModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BioStarEmpNum" ColumnName="BioStarEmpNum" />
+                <ScalarProperty Name="Hometown" ColumnName="Hometown" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="UserLeavePolicyId" ColumnName="UserLeavePolicyId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaseDailies">
+            <EntityTypeMapping TypeName="jsaosorioModel.BaseDaily">
+              <MappingFragment StoreEntitySet="BaseDaily">
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+                <ScalarProperty Name="UploadId" ColumnName="UploadId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="deal" ColumnName="deal" />
+                <ScalarProperty Name="agent" ColumnName="agent" />
+                <ScalarProperty Name="Cor" ColumnName="Cor" />
+                <ScalarProperty Name="Neg" ColumnName="Neg" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="datechange" ColumnName="datechange" />
+                <ScalarProperty Name="other1" ColumnName="other1" />
+                <ScalarProperty Name="other2" ColumnName="other2" />
+                <ScalarProperty Name="other3" ColumnName="other3" />
+                <ScalarProperty Name="Traffic_Share" ColumnName="Traffic_Share" />
+                <ScalarProperty Name="Change" ColumnName="Change" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Monthly_Visits" ColumnName="Monthly_Visits" />
+                <ScalarProperty Name="Unique_Vistiors" ColumnName="Unique_Vistiors" />
+                <ScalarProperty Name="Desktop_Share" ColumnName="Desktop_Share" />
+                <ScalarProperty Name="Mobile_Share" ColumnName="Mobile_Share" />
+                <ScalarProperty Name="Visit_Duration" ColumnName="Visit_Duration" />
+                <ScalarProperty Name="Pages_Visit_1" ColumnName="Pages_Visit_1" />
+                <ScalarProperty Name="Bounce_Rate" ColumnName="Bounce_Rate" />
+                <ScalarProperty Name="AdSense" ColumnName="AdSense" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Top_country" ColumnName="Top_country" />
+                <ScalarProperty Name="Website_category" ColumnName="Website_category" />
+                <ScalarProperty Name="Website_type" ColumnName="Website_type" />
+                <ScalarProperty Name="MoM_traffic_change" ColumnName="MoM_traffic_change" />
+                <ScalarProperty Name="YoY_traffic_change" ColumnName="YoY_traffic_change" />
+                <ScalarProperty Name="MoM_Desktop_Traffic_Change" ColumnName="MoM_Desktop_Traffic_Change" />
+                <ScalarProperty Name="YoY_desktop_traffic_change" ColumnName="YoY_desktop_traffic_change" />
+                <ScalarProperty Name="MoM_mobile_web_traffic_change" ColumnName="MoM_mobile_web_traffic_change" />
+                <ScalarProperty Name="YoY_mobile_web_traffic_change" ColumnName="YoY_mobile_web_traffic_change" />
+                <ScalarProperty Name="Unique_visits" ColumnName="Unique_visits" />
+                <ScalarProperty Name="MoM_unique_visitors_change" ColumnName="MoM_unique_visitors_change" />
+                <ScalarProperty Name="YoY_unique_visitors_change" ColumnName="YoY_unique_visitors_change" />
+                <ScalarProperty Name="MoM_desktop_unique_visitors_change" ColumnName="MoM_desktop_unique_visitors_change" />
+                <ScalarProperty Name="YoY_desktop_unique_visitors_change" ColumnName="YoY_desktop_unique_visitors_change" />
+                <ScalarProperty Name="MoM_mobile_web_unique_visitors_change" ColumnName="MoM_mobile_web_unique_visitors_change" />
+                <ScalarProperty Name="YoY_mobile_web_unique_visitors_change" ColumnName="YoY_mobile_web_unique_visitors_change" />
+                <ScalarProperty Name="Desktop_traffic_share" ColumnName="Desktop_traffic_share" />
+                <ScalarProperty Name="Mobile_traffic_share" ColumnName="Mobile_traffic_share" />
+                <ScalarProperty Name="Pages_Visit_2" ColumnName="Pages_Visit_2" />
+                <ScalarProperty Name="Total_page_views" ColumnName="Total_page_views" />
+                <ScalarProperty Name="MoM_total_page_views_change" ColumnName="MoM_total_page_views_change" />
+                <ScalarProperty Name="YoY_total_page_views_change" ColumnName="YoY_total_page_views_change" />
+                <ScalarProperty Name="MoM_Desktop_page_views_change" ColumnName="MoM_Desktop_page_views_change" />
+                <ScalarProperty Name="YoY_desktop_page_views_change" ColumnName="YoY_desktop_page_views_change" />
+                <ScalarProperty Name="MoM_mobile_web_page_views_change" ColumnName="MoM_mobile_web_page_views_change" />
+                <ScalarProperty Name="YoY_mobile_web_page_views_change" ColumnName="YoY_mobile_web_page_views_change" />
+                <ScalarProperty Name="Monthly_desktop_traffic" ColumnName="Monthly_desktop_traffic" />
+                <ScalarProperty Name="Desktop_unique_visitors" ColumnName="Desktop_unique_visitors" />
+                <ScalarProperty Name="Desktop_visit_duration" ColumnName="Desktop_visit_duration" />
+                <ScalarProperty Name="Desktop_pages_per_visit" ColumnName="Desktop_pages_per_visit" />
+                <ScalarProperty Name="Desktop_total_page_views" ColumnName="Desktop_total_page_views" />
+                <ScalarProperty Name="Desktop_bounce_rate" ColumnName="Desktop_bounce_rate" />
+                <ScalarProperty Name="Mobile_web_monthly_traffic" ColumnName="Mobile_web_monthly_traffic" />
+                <ScalarProperty Name="Mobile_web_unique_visitors" ColumnName="Mobile_web_unique_visitors" />
+                <ScalarProperty Name="Mobile_web_visit_duration" ColumnName="Mobile_web_visit_duration" />
+                <ScalarProperty Name="Mobile_web_pages_visit" ColumnName="Mobile_web_pages_visit" />
+                <ScalarProperty Name="Mobile_web_total_page_views" ColumnName="Mobile_web_total_page_views" />
+                <ScalarProperty Name="Mobile_web_bounce_rate" ColumnName="Mobile_web_bounce_rate" />
+                <ScalarProperty Name="Direct_traffic_share" ColumnName="Direct_traffic_share" />
+                <ScalarProperty Name="Mail_share" ColumnName="Mail_share" />
+                <ScalarProperty Name="Referrals_share" ColumnName="Referrals_share" />
+                <ScalarProperty Name="Social_share" ColumnName="Social_share" />
+                <ScalarProperty Name="Organic_search_share" ColumnName="Organic_search_share" />
+                <ScalarProperty Name="Paid_search_share" ColumnName="Paid_search_share" />
+                <ScalarProperty Name="Display_ads_traffic_share" ColumnName="Display_ads_traffic_share" />
+                <ScalarProperty Name="Direct_traffic" ColumnName="Direct_traffic" />
+                <ScalarProperty Name="MoM_direct_traffic_change" ColumnName="MoM_direct_traffic_change" />
+                <ScalarProperty Name="YoY_Direct_Traffic_Change" ColumnName="YoY_Direct_Traffic_Change" />
+                <ScalarProperty Name="Mail_visits" ColumnName="Mail_visits" />
+                <ScalarProperty Name="MoM_mail_visits_change" ColumnName="MoM_mail_visits_change" />
+                <ScalarProperty Name="YoY_mail_visits_change" ColumnName="YoY_mail_visits_change" />
+                <ScalarProperty Name="Referral_visits" ColumnName="Referral_visits" />
+                <ScalarProperty Name="MoM_referrals_visits_change" ColumnName="MoM_referrals_visits_change" />
+                <ScalarProperty Name="YoY_referrals_visits_change" ColumnName="YoY_referrals_visits_change" />
+                <ScalarProperty Name="Social_visits" ColumnName="Social_visits" />
+                <ScalarProperty Name="MoM_social_visits_change" ColumnName="MoM_social_visits_change" />
+                <ScalarProperty Name="YoY_social_visits_change" ColumnName="YoY_social_visits_change" />
+                <ScalarProperty Name="Organic_search_visits" ColumnName="Organic_search_visits" />
+                <ScalarProperty Name="MoM_organic_search_change" ColumnName="MoM_organic_search_change" />
+                <ScalarProperty Name="YoY_organic_search_change" ColumnName="YoY_organic_search_change" />
+                <ScalarProperty Name="Paid_search_visits" ColumnName="Paid_search_visits" />
+                <ScalarProperty Name="MoM_paid_search_change" ColumnName="MoM_paid_search_change" />
+                <ScalarProperty Name="YoY_paid_search_change" ColumnName="YoY_paid_search_change" />
+                <ScalarProperty Name="Display_ad_traffic" ColumnName="Display_ad_traffic" />
+                <ScalarProperty Name="MoM_display_traffic_change" ColumnName="MoM_display_traffic_change" />
+                <ScalarProperty Name="YoY_display_visits_change" ColumnName="YoY_display_visits_change" />
+                <ScalarProperty Name="Company_name" ColumnName="Company_name" />
+                <ScalarProperty Name="HQ_address" ColumnName="HQ_address" />
+                <ScalarProperty Name="HQ_city" ColumnName="HQ_city" />
+                <ScalarProperty Name="HQ_state" ColumnName="HQ_state" />
+                <ScalarProperty Name="HQ_country" ColumnName="HQ_country" />
+                <ScalarProperty Name="HQ_postal_code" ColumnName="HQ_postal_code" />
+                <ScalarProperty Name="Employees" ColumnName="Employees" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="Phone_number" ColumnName="Phone_number" />
+                <ScalarProperty Name="Email_address" ColumnName="Email_address" />
+                <ScalarProperty Name="Male_distribution" ColumnName="Male_distribution" />
+                <ScalarProperty Name="Female_distribution" ColumnName="Female_distribution" />
+                <ScalarProperty Name="Ages_18_24" ColumnName="Ages_18_24" />
+                <ScalarProperty Name="Ages_25_34" ColumnName="Ages_25_34" />
+                <ScalarProperty Name="Ages_35_44" ColumnName="Ages_35_44" />
+                <ScalarProperty Name="Ages_45_54" ColumnName="Ages_45_54" />
+                <ScalarProperty Name="Ages_55_64" ColumnName="Ages_55_64" />
+                <ScalarProperty Name="Ages_65_Plus" ColumnName="Ages_65_Plus" />
+                <ScalarProperty Name="aux_visit_duration" ColumnName="aux_visit_duration" />
+                <ScalarProperty Name="Aux_Neg" ColumnName="Aux_Neg" />
+                <ScalarProperty Name="Aux_Date_Day" ColumnName="Aux_Date_Day" />
+                <ScalarProperty Name="Aux_Date_Month" ColumnName="Aux_Date_Month" />
+                <ScalarProperty Name="Aux_Date_Year" ColumnName="Aux_Date_Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="jsaosorioModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="jsaosorioModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="jsaosorioModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="jsaosorioModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="BaseHistoricals">
+            <EntityTypeMapping TypeName="jsaosorioModel.BaseHistorical">
+              <MappingFragment StoreEntitySet="BaseHistorical">
+                <ScalarProperty Name="new_data" ColumnName="new_data" />
+                <ScalarProperty Name="datechange" ColumnName="datechange" />
+                <ScalarProperty Name="Super_Agency" ColumnName="Super_Agency" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="Current_Status" ColumnName="Current_Status" />
+                <ScalarProperty Name="old" ColumnName="old" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uploads">
+            <EntityTypeMapping TypeName="jsaosorioModel.Upload">
+              <MappingFragment StoreEntitySet="Upload">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

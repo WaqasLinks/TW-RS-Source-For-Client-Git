@@ -1,0 +1,398 @@
+@model TourneyRepo.Models.EventDivision
+
+@{
+  ViewBag.Title = "Print Brackets";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- left column -->
+    <div class="col-md-10">
+      <!-- general form elements -->
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title"> Print Brackets</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        @using (Html.BeginForm())
+        {
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="Id" id="Id" value="0" />
+          <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group required">
+              @Html.Label("Event Type", htmlAttributes: new { @class = "control-label col" })
+              @Html.DropDownList("TournamentEventId", null, htmlAttributes: new { @class = "form-control col-sm-8" })
+              @Html.ValidationMessageFor(model => model.TournamentEventId, "", new { @class = "text-danger" })
+
+            </div>
+            <div>
+              <div class="form-group required">
+                <div class="row">
+                  <p>Formula</p>
+                </div>
+                <div id="formulaContent">
+                  <div class="row formula">
+
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                      <label class="custom-control-label" for="customSwitch1">Age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    </div>
+
+                    @Html.DropDownList("FromAge", new SelectList(ViewBag.Ages), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From", disabled = "disabled" }) &nbsp; -&nbsp;
+                    @Html.DropDownList("ToAge", new SelectList(ViewBag.Ages), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To", disabled = "disabled" })
+                    @Html.ValidationMessage("AgeRange", "", new { @class = "text-danger" })
+
+                  </div>
+                  <br />
+                  <div class="row formula">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                      <label class="custom-control-label" for="customSwitch2">Belt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    </div>
+
+                    @Html.DropDownList("FromBelt", new SelectList(ViewBag.Belts, "Id", "Name"), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From", disabled = "disabled" }) &nbsp; -&nbsp;
+                    @Html.DropDownList("ToBelt", new SelectList(ViewBag.Belts, "Id", "Name"), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To", disabled = "disabled" })
+                    @Html.ValidationMessage("BeltRange", "", new { @class = "text-danger" })
+                  </div>
+
+                  <br />
+                  <div class="row formula">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch4">
+                      <label class="custom-control-label" for="customSwitch4">Gender&nbsp;</label>
+                    </div>
+
+                    @Html.DropDownList("Gender", new SelectList(ViewBag.Genders, "Id", "Name"), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "Male", disabled = "disabled" })
+                    @Html.ValidationMessage("Gender", "", new { @class = "text-danger" })
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <label for="cars">Brackets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                <select name="eliminations" id="eliminations" class="form-control col-sm-7">
+                  <option value="1">Single Elimination</option>
+                  <option value="2">Double Elimination</option>
+                  <option value="3">Round Robin</option>
+                  <option value="4">High Score List</option>
+                  <option value="5">2-Match Gurantee</option>
+                </select>
+              </div>
+              <br />
+              <input type="button" value="Exceptions" class="btn btn-warning btn-md" id="AddAppendExtraEvents" />
+              <br />
+              <br />
+
+              <div class="Append_Events">
+
+              </div>
+              <input type="button" value="Print Brackets" class="btn btn-primary mt-3" id="printBrackets" />
+
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="/plugins/select2/css/select2.min.css" rel="stylesheet" />
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<style>
+  .form-group.required .control-label:after {
+    content: "*";
+    color: red;
+  }
+
+  .select2-search__field {
+    width: 100% !important;
+  }
+
+  body {
+    color: #000 !important;
+  }
+
+  .select2-container .select2-selection--multiple .select2-selection__rendered {
+    white-space: normal !important;
+  }
+
+  .select2-search__field{
+    color:black!important;
+  }
+
+  .error {
+    position: absolute;
+    top: 6px;
+    left: 88px;
+    font-size: 10px;
+    color: red !important;
+  }
+</style>
+
+<script>
+  $(function () {
+
+    $(document).ready(function () {
+
+    $("#printBrackets").click(function () {
+
+     if ($('form').valid()) {
+
+    var ExtraData = [];
+
+    var RowCount = $(".Append_Events").children().length;
+
+    debugger
+    for (var i = 0; i < RowCount; i++) {
+
+      var row = $(".Append_Events").children()[i];
+
+      debugger
+
+      var obj =
+      {
+        EventId: Number($("#TournamentEventId").val()),
+        BracketId: Number($(row).find("select:eq(1)").val()),
+        EventDivisions: $(row).find("select:eq(0)").val().map(x => x.split("_")[1])
+      }
+
+      ExtraData.push(obj);
+
+    }
+
+    var age = '';
+    if ($('#customSwitch1').is(':checked')) {
+      age = $('#FromAge').val() + '-' + $('#ToAge').val();
+    }
+
+    var belt = '';
+    if ($('#customSwitch2').is(':checked')) {
+      belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+    }
+
+
+    var gender = '';
+    if ($('#customSwitch4').is(':checked')) {
+      gender = $('#Gender').val();
+    }
+    var event = $('#TournamentEventId').find(":selected").val();
+    var url = '@Url.Action("TournamentPrintViewer")?Age=' + age + '&Belt=' + belt + '&Gender=' + gender + '&Event=' + event + '&id=' + $("#eliminations").val() + '&extras=' + JSON.stringify(ExtraData);
+           window.open(url, '_blank');
+    }
+  });
+
+
+      $('#customSwitch1').click(function () {
+        if ($(this).is(':checked')) {
+          $('#FromAge').removeAttr('disabled', 'disabled');
+          $('#ToAge').removeAttr('disabled', 'disabled');
+        } else {
+          $('#FromAge').attr('disabled', 'disabled');
+          $('#ToAge').attr('disabled', 'disabled');
+        }
+      });
+
+      $('#customSwitch5').click(function () {
+        if ($(this).is(':checked')) {
+          $("#formulaContent").css("pointer-events", "none");
+          $("#formulaContent").css("opacity", "0.4");
+        } else {
+          $("#formulaContent").css("pointer-events", "");
+          $("#formulaContent").css("opacity", "");
+        }
+      });
+
+      $('#customSwitch2').click(function () {
+        if ($(this).is(':checked')) {
+          $('#FromBelt').removeAttr('disabled', 'disabled');
+          $('#ToBelt').removeAttr('disabled', 'disabled');
+        } else {
+          $('#FromBelt').attr('disabled', 'disabled');
+          $('#ToBelt').attr('disabled', 'disabled');
+        }
+      });
+
+      $('#customSwitch3').click(function () {
+        if ($(this).is(':checked')) {
+          $('#FromWeight').removeAttr('disabled', 'disabled');
+          $('#ToWeight').removeAttr('disabled', 'disabled');
+        } else {
+          $('#FromWeight').attr('disabled', 'disabled');
+          $('#ToWeight').attr('disabled', 'disabled');
+        }
+      });
+
+      $('#customSwitch4').click(function () {
+        if ($(this).is(':checked')) {
+          $('#Gender').removeAttr('disabled', 'disabled');
+        } else {
+          $('#Gender').attr('disabled', 'disabled');
+        }
+      });
+
+    });
+
+
+
+     @*$("#AddAppendExtraEvents").click(function () {
+     $(".Append_Events").append(`<div class="row" style="margin:0px!important;padding:0px!important">
+      <div class="col-5 mb-2">
+        <label>Events Type</label>
+          <select class="form-control">
+          @foreach (var item in ViewBag.TournamentEventId)
+          {
+            <option value="@item.Value">@item.Text</option>
+          }
+       </select>
+      </div>
+      <div class="col-5 mb-2">
+        <label>Brackets</label>
+        <select class="form-control">
+          <option value="1">Single Elimination</option>
+          <option value="2">Double Elimination</option>
+          <option value="3">Round Robin</option>
+          <option value="4">High Score List</option>
+          <option value="5">2-Match Gurantee</option>
+        </select>
+      </div>
+        <div class="col-2 mb-2">
+         <button class="btn btn-danger btn-md RemoveRow" style="margin-top: 32px;">Remove</button>
+        </div>
+    </div>`);
+    })*@
+
+
+   $("#AddAppendExtraEvents").click(function () {
+
+     $('form').valid();
+
+   $(".Append_Events").append(`<div class="row" style="margin:0px!important;padding:0px!important">
+
+   @*<div class="col-md-3 mb-2">
+     <label>Events Type</label>
+       <select class="form-control" id="EventDivision">
+
+       <option value="-1" disabled selected>Select Event Type</option>
+
+        @foreach (var item in ViewBag.TournamentEventId)
+          {
+            <option value="@item.Value">@item.Text</option>
+          }
+    </select>
+   </div>*@
+   <div class="col-md-5 mb-2">
+     <label>Division</label>
+       <div id="DivisionAppend">
+       <select id="divisions" name="EventDivisions[]" class="form-control" style="min-width:200px;">
+      </select>
+      </div>
+   </div>
+
+   <div class="col-md-3 mb-2">
+     <label>Brackets</label>
+     <select class="form-control">
+       <option value="1">Single Elimination</option>
+       <option value="2">Double Elimination</option>
+       <option value="3">Round Robin</option>
+       <option value="4">High Score List</option>
+       <option value="5">2-Match Gurantee</option>
+     </select>
+   </div>
+
+
+
+     <div class="col-md-3 mb-2">
+      <button class="btn btn-danger btn-md RemoveRow" style="margin-top: 32px;">Remove</button>
+     </div>
+
+ </div>`);
+       var uid = uuidv4();
+       var url = '/Competitors/GetEventDevisions?Id=' + $("#TournamentEventId").val() + '&UId=' + uid;
+       $.get(url, function (data) {
+         $(".Append_Events .row").last().find('#DivisionAppend').html("");
+         var Data = $(data).attr("name", `name=EventDivisions${uid}`);
+         $(".Append_Events .row").last().find('#DivisionAppend').append(Data);
+         $('#' + $("#TournamentEventId").val() + uid).rules('add', {
+           required: true,
+           messages: {
+             required: "This field is required"
+           }
+         });
+
+         $('#' + $("#TournamentEventId").val()+ uid).select2({
+           theme: "classic",
+           width: '100%'
+         });
+
+         $('form').valid();
+
+
+       });
+
+       $('form').valid();
+
+   
+ });
+
+    $(document).on("click", ".RemoveRow", function () {
+      $(this).parent().parent().remove();
+    });
+    function uuidv4() {
+      return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+    }
+
+    $(document).on("change", "#TournamentEventId", function (ele) {
+
+      $('form').valid();
+
+      for (var i = 0; i < $(".Append_Events .row").length; i++) {
+        var uid = uuidv4();
+        var url = '/Competitors/GetEventDevisions?Id=' + $("#TournamentEventId").val() + '&UId=' + uid;
+        $.ajax({
+          url: url,
+          method: 'GET',
+          async: false,
+          success: function (data) {
+            $(".Append_Events .row:eq(" + i + ")").find("#DivisionAppend").html("");
+
+            var Data = $(data).attr("name", `name=EventDivisions${uid}`);
+
+            $(".Append_Events .row:eq(" + i + ")").find("#DivisionAppend").append(Data);
+            $('#' + $("#TournamentEventId").val() + uid).rules('add', {
+              required: true,
+              messages: {
+                required: "This field is required"
+              }
+            });
+            $('#' + $("#TournamentEventId").val() + uid).select2({
+              theme: "classic",
+              width: '100%'
+            });
+          }
+        });
+        $('form').valid();
+      }
+ 
+    });
+  });
+</script>
+

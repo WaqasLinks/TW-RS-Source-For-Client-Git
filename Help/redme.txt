@@ -1,0 +1,8 @@
+1White, 
+2yellow, 
+3orange, 
+4green, 
+5blue, 
+6brown, 
+7red, 
+8black.

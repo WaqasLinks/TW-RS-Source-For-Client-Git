@@ -1,0 +1,238 @@
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "ProfileSetting";
+    Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+
+<style>
+
+  #File-error {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+  }
+</style>
+
+<section>
+  <div class="container">
+   
+    <div class="row">
+      <div style="display: flex; justify-content: left; align-items: center; padding-left: 15px; padding-bottom: 15px;" id="LockProfileHide">
+        <h2>
+            Hi <b style="color:orange;">@(User.Identity.Name)</b>, Please Provide Contact Details
+        </h2>
+
+      </div>
+     
+      
+      <form method="POST" id="FormValidation">
+        <div class="col-md-12 col-lg-8 margin-bottom-xs-32 margin-bottom-lg-0">
+
+          <div id="userSettings">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Contact Information</h3>
+              </div>
+              <ul class="list-group form-horizontal">
+                <li class="list-group-item">
+                  <div data-field-name="Address">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Address</label>
+                      <div class="col-sm-9">
+                        <textarea name="Address" id="Address_text" class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="City">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">City</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="City" id="City_text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li> 
+                <li class="list-group-item">
+                  <div data-field-name="City">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">State</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="State" id="State_text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Country">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Country</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Country" id="Country_text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="ZipCode">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Zip Code</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="ZipCode" id="ZipCode_text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+                <li class="list-group-item">
+                  <div data-field-name="Phone">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Phone</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Phone" id="Phone_text" class="form-control">(enter numbers only, no dashes.)
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+
+                <li class="list-group-item">
+                  <div data-field-name="Email">
+                    <div class="row">
+                      <label class="col-sm-3 control-label text-align-left">Email</label>
+                      <div class="col-sm-9">
+                        <input type="text" name="Email" id="Email_text" disabled value="@ViewBag.Email" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+              </ul>
+            </div>
+
+
+
+          </div>
+          <div class="controlpanel controlpanel-floating">
+            <button type="button" id="UpdateProfileBtn" class="btn btn-warning" style="display: inline-flex; align-items: center;float:right;">Save changes <img id="Loading_Show" style="width: 20px; margin-left: 5px; display: none;" src="~/Images/spinner-icon-12071.gif" /></button>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<script>
+
+
+  $('#UpdateProfileBtn').click(function () {
+    if ($("#FormValidation").valid())
+    {
+
+      AddInfo();
+    }
+
+  });
+
+  $("#FormValidation").validate({
+    errorClass: "text-danger font-weight-bold errorClass",
+    errorElement: "div",
+    rules: {
+      Name: {
+        required: true
+      },
+      Age: {
+        required: true,
+        number: true
+      },
+      Weight: {
+        required: true,
+        number: true
+      },
+      Gender: {
+        required: true
+      },
+      State: {
+        required: true
+      },
+      City: {
+        required: true
+      },
+      Country: {
+        required: true
+      },
+      Address: {
+        required: true
+      },
+      ZipCode: {
+        required: true,
+        number: true
+      },
+      Email: {
+        required: true,
+        email: true
+      },
+      Phone: {
+        required: true,
+        number: true
+      },
+      School: {
+        required: true
+      },
+      Belt: {
+        required: true
+      }
+
+    },
+    highlight: function (inputelement, errorClass) {
+      $(inputelement).removeClass(errorClass)
+    }
+  });
+
+  
+
+  function AddInfo() {
+    $("#Loading_Show").show();
+    $.ajax({
+      url: "/Competitors/AddProfile",
+      data: JSON.stringify({
+        Id:0,
+        State: $("#State_text").val(),
+        City: $("#City_text").val(),
+        Country: $("#Country_text").val(),
+        Address: $('#Address_text').val(),
+        Email: $("#Email_text").val(),
+        Phone: $("#Phone_text").val(),
+        Zip: $("#ZipCode_text").val(),
+       }),
+      type: "POST",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        $("#Loading_Show").hide();
+        window.location.href = "/Competitors/AddMember?ProfileId=" + result.competitorId;
+      },
+      error: function (errormessage) {
+        $("#Loading_Show").hide();
+        alert(errormessage.responseText);
+      }
+    });
+  }
+
+
+  
+
+</script>

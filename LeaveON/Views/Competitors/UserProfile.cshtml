@@ -1,0 +1,76 @@
+@model TourneyRepo.Models.Competitor
+@using Microsoft.AspNet.Identity
+@{
+  ViewBag.Title = "UserProfile";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+<section id="userProfileVue" class="profile">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="user-header margin-bottom-xs-64"></div>
+      </div>
+    </div>
+    <div class="row margin-bottom-xs-32">
+      <div class="col-sm-12">
+        <div class="user-info margin-top-sm-32">
+          <h1 class="text-center text-uppercase font-size-xxl bold  margin-bottom-xs-16 margin-bottom-sm-0">
+            <span class="flag-icon flag-icon- margin-right-xs-16"></span>@Model.Name
+          </h1>
+          <div class="user-details">
+            <p class="text-center text-uppercase font-size-lg">
+              <span class="margin-horizontal-xs-16">
+                <small class="uppercase mute">CITY</small>
+                <span class="user-details-data">@Model.City</span>
+              </span>
+              <span class="margin-horizontal-xs-16">
+                <small class="uppercase mute">Age</small>
+                <span class="user-details-data">@Model.Age</span>
+              </span>
+              <a href="@Url.Action("ProfileSetting", "Competitors",new {Id=Model.Id})" class="btn btn-sm btn-default btn-outline">
+                <span class="icon icon-settings"></span> Settings
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="well well-inverted flex-center well-skillevel">
+      <div class="belt-container margin-right-xs-32">
+        <div class="belt belt-jiu-jitsu-bjj belt-grey "></div>
+      </div>
+      <div class="flex-grow-1">
+        <strong class="font-size-md"> @Html.Encode(Model.Belt)  belt in (@Model.Weight lbs)</strong>
+      </div>
+      @*<a type="button" href="#beltinfo-1" data-toggle="modal" data-target="#beltinfo-1">
+          <span class="icon icon-info font-size-lg"></span>
+        </a>
+        <div tabindex="-1" role="dialog" id="beltinfo-1" class="modal fade modal-inverted">
+          <div role="document" class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-body padding-top-xs-32">
+                <div class="well well-inverted padding-vertical-xs-0 margin-bottom-xs-32">
+                  <div class="flex-center well-skillevel">
+                    <div z-index="-" class="belt-container margin-right-xs-32">
+                      <div class="belt belt-jiu-jitsu-bjj belt-grey "></div>
+                    </div>
+                    <div class="margin-top-xs-16">
+                      <div class="margin-bottom-xs-8">
+                        <strong class="font-size-md"> @Html.Encode(Model.Belt == "1" ? "White" : Model.Belt == "2" ? "Yellow" : Model.Belt == "3" ? "Orange" : Model.Belt == "4" ? "Green" : Model.Belt == "5" ? "Blue" : Model.Belt == "6" ? "Purple" : Model.Belt == "7" ? "Brown" : Model.Belt == "8" ? "Red" : "Black") belt</strong>
+                      </div>
+                      <div class="margin-bottom-xs-16"></div>
+                    </div>
+                  </div>
+                </div>
+                <a type="button" data-dismiss="modal" aria-label="Close" class="btn btn-block btn-info">Close</a>
+              </div>
+            </div>
+          </div>
+        </div>*@
+    </div>
+  </div>
+  <div class="container margin-top-xs-32">
+    <!---->
+  </div>
+</section>

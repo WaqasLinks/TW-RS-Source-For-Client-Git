@@ -1,0 +1,89 @@
+
+<section>
+  <div id="loginPage" class="container">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <ul class="nav nav-tabs nav-justified">
+          <li role="presentation" class="active">
+            <a class="clickable">
+              Create account
+            </a>
+          </li>
+        </ul>
+        <div class="panel flip card margin-bottom-xs-64 flipped panel-default">
+          <div class="panel-body margin-vertical-xs-16 margin-horizontal-xs-32 face front">
+            <form method="POST" action="https://smoothcomp.com/en/auth/register" accept-charset="UTF-8" class="create-account">
+              <input name="_token" type="hidden" value="5dMgdClCaBbXCrOEA67o4n9C4AWFClficyQ6JA6G"> <input type="hidden" name="create_account" value="1"> <input type="hidden" name="_next_url" value="">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">
+                      First name
+                    </label>
+                    <input required="required" name="firstname" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="control-label">
+                      Last name
+                    </label>
+                    <input required="required" name="lastname" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <hr>
+                  <div class="form-group">
+                    <label class="control-label">
+                      Email
+                    </label>
+                    <input type="email" name="email" value="" required="required" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">
+                      Confirm email
+                    </label>
+                    <input name="email_confirmation" type="email" class="form-control">
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <label class="control-label">
+                      Password
+                    </label>
+                    <input name="password" type="password" value="" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">
+                      Confirm password
+                    </label>
+                    <input name="password_confirmation" type="password" value="" class="form-control">
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <div data-sitekey="6LfwEagUAAAAAFuwYFtX4dN5GeJxdY4PCYJjC5ss" class="g-recaptcha">
+                      <div style="width: 304px; height: 78px;">
+                        <div>
+                          <iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LfwEagUAAAAAFuwYFtX4dN5GeJxdY4PCYJjC5ss&amp;co=aHR0cHM6Ly9zbW9vdGhjb21wLmNvbTo0NDM.&amp;hl=en&amp;v=6MY32oPwFCn9SUKWt8czDsDw&amp;size=normal&amp;cb=nlmk0b5ncjbd" width="304" height="78" role="presentation" name="a-qhq3du1l1btv" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>
+                        </div>
+<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+                      </div>
+                      <iframe style="display: none;"></iframe>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                <div class="col-sm-12">
+                  <input type="hidden" id="recaptcha" name="recaptcha">
+                  <button class="btn btn-success btn-lg btn-block">
+                    Create account
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

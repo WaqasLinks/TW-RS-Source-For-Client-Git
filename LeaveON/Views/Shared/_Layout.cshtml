@@ -1,0 +1,874 @@
+@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tourney Wizard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="~/Images/TWLogo.png?v=2">
+
+
+  @* this all was for multiselect dropdown but now using for all code *@
+  @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">*@
+  @*  *@
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-pro/css/all.min.css">
+
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="../../plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="../../plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- Theme style -->
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+
+  <link rel="stylesheet" href="../../dist/css/adminlte.css">
+  <link href="/build/webpack/styleApp.5e8df321cb979290030e.css" rel="stylesheet">
+  <!-- jQuery -->  <!-- multiselect run with this jquery ver and bleow also. no diff till yet 28-apr -->
+  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->  <!-- multiselect not run with this so commented -->
+  @*<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+  @* this all was for multiselect dropdown but now using for all code *@
+
+  @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- jQuery -->
+  @*<script src="../../plugins/jquery/jquery.min.js"></script>*@
+  <!-- Bootstrap 4 -->
+  @*<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+  <!-- Select2 -->
+  <script src="../../plugins/select2/js/select2.full.min.js"></script>
+  <!-- Bootstrap4 Duallistbox -->
+  <script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+  <!-- InputMask -->
+  <script src="../../plugins/moment/moment.min.js"></script>
+  <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
+  <!-- bootstrap color picker -->
+  <script src="../../plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Bootstrap Switch -->
+  <script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+  <!-- bs-custom-file-input -->
+  <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../dist/js/demo.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+    });
+  </script>
+
+
+  <style>
+
+      body, html, .card {
+      background-color: #121212c9 !important;
+      color: #fff !important,
+    }
+
+    .dataTable, .dt-button {
+      color: #fff !important
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: #fff !important
+    }
+
+    .text-dark {
+      color: #fff !important;
+      padding-left: 15px;
+      font-size: 30px;
+    }
+
+    label {
+      color: #fff !important
+    }
+
+    input {
+      color: #fff !important
+    }
+
+    .form-control, .modal-title {
+      color: #495057 !important
+    }
+
+    .row {
+      width: 100%;
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+      padding: 5px !important;
+    }
+
+    input[type=number] {
+      color: #495057 !important;
+    }
+
+    .dropdown-toggle::after {
+      display: none !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #dcdcdc)) !important;
+    }
+
+    .card-title {
+      font-size: 30px;
+      padding-left: 20px;
+    }
+
+    .dataTables_info {
+      color: #fff !important
+    }
+
+    .modal-footer {
+      align-items: baseline !important;
+    }
+    .navbar-brand {
+      position: relative !important;
+      top: 10px !important;
+    }
+    body {
+      font-family: sans-serif !important;
+    }
+    .nav > li {
+      position: relative;
+      display: block;
+      font-size: 16.93px !important;
+    }
+    nav.primary ul li a.account-button {
+    
+      padding: 7px 15px !important;
+      margin: 11px;
+      border-radius: 3px;
+    }
+
+    nav.primary ul li a {
+      padding: 15px !important;
+    }
+
+    html {
+      font-size: 1rem !important;
+    }
+
+    .dropdown-menu li.profile-item .avatar img {
+      width: 25px !important;
+      height: 25px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    .navbar-brand {
+      padding: 0px !important;
+    }
+
+    @@media (min-width: 1200px) {
+      .container {
+        width: 1330px !important;
+      }
+    }
+
+    @@media (min-width: 1200px) {
+      .container, .container-sm, .container-md, .container-lg, .container-xl {
+        max-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+
+
+
+<body>
+
+  <!-- Content Wrapper. Contains page content -->
+
+  <div class="content">
+    <nav class="navbar primary mainmenu">
+      <div class="container" style="display: flex;">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"><img src="/Images/TWZLogo.png" class="logo"></a>
+        </div>
+
+        <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+          <li>
+            <a href="/Events/Events">Tournaments</a>
+          </li>
+          @{
+            if (!User.Identity.IsAuthenticated)
+            {
+              <li class="account account-profile profile-item">
+                <a href="#">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                </a>
+              </li>
+
+              <li>
+                <a href="/account/login" class="account-button login">Log in</a>
+              </li>
+              <li>
+                <a href="/account/register" class="account-button create-account">Create account</a>
+              </li>
+            }
+            else
+            {
+
+              if (@User.IsInRole("Admin") || @User.IsInRole("TournamentDirector"))
+              {
+
+
+                <li class="account account-profile profile-item">
+                  <a href="/Dashboard/Index">
+                    Dashboard
+                  </a>
+                </li>
+                <li class="account account-profile profile-item">
+                  <a href="/TournamentEvents/Index">
+                    <p>Events</p>
+                  </a>
+                </li>
+                <li class="account account-profile profile-item">
+                  <a href="/EventDivisions/Index">
+                    <p>Divisions</p>
+                  </a>
+                </li>
+
+                <li class="account account-profile profile-item">
+                  <a href="/Competitors/Index">
+                    <p>Competitors</p>
+                  </a>
+                </li>
+                <li class="account account-profile profile-item">
+                  <a href="/PrintBrackets/Index">
+
+                    <p>Print Brackets</p>
+                  </a>
+                </li>
+                <li class="account account-profile profile-item">
+                  <a href="/Belt/Index">
+
+                    <p>Belt</p>
+                  </a>
+                </li>
+                {
+                  if (@User.IsInRole("Admin"))
+                  {
+                    <li class="dropdown account">
+                      <a href="#" class="dropdown-toggle account truncate" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="truncate">
+                          More
+                        </span>
+                        <span class="icon icon-chevron-down"></span>
+                      </a>
+                      <ul class="dropdown-menu position-right">
+                        <li class="account account-profile profile-item">
+                          <a href="/Configurations/Index">
+
+                            <p>Configurations</p>
+                          </a>
+                        </li>
+
+                        <li class="account account-profile profile-item">
+                          <a href="/CheckIn/Index">
+
+                            <p>Check In</p>
+                          </a>
+                        </li>
+                        <li class="account account-profile profile-item">
+                          <a href="/PreRegisteration/Index">
+
+                            <p>Pre-Registeration List</p>
+                          </a>
+                        </li>
+
+                      </ul>
+                    </li>
+                  }
+                }
+
+
+
+
+              }
+
+              <li class="dropdown account">
+                <a href="#" class="dropdown-toggle account truncate" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <img src="https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" width="36" alt="" class="img-circle">
+                  <span class="truncate">
+                    @User.Identity.Name
+                  </span>
+                  <span class="icon icon-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu position-right">
+                  <li class="account account-profile profile-item">
+                    <a href="#" class="accountprofile">
+                      <div class="avatar">
+                        <img src="https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" alt="" class="img-circle full-width">
+                      </div>
+                      @User.Identity.Name
+                    </a>
+                  </li>
+                  <li class="account account-settings">
+                    <a href="@Url.Action("UpdateInfo","Competitors")" class="accountsettings">
+                      <span class="icon icon-settings"></span> Settings
+                    </a>
+                  </li>
+
+
+                  <li class="account account-logout">
+                    <a href="@Url.Action("SignOut", "Account")">
+                      <span class="icon icon-chevron-right"></span> Log out
+                    </a>
+
+                  </li>
+
+                  <li class="placeholder">
+                    <div class="padding-top-xs-16 muted uppercase">
+                      <small>Linked profiles</small>
+                    </div>
+                  </li>
+
+                  <li id="AppendProfile">
+
+                  </li>
+
+                  <li>
+                    <a href="@Url.Action("Profile", "Competitors")">
+                      <span class="icon icon-user"></span> Manage profiles
+                    </a>
+                  </li>
+
+                </ul>
+              </li>
+            }
+          }
+
+
+
+
+          <li class='language-selector'>
+            <a href='#' class='dropdown-toggle account' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+              <span class='flag-icon flag-icon-us'></span>
+            </a>
+            <ul class='dropdown-menu'>
+              <li>
+                <a lang="en" href='upcoming.html'>
+                  English
+                  <span class='flag-icon flag-icon-us'></span>
+                  <span class='flag-icon flag-icon-gb'></span>
+                </a>
+              </li>
+              @*<li>
+          <a lang="pt_BR" href='../../pt_BR/events/upcoming.html'>
+            Português
+            <span class='flag-icon flag-icon-br'></span>
+            <span class='flag-icon flag-icon-pt'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="es" href='../../es/events/upcoming.html'>
+            Español
+            <span class='flag-icon flag-icon-es'></span>
+            <span class='flag-icon flag-icon-mx'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="nl" href='../../nl/events/upcoming.html'>
+            Nederlands
+            <span class='flag-icon flag-icon-nl'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="jp" href='../../jp/events/upcoming.html'>
+            日本語
+            <span class='flag-icon flag-icon-jp'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="fr" href='../../fr/events/upcoming.html'>
+            Français
+            <span class='flag-icon flag-icon-fr'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="it" href='../../it/events/upcoming.html'>
+            Italiano
+            <span class='flag-icon flag-icon-it'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="pl" href='../../pl/events/upcoming.html'>
+            Polski
+            <span class='flag-icon flag-icon-pl'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="ru" href='../../ru/events/upcoming.html'>
+            Русский
+            <span class='flag-icon flag-icon-ru'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="sv" href='../../sv/events/upcoming.html'>
+            Svenska
+            <span class='flag-icon flag-icon-se'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="cs" href='../../cs/events/upcoming.html'>
+            Čeština
+            <span class='flag-icon flag-icon-cz'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="zh" href='../../zh/events/upcoming.html'>
+            简体中文
+            <span class='flag-icon flag-icon-cn'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="ko" href='../../ko/events/upcoming.html'>
+            한국어
+            <span class='flag-icon flag-icon-kr'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="ar" href='../../ar/events/upcoming.html'>
+            العربية
+            <span class='flag-icon flag-icon-ae'></span>
+          </a>
+        </li>
+        <li>
+          <a lang="ua" href='../../ua/events/upcoming.html'>
+            Українська
+            <span class='flag-icon flag-icon-ua'></span>
+          </a>
+        </li>*@
+            </ul>
+          </li>
+        </ul>
+
+
+        <ul class="nav navbar-nav pull-right visible-xs visible-sm">
+          <li class='pull-left language-selector'>
+            <a href='#' class='dropdown-toggle account' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+              <span class='flag-icon flag-icon-us'></span>
+            </a>
+            <ul class='dropdown-menu'>
+              <li>
+                <a lang="en" href='upcoming.html'>
+                  English
+                  <span class='flag-icon flag-icon-us'></span>
+                  <span class='flag-icon flag-icon-gb'></span>
+                </a>
+              </li>
+              @*<li>
+                <a lang="pt_BR" href='../../pt_BR/events/upcoming.html'>
+                  Português
+                  <span class='flag-icon flag-icon-br'></span>
+                  <span class='flag-icon flag-icon-pt'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="es" href='../../es/events/upcoming.html'>
+                  Español
+                  <span class='flag-icon flag-icon-es'></span>
+                  <span class='flag-icon flag-icon-mx'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="nl" href='../../nl/events/upcoming.html'>
+                  Nederlands
+                  <span class='flag-icon flag-icon-nl'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="jp" href='../../jp/events/upcoming.html'>
+                  日本語
+                  <span class='flag-icon flag-icon-jp'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="fr" href='../../fr/events/upcoming.html'>
+                  Français
+                  <span class='flag-icon flag-icon-fr'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="it" href='../../it/events/upcoming.html'>
+                  Italiano
+                  <span class='flag-icon flag-icon-it'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="pl" href='../../pl/events/upcoming.html'>
+                  Polski
+                  <span class='flag-icon flag-icon-pl'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="ru" href='../../ru/events/upcoming.html'>
+                  Русский
+                  <span class='flag-icon flag-icon-ru'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="sv" href='../../sv/events/upcoming.html'>
+                  Svenska
+                  <span class='flag-icon flag-icon-se'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="cs" href='../../cs/events/upcoming.html'>
+                  Čeština
+                  <span class='flag-icon flag-icon-cz'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="zh" href='../../zh/events/upcoming.html'>
+                  简体中文
+                  <span class='flag-icon flag-icon-cn'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="ko" href='../../ko/events/upcoming.html'>
+                  한국어
+                  <span class='flag-icon flag-icon-kr'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="ar" href='../../ar/events/upcoming.html'>
+                  العربية
+                  <span class='flag-icon flag-icon-ae'></span>
+                </a>
+              </li>
+              <li>
+                <a lang="ua" href='../../ua/events/upcoming.html'>
+                  Українська
+                  <span class='flag-icon flag-icon-ua'></span>
+                </a>
+              </li>*@
+            </ul>
+          </li>
+          <li class="pull-left" style="position: absolute; right: 20px; top: 5px;">
+            <a href="#" class="dropdown-toggle visible-xs visible-sm toggle-menu" style="padding: 12px; border-radius: 6px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="burger-menu">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+
+
+              <li class="account ">
+                <a href="#" class="title">Menu</a>
+              </li>
+
+              <li>
+                <a href="/Events/Events">Tournaments</a>
+              </li>
+
+              @{
+                if (!User.Identity.IsAuthenticated)
+                {
+                  <li>
+                    <a href="/account/login" class="account-button login">Log in</a>
+                  </li>
+                  <li>
+                    <a href="/account/register" class="account-button create-account">Create account</a>
+                  </li>
+                }
+                else
+                {
+
+                  if (@User.IsInRole("Admin") || @User.IsInRole("TournamentDirector"))
+                  {
+                    @*<li>
+
+            <a href="@Url.Action("Index", "Dashboard")" class="account-button login" style="border-radius: 5px;">
+              <span class="icon icon-tachometer"></span> Dashboard
+            </a>
+          </li>
+          <li class="account account-profile profile-item">
+            <a href="/TournamentEvents/Index">
+              <p>Events</p>
+            </a>
+          </li>*@
+                    <li class="account account-profile profile-item">
+                      <a href="/Dashboard/Index">
+                        Dashboard
+                      </a>
+                    </li>
+                    <li class="account account-profile profile-item">
+                      <a href="/TournamentEvents/Index">
+                        <p>Events</p>
+                      </a>
+                    </li>
+                    <li class="account account-profile profile-item">
+                      <a href="/EventDivisions/Index">
+                        <p>Divisions</p>
+                      </a>
+                    </li>
+
+                    <li class="account account-profile profile-item">
+                      <a href="/Competitors/Index">
+                        <p>Competitors</p>
+                      </a>
+                    </li>
+                    <li class="account account-profile profile-item">
+                      <a href="/PrintBrackets/Index">
+
+                        <p>Print Brackets</p>
+                      </a>
+                    </li>
+                    <li class="account account-profile profile-item">
+                      <a href="/Belt/Index">
+
+                        <p>Belt</p>
+                      </a>
+                    </li>
+                    {
+                      if (@User.IsInRole("Admin"))
+                      {
+                        <li class="account">
+                          <a href="#" class="title">Admin</a>
+                        </li>
+                        <li class="account account-profile profile-item">
+                          <a href="/Configurations/Index">
+
+                            <p>Configurations</p>
+                          </a>
+                        </li>
+
+                        <li class="account account-profile profile-item">
+                          <a href="/CheckIn/Index">
+
+                            <p>Check In</p>
+                          </a>
+
+                        </li>
+                        <li class="account account-profile profile-item">
+                          <a href="/PreRegisteration/Index">
+
+                            <p>Pre-Registeration List</p>
+                          </a>
+                        </li>
+
+
+
+                      }
+                    }
+
+                  }
+
+                  <li class="account ">
+                    <a href="#" class="title">Profile</a>
+                  </li>
+                  <li class="account account-profile profile-item">
+
+                    <a href="#" class="accountprofile">
+                      <div class="avatar">
+                        <img src="https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" alt="" class="img-circle full-width">
+                      </div>
+                      @User.Identity.Name
+                    </a>
+
+                  </li>
+                  <li class="account account-settings">
+                    <a href="@Url.Action("UpdateInfo","Competitors")" class="accountsettings">
+                      <span class="icon icon-settings"></span> Settings
+                    </a>
+                  </li>
+                  <li class="account account-logout">
+                    <a href="@Url.Action("SignOut", "Account")">
+                      <span class="icon icon-chevron-right"></span> Log out
+                    </a>
+
+                  </li>
+
+                  <li class="placeholder">
+                    <div class="padding-top-xs-16 muted uppercase">
+                      <small>Linked profiles</small>
+                    </div>
+                  </li>
+
+                  <li id="MobileAppendProfile">
+
+                  </li>
+
+                  <li>
+                    <a href="@Url.Action("Profile", "Competitors")">
+                      <span class="icon icon-user"></span> Manage profiles
+                    </a>
+                  </li>
+
+                }
+              }
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+
+  <div class="container-fluid">
+
+
+    <!-- Main content -->
+
+    @RenderBody()
+    @RenderSection("SPAViews", required: false)
+
+    <!-- /.content -->
+  </div>
+
+
+  <div class="footer">
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3 text-center">
+            <p>TourneyWizard is software designed to help you better manage martial arts tournaments. The best way to participate and organize competitions. See you in the ring!</p>
+          </div>
+          <div class="col-sm-6 col-sm-offset-3 text-center flex-center flex-wrap" style="justify-content: center;">
+            <div class="flex-center flex-wrap margin-xs-8" style="justify-content: center;">
+              <a href="https://www.youtube.com/watch?v=TtwCGsFeprQ" target="blank" class="margin-xs-8">
+                <img src="../../build/webpack/img/social/youtube.e8dc7bbcd9930fcc705702153a045dd1.svg" style="height:22px">
+              </a>
+              <a href="https://facebook.com/TourneyWizard" target="blank" class="margin-xs-8">
+                <img src="../../build/webpack/img/social/facebook.2af145363d3908745740b7da0db70579.svg" style="height:22px">
+              </a>
+              <a href="https://instagram.com/TourneyWizard" target="blank" class="margin-xs-8">
+                <img src="../../build/webpack/img/social/instagram.f5278f6cf401628e8efab9a2ec82cc92.svg" style="height:22px">
+              </a>
+              <a href="https://wa.me/+923008855011" target="blank" class="margin-xs-8">
+                <img src="../../build/webpack/img/social/whatsapp.png" style="height:22px">
+              </a>
+            </div>
+            <div class="flex-center flex-wrap margin-xs-8" style="justify-content: center;">
+              <a href="../support.html" class="btn btn-default btn-outline btn-sm margin-xs-8">
+                Get support
+              </a>
+              <a href="../agreements9a22.html?t=tos" class="btn btn-default btn-outline btn-sm margin-xs-8">
+                Terms of Service
+              </a>
+              <a href="../privacypolicy.html" class="btn btn-default btn-outline btn-sm margin-xs-8">
+                Privacy Policy
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    @*<div class="ua-message padding-vertical-xs-16">
+      <div class="container relative">
+        <div class="ua-flag margin-right-sm-32 visible-sm visible-md visible-lg">
+          <svg width="53" height="40" viewBox="0 0 53 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H53V40H0V0Z" fill="#FFD500"></path>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H53V20H0V0Z" fill="#005BBB"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="title font-size-md">
+            <div class="flex-center-xs">
+              <div class="ua-flag margin-right-xs-16 visible-xs">
+                <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H24V18H0V0Z" fill="#FFD500"></path>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H24V9H0V0Z" fill="#005BBB"></path>
+                </svg>
+              </div>
+              <strong>TourneyWizard stands with Ukraine.</strong>
+            </div>
+          </div>
+          <div class="ua-desc">
+            Our platform is meant to unite the world in peaceful competitions.
+            <a href="https://www.icrc.org/en/where-we-work/europe-central-asia/ukraine" target="_blank">
+              Help stop the unprovoked war Â»
+            </a>
+          </div>
+        </div>
+        <a href="upcoming.html" class="clickable ua-close">
+          <span class="icon icon-close"></span>
+        </a>
+      </div>
+    </div>*@
+  </div>
+
+  <input type="hidden" value="@User.Identity.GetUserId()" id="UserHDID" />
+
+  @{ if (User.Identity.IsAuthenticated)
+    {
+
+      <script>
+        $(document).ready(function () {
+          $.ajax({
+            url: "/Competitors/GetProfile",
+            data: null,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+              $("#AppendProfile,#MobileAppendProfile").html(" ");
+              var UserId = $("#UserHDID").val();
+              $.each(result, function (i, v) {
+                if (i == 0) {
+                  $('.accountprofile').prop('href', '/Competitors/UserProfile/' + v.Id);
+                  //$('.accountsettings').prop('href', '/Competitors/ProfileSetting/' + v.Id);
+                }
+                $("#AppendProfile,#MobileAppendProfile").append(`<li class="profile-item ${v.CreatedBy == UserId ? "profile-item-active" : null} ">
+                                <a href="/Competitors/MyAccount/${v.Id}">
+                                  <button type="submit" class="btn btn-link" style="width: 200px;">
+                                    <div class="avatar">
+                                      <img src="${v.Profile == null ? "https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" : v.Profile}" alt="" class="img-circle full-width"  style="width:25px;height:25px;">
+                                    </div>
+                                    <div class="name truncate">
+                                      <span class="firstname">${v.Name}</span>
+
+                                    </div>
+                                  </button>
+                                </a>
+                              </li>`);
+              });
+
+            },
+            error: function (errormessage) {
+
+              console.log(errormessage.responseText);
+            }
+          });
+
+        });
+      </script>
+    } }
+  @RenderSection("Scripts", required: false)
+</body>
+</html>

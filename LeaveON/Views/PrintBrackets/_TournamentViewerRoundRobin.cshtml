@@ -1,0 +1,110 @@
+@model IEnumerable<LeaveON.Models.RoundRobinEliminationVM>
+
+<div id="printTournamentAsJpg" style="padding-left: 5px; padding-top: 10px;" class="pagebreak">
+  <div class="row text-center">
+    <div class="col-sm-12">
+      <h3 style="text-align:center">@ViewBag.Tournament - @ViewBag.GroupMessage    </h3>
+    </div>
+  </div>
+  <div class="row text-center" style="font-size:12px;">
+    <div class="col-sm-2">
+      <b>Event:@ViewBag.Event</b>
+    </div>
+    <div class="col-sm-4">
+      <b>Division:@ViewBag.Division</b>
+    </div>
+    <div class="col-sm-2">
+      <b>Gender:@ViewBag.GenderText</b>
+    </div>
+    <div class="col-sm-2">
+      <b>Belt Division:@ViewBag.BeltDevision</b>
+    </div>
+    <div class="col-sm-2">
+      <b>Ring#: @ViewBag.RingAssignment</b>
+    </div>
+  </div>
+  <br />
+  <div class="demo"></div>
+  <div class="row">
+    @if (Model != null && Model.Count() > 0)
+    {
+      int matchCounter = 0;
+      for (int i = 0; i < Model.Count(); i++)
+      {
+        if (Model.ElementAt(i).Team1 != "--BYE--" && Model.ElementAt(i).Team2 != "--BYE--")
+        {
+          matchCounter++;
+
+          <div class="col-sm-3">
+            <div>
+              <h4> Match @matchCounter</h4>
+            </div>
+            <div class="jQBracket lr" style="width: 300px; height: 290px;">
+              <div class="bracket" style="height: 250px;">
+                <div class="round" style="width: 200px; margin-right: 100px">
+                  <div class="match" style="height: 145px;">
+                    <div class="teamContainer np" style="top: 33.5px;">
+                      <div class="team" style="width: 260px;">
+                        <div class="label" style="width: 150px;">@Model.ElementAt(i).Team1</div>
+                        <div class="score" style="width: 110px; font-size: 9px;">@Model.ElementAt(i).Team1School</div>
+                      </div>
+                      <div class="team" style="width: 260px;">
+                        <div class="label" style="width: 150px;">@Model.ElementAt(i).Team2</div>
+                        <div class="score" style="width: 110px; font-size: 9px;">@Model.ElementAt(i).Team2School</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="jQBracket lr" style="width: 290px; height: 290px;">
+              <div class="bracket" style="height: 250px;">
+                <div class="round" style="width: 200px; margin-right: 100px">
+                  <div class="match" style="height: 145px;">
+                    <div class="teamContainer np" style="top: 85.5px;">
+                      <div class="team" style="width: 260px;">
+                        <div class="label" style="width: 150px;">
+                        </div><div class="score" style="width: 110px; font-size: 9px;">Winner</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+      }
+    }
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <p style="position:absolute; bottom:0;">&copy; 2022 Tourney Wizard. All rights reserved.</p>
+    </div>
+    <div class="col-sm-4">
+      <p style="position:absolute; bottom:0;" class="text-bold"><b>@ViewBag.Bracket</b></p>
+    </div>
+    <div class="col-sm-3">
+      <p><b style="text-align:center;">1st Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+      <p><b style="text-align:center;">2nd Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+      <p><b style="text-align:center;">3rd Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+      <p><b style="text-align:center;">4th Place</b> <span style="text-align:center;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span></p>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<link href="~/Content/jquery.bracket.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.bracket.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    $(".score").css({
+      fontSize: 9
+    });
+
+  });
+</script>

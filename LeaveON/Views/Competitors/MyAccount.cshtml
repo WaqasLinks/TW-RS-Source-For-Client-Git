@@ -1,0 +1,257 @@
+@model TourneyRepo.Models.Competitor
+
+@using Microsoft.AspNet.Identity
+
+@{ ViewBag.Title = "MyAccount";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml"; }
+
+<script src="https://jeromeetienne.github.io/jquery-qrcode/src/qrcode.js"></script>
+<script src="https://jeromeetienne.github.io/jquery-qrcode/src/jquery.qrcode.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<style>
+  .modal-backdrop {
+    background-color: #00000080 !important;
+  }
+  @@media screen {
+  #printSection {
+      display: none;
+  }
+}
+
+@@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility: visible;
+  }
+  #qrcode * {
+    visibility: visible;
+    position: absolute;
+    
+    top: -113%;
+    margin-left:-0px;
+  }
+
+  .QRCode * {
+    justify-content: center;
+    display: flex;
+    height:100px;
+    position:relative
+  }
+  #printSection {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px
+  }
+}
+
+</style>
+<section class="padding-bottom-xs-32">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="submenu">
+          <ul class="margin-xs-0 nav nav-tabs nav-justified">
+            <li role="presentation" class="account active">
+              <a href="javascript:void(0)"> <span class="icon icon-user"></span> Account </a>
+            </li>
+            <li role="presentation" class="account">
+              <a href="javascript:void(0)">&nbsp;</a>
+            </li>
+
+            <li role="presentation" class="account ">
+              <a href="javascript:void(0)">&nbsp; </a>
+            </li>
+            <li role="presentation" class="account ">
+              <a href="javascript:void(0)">&nbsp;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="pull-right margin-bottom-sm-0 margin-bottom-xs-16">
+          <a class="btn btn-secondary margin-bottom-xs-8" href="@Url.Action("UserProfile", "Competitors",new {Id=Model.Id})">
+            My Profile
+          </a> <a class="btn btn-secondary margin-bottom-xs-8" href="@Url.Action("ProfileSetting", "Competitors",new {Id=Model.Id})">
+            Settings
+          </a> <a class="btn btn-secondary margin-bottom-xs-8" href="javascript:void(0)" data-toggle="modal" data-target="#MyModal">
+  Generate QR Pass
+</a>
+        </div>
+        <h1 class="margin-xs-0">@Model.Name</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<div id="MyModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog modal-md">
+
+    <!-- Modal Content: begins -->
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">QR-Pass</h4>
+      </div>
+
+      <!-- Modal Body -->
+      
+      <div class="modal-body">
+
+      <div>
+
+          <select class="form-control" id="EventChangeId">
+            <option value="-1" disabled selected>Please Select Event</option>
+            @foreach (var item in ViewBag.EventList)
+            {
+
+            <option value="@item.Id">@item.Name</option>}
+                </select>
+
+        </div>
+
+        <div id="printThis" class="AppendQRCode">
+          
+
+        </div>
+       </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button id="btnPrint" type="button" class="btn btn-info">Print</button>
+        </div>
+        <!-- Modal Content: ends -->
+
+      </div>
+  </div>
+</div>
+
+<script>
+
+  document.getElementById("btnPrint").onclick = function () {
+    printElement(document.getElementById("printThis"));
+  }
+
+  function printElement(elem) {
+    var domClone = elem.cloneNode(true);
+
+    var $printSection = document.getElementById("printSection");
+
+    if (!$printSection) {
+      var $printSection = document.createElement("div");
+      $printSection.id = "printSection";
+      document.body.appendChild($printSection);
+    }
+
+    $printSection.innerHTML = "";
+    $printSection.appendChild(domClone);
+    window.print();
+  }
+
+  $("#EventChangeId").change(function () {
+
+    var EventId = Number($(this).val());
+
+    $.ajax({
+      url: `/Competitors/QRCodeEventPassDetails?EventId=${EventId}&CompetitorId=${@Model.Id}`,
+      data: null,
+      type: "GET",
+      contentType: "application/json;charset=utf-8",
+      dataType: "json",
+      success: function (result) {
+        debugger
+
+        $(".AppendQRCode").append(`<div style="background: #7c6546; box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px; padding-top: 0px; padding-left: 4px; padding-right: 4px; padding-bottom: 1%; margin-top: 20px; border-radius: 10px;">
+
+            <div style="display: flex; align-items: center; background: #7c6546; border-top-right-radius: 10px; border-top-left-radius: 10px; color: #ffff; border-bottom-color: #afafc0; border-bottom-width: 1px; border-style: solid; border-left-width: 0px; border-right-width: 0px; border-top-width: 0px; padding-bottom: 10px;">
+              <div style="display: flex; align-items: center; padding-left: 8px; padding-top: 8px; ">
+                <img style="width: 40px; height:40px; border-radius: 50px;" src="${result.Profile == null ? "https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png" : result.Profile}"/>
+
+                <div style="padding-left: 16px; font-size: 16px; font-weight: 600;">
+                  ${result.Name}
+                </div>
+              </div>
+            </div>
+
+            <div class="QRCode" style="justify-content: center; display: flex; padding-top: 18px; background-color: #fff; padding-bottom: 10px">
+              <div id="qrcode"></div>
+            </div>
+
+            <div class="UserDetails">
+
+              <h5 style="padding-left: 10px; background: #7c6546; color: #fff!important;" >Data</h5>
+
+            </div>
+
+            <div class="InformationTable" style="background: #fff;">
+
+              <table class="table table-bordered" style="margin-bottom:20px!important">
+
+                <tr>
+                  <th>Name</th>
+                  <td>${result.Name}</td>
+                </tr>
+                <tr>
+                  <th>Age</th>
+                  <td>${result.Age}</td>
+                </tr>
+                <tr>
+                  <th>Belt</th>
+                  <td>${result.Belt}</td>
+                </tr>
+
+                <tr>
+                  <th>Weight</th>
+                  <td>${result.Weight +" "+"(lbs)"}</td>
+                </tr>
+
+                <tr>
+                  <th>Gender</th>
+                  <td>${result.Gender==true?"Male":"Female"}</td>
+                </tr>
+
+                <tr>
+                  <th>Event</th>
+                  <td>${result.EventName}</td>
+                </tr>
+
+              </table>
+
+            </div>
+
+          </div>`);
+
+          $('#qrcode').qrcode({
+            width: 120,
+            height: 120,
+            text: result.QRCodeId
+          });
+      },
+      error: function (errormessage) {
+
+        alert(errormessage.responseText);
+      }
+    });
+
+  })
+
+
+
+</script>

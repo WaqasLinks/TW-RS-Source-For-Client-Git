@@ -1,0 +1,822 @@
+@model TourneyRepo.Models.EventDivision
+
+@{
+  ViewBag.Title = "Add Division";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- left column -->
+    <div class="col-md-4">
+      <!-- general form elements -->
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title"> Add Division</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        @using (Html.BeginForm())
+        {
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="Id" id="Id" value="0" />
+          <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*@if (ViewBag.IsError != null && ViewBag.IsError == true)
+            {
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                    @Html.ValidationSummary(false, "", new { @class = "" })
+                  </div>
+                </div>
+              </div>
+            }*@
+
+            @*<div class="form-group required">
+              @Html.Label("Tournament", htmlAttributes: new { @class = "control-label" })
+              @Html.DropDownList("TournamentId", null, htmlAttributes: new { @class = "form-control" })
+              @Html.ValidationMessageFor(model => model.TournamentId, "", new { @class = "text-danger" })
+
+            </div>*@
+
+            <div class="form-group required">
+              @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+              @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @Value = "New Division "+DateTime.Now.ToString("ddMMyyhhmmss") } })
+              @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group required">
+              @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+              @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+              @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group required">
+              @Html.Label("Event Type", htmlAttributes: new { @class = "control-label" })
+              @Html.DropDownList("TournamentEventId", null, htmlAttributes: new { @class = "form-control" })
+              @Html.ValidationMessageFor(model => model.TournamentEventId, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group required">
+              @Html.Label("Opening for the ring assignment", htmlAttributes: new { @class = "control-label" })
+              @Html.EditorFor(model => model.RingAssignment, new { htmlAttributes = new { @class = "form-control" } })
+              @Html.ValidationMessageFor(model => model.TournamentEventId, "", new { @class = "text-danger" })
+            </div>
+            <br /><br />
+            <div style="display:none">
+              <div class="form-group required">
+                <div class="row">
+                  <p>Formula</p>
+                </div>
+                <div id="formulaContent">
+                  <div class="row formula">
+
+
+                    @if (ViewBag.IsAgeFilter != null && ViewBag.IsAgeFilter == "1")
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+                        <label class="custom-control-label" for="customSwitch1">Age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("FromAge", new SelectList(ViewBag.Ages, ViewBag.FromAge), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From" }) @:&nbsp; -&nbsp;
+                      @Html.DropDownList("ToAge", new SelectList(ViewBag.Ages, ViewBag.ToAge), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To" })
+                    }
+                    else
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                        <label class="custom-control-label" for="customSwitch1">Age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("FromAge", new SelectList(ViewBag.Ages), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From", disabled = "disabled" }) @:&nbsp; -&nbsp;
+                      @Html.DropDownList("ToAge", new SelectList(ViewBag.Ages), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To", disabled = "disabled" })
+                    }
+
+                    @*@Html.Editor("FromAge", new { htmlAttributes = new { @class = "form-control col-md-3", placeholder = "From" } })&nbsp;-&nbsp;
+            @Html.Editor("ToAge", new { htmlAttributes = new { @class = "form-control col-md-3", placeholder = "To" } })*@
+                    @Html.ValidationMessage("AgeRange", "", new { @class = "text-danger" })
+
+                  </div>
+                  <div class="row formula">
+
+
+
+                    @if (ViewBag.IsBeltFilter != null && ViewBag.IsBeltFilter == "1")
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2" checked>
+                        <label class="custom-control-label" for="customSwitch2">Belt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("FromBelt", new SelectList(ViewBag.Belts, "Id", "Name", ViewBag.FromBelt), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From" })@:&nbsp; -&nbsp;
+                      @Html.DropDownList("ToBelt", new SelectList(ViewBag.Belts, "Id", "Name", ViewBag.ToBelt), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To" })
+                    }
+                    else
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                        <label class="custom-control-label" for="customSwitch2">Belt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("FromBelt", new SelectList(ViewBag.Belts, "Id", "Name"), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From", disabled = "disabled" })@:&nbsp; -&nbsp;
+                      @Html.DropDownList("ToBelt", new SelectList(ViewBag.Belts, "Id", "Name"), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To", disabled = "disabled" })
+                    }
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.ValidationMessage("BeltRange", "", new { @class = "text-danger" })
+                  </div>
+
+                  <div class="row formula">
+                    @if (ViewBag.IsWeightFilter != null && ViewBag.IsWeightFilter == "1")
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch3" checked>
+                        <label class="custom-control-label" for="customSwitch3">Weight&nbsp;&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("FromWeight", new SelectList(ViewBag.Weights, ViewBag.FromWeight), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3" })@:&nbsp;-&nbsp;
+                      @Html.DropDownList("ToWeight", new SelectList(ViewBag.Weights, ViewBag.ToWeight), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To" })
+                    }
+                    else
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                        <label class="custom-control-label" for="customSwitch3">Weight&nbsp;&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("FromWeight", new SelectList(ViewBag.Weights), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "From", disabled = "disabled" })@:&nbsp;-&nbsp;
+                      @Html.DropDownList("ToWeight", new SelectList(ViewBag.Weights), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "To", disabled = "disabled" })
+                    }
+
+
+                    @Html.ValidationMessage("WeightRange", "", new { @class = "text-danger" })
+
+                  </div>
+
+                  <div class="row formula">
+
+
+                    @if (ViewBag.IsGenderFilter != null && ViewBag.IsGenderFilter == "1")
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch4" checked>
+                        <label class="custom-control-label" for="customSwitch4">Gender&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("Gender", new SelectList(ViewBag.Genders, "Id", "Name", ViewBag.Gender), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "Male" })
+
+                    }
+                    else
+                    {
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch4">
+                        <label class="custom-control-label" for="customSwitch4">Gender&nbsp;</label>
+                      </div>
+
+                      @Html.DropDownList("Gender", new SelectList(ViewBag.Genders, "Id", "Name"), htmlAttributes: new { @class = "form-control UpdateCombination col-md-3", placeholder = "Male", disabled = "disabled" })
+                    }
+
+                    @Html.ValidationMessage("Gender", "", new { @class = "text-danger" })
+                  </div>
+
+
+                  <div style="display:none;" class="row">
+
+                    <div>
+                      <label class="control-label">Criteria</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+
+                    @Html.DropDownList("StrictCriteria", new SelectList(ViewBag.Criterias, "Value", "Name", ViewBag.Criteria), htmlAttributes: new { @class = "form-control col-md-3", placeholder = "Male" })
+
+                    @Html.ValidationMessage("StrictCriteria", "", new { @class = "text-danger" })
+                  </div>
+                </div>
+                <div class="row">
+
+
+                  <div class="custom-control custom-switch">
+                    @if (ViewBag.IsCustom == true)
+                    {
+                      <input type="checkbox" class="custom-control-input" id="customSwitch5" checked>
+                    }
+                    else
+                    {
+                      <input type="checkbox" class="custom-control-input" id="customSwitch5">
+                    }
+                    <label class="custom-control-label" for="customSwitch5">Custom&nbsp;</label>
+                  </div>
+
+                  @Html.ValidationMessage("IsCustom", "", new { @class = "text-danger" })
+                </div>
+
+                @*<input type="button" value="Generate Records" class="btn btn-primary" id="generateRecord" />*@
+
+
+
+                <div class="row">
+                  <div>
+                    <label class="control-label">Participants Limit&nbsp;</label>
+                  </div>
+                  @Html.Editor("GroupLimit", new { htmlAttributes = new { @class = "form-control col-md-3" } })
+                  @Html.ValidationMessage("GroupLimit", "", new { @class = "text-danger" })
+                </div>
+                <div class="row" id="combnations">
+                  <div>
+                    <label class="control-label">Combinations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                  </div>
+                  @Html.DropDownList("Combinations", new SelectList(ViewBag.Combinations, ViewBag.Combination), htmlAttributes: new { @class = "form-control col-md-3" })
+                  @Html.ValidationMessage("Combinations", "", new { @class = "text-danger" })
+                </div>
+                <br />
+                <input type="button" value="Generate Records" class="btn btn-primary" id="generateRecord" />
+              </div>
+
+
+              <div class="row">
+                <label for="cars">Brackets :</label>
+
+                <select name="eliminations" id="eliminations">
+                  <option value="1">Single Elimination</option>
+                  <option value="2">Double Elimination</option>
+                  <option value="3">Round Robin</option>
+
+                </select>
+                <input type="button" value="Print Brackets" class="btn btn-primary" id="printBrackets" />
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <div class="class=" card-footer">
+                <input type="submit" value="Next" id="submitForm" class="btn btn-warning" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+              </div>
+            </div>
+            <br />
+            <div>
+              @Html.ActionLink("Back to List", "Index")
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <!-- general form elements -->
+      <div class="card card-warning">
+        <div class="card-header">
+          <h3 class="card-title"> Records</h3>
+        </div>
+        <div class="card-body">
+          <div id="generatedRecordsResult" class="table-responsive"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div style="display:none;" id="links">
+
+</div>
+
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+
+<style>
+  .form-group.required .control-label:after {
+    content: "*";
+    color: red;
+  }
+</style>
+
+<script>
+  $(function () {
+       function update() {
+       var age = '';
+        if ($('#customSwitch1').is(':checked')) {
+          age = $('#FromAge').val() + '-' + $('#ToAge').val();
+        }
+
+        var belt = '';
+        if ($('#customSwitch2').is(':checked')) {
+          belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+        }
+
+        var weight = '';
+        if ($('#customSwitch3').is(':checked')) {
+          weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+        }
+
+        var gender = '';
+        if ($('#customSwitch4').is(':checked')) {
+          gender = $('#Gender').val();
+        }
+
+          var IsCustom = false;
+          if ($('#customSwitch5').is(':checked')) {
+            IsCustom = true;
+          }
+
+       var strictCriteria = $('#StrictCriteria').val();
+       var event = $('#TournamentEventId').find(":selected").text();
+          var groupLimit = $('#GroupLimit').val();
+          if (!groupLimit) {
+            groupLimit = 0;
+          }
+        var combination = $('#Combinations').val();
+
+         var url = '@Url.Action("GetRecord")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&Criteria=' + strictCriteria + '&GroupLimit=' + groupLimit + '&Combination=' + combination + '&Event=' + event + '&EventId=' + $('#Id').val() + '&IsCustom=' + IsCustom + '&IsEdit=' + 0;;
+
+        $.get(url, function (data) {
+          $('#generatedRecordsResult').html(data);
+        });
+
+
+
+    }
+
+    function getCustomGroupCombination()
+    {
+        var groupLimit = $('#GroupLimit').val();
+        var url = '@Url.Action("GetCustomGroupCombinations")?GroupLimit=' + groupLimit + '&Id=' + $('#Id').val();
+
+        $.get(url, function (data) {
+          $('#combnations').html(data);
+        });
+    }
+
+    function updateCombination() {
+       var age = '';
+        if ($('#customSwitch1').is(':checked')) {
+          age = $('#FromAge').val() + '-' + $('#ToAge').val();
+        }
+
+        var belt = '';
+        if ($('#customSwitch2').is(':checked')) {
+          belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+        }
+
+        var weight = '';
+        if ($('#customSwitch3').is(':checked')) {
+          weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+        }
+
+        var gender = '';
+        if ($('#customSwitch4').is(':checked')) {
+          gender = $('#Gender').val();
+        }
+
+      var IsCustom = false;
+      if ($('#customSwitch5').is(':checked')) {
+        IsCustom = true;
+      }
+
+
+       var groupLimit = $('#GroupLimit').val();
+       if (!groupLimit) {
+         groupLimit = 0;
+       }
+        var event = $('#TournamentEventId').find(":selected").text();
+       var combinationVal = '\'@(string.IsNullOrWhiteSpace(ViewBag.Combination)? "null" : ViewBag.Combination )\'';
+
+      if (IsCustom) {
+        var url = '@Url.Action("GetCustomGroupCombinations")?GroupLimit=' + groupLimit + '&Id=' + $('#Id').val() + '&Combination=' + combinationVal;
+
+        $.get(url, function (data) {
+          $('#combnations').html(data);
+          $('#Combinations').val(combinationVal.replace('\'', '').replace('\'', ''));
+          update();
+        });
+      } else {
+              var url = '@Url.Action("GetGroupCombinations")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&GroupLimit=' + groupLimit + '&Event=' + event + '&Combination=' + combinationVal;
+
+        $.get(url, function (data) {
+          $('#combnations').html(data);
+          $('#Combinations').val(combinationVal.replace('\'', '').replace('\'', ''));
+          update();
+        });
+      }
+    }
+
+    function getGrpCombination() {
+               var age = '';
+        if ($('#customSwitch1').is(':checked')) {
+          age = $('#FromAge').val() + '-' + $('#ToAge').val();
+        }
+
+        var belt = '';
+        if ($('#customSwitch2').is(':checked')) {
+          belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+        }
+
+        var weight = '';
+        if ($('#customSwitch3').is(':checked')) {
+          weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+        }
+
+        var gender = '';
+        if ($('#customSwitch4').is(':checked')) {
+          gender = $('#Gender').val();
+        }
+
+        var groupLimit = $('#GroupLimit').val();
+        var event = $('#TournamentEventId').find(":selected").text();
+
+             var url = '@Url.Action("GetGroupCombinations")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&GroupLimit=' + groupLimit + '&Event=' + event;
+
+        $.get(url, function (data) {
+          $('#combnations').html(data);
+        });
+
+    }
+
+    $(document).ready(function () {
+
+ $("#printBrackets").click(function () {
+        var age = '';
+        if ($('#customSwitch1').is(':checked')) {
+          age = $('#FromAge').val() + '-' + $('#ToAge').val();
+        }
+
+        var belt = '';
+        if ($('#customSwitch2').is(':checked')) {
+          belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+        }
+
+        var weight = '';
+        if ($('#customSwitch3').is(':checked')) {
+          weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+        }
+
+        var gender = '';
+        if ($('#customSwitch4').is(':checked')) {
+          gender = $('#Gender').val();
+        }
+
+        var IsCustom = false;
+        if ($('#customSwitch5').is(':checked')) {
+          IsCustom = false;
+        }
+
+        var groupLimit = $('#GroupLimit').val();
+        if (!groupLimit) {
+          groupLimit = 0;
+        }
+        var event = $('#TournamentEventId').find(":selected").text();
+
+        var combintion = $("#Combinations").val();
+        if (combintion) {
+
+          var groups = combintion.split(',');
+          for (var i = 0; i < groups.length; i++) {
+
+            var url = '@Url.Action("TournamentViewer")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&Event=' + event + '&id=' + $("#eliminations").val() + '&Combination=' + combintion + '&Group=' + (i + 1) + '&TotalGroup=' + groups.length + '&EventId=' + $('#Id').val() + '&IsCustom=' + IsCustom;;
+            window.open(url, '_blank');
+            setTimeout(function () {
+
+            }, 10000);
+          }
+        }
+      });
+
+      $("#GroupLimit").focusout(function () {
+        if ($('#customSwitch5').is(':checked')) {
+          getCustomGroupCombination();
+        } else {
+          getGrpCombination();
+        }
+      });
+
+      $(".UpdateCombination").change(function () {
+        if ($('#customSwitch5').is(':checked')) {
+          getCustomGroupCombination();
+        } else {
+          getGrpCombination();
+        }
+      });
+
+       @if (ViewBag.IsEdit != null && ViewBag.IsEdit == "1")
+       {
+         <text>
+            if ($('#customSwitch5').is (':checked')) {
+          $("#formulaContent").css("pointer-events", "none");
+          $("#formulaContent").css("opacity", "0.4");
+           } else
+           {
+          $("#formulaContent").css("pointer-events", "");
+          $("#formulaContent").css("opacity", "");
+           }
+      </text>
+         @:updateCombination()
+      }
+
+      $("#submitForm").click(function (eventObj) {
+        if ($('#customSwitch1').is(':checked')) {
+          let age = $('#FromAge').val() + '-' + $('#ToAge').val();
+
+          $("<input />").attr("type", "hidden")
+            .attr("name", "AgeRange")
+            .attr("value", age)
+            .appendTo("#submitForm");
+        }
+
+        if ($('#customSwitch2').is(':checked')) {
+          let belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+
+          $("<input />").attr("type", "hidden")
+            .attr("name", "BeltRange")
+            .attr("value", belt)
+            .appendTo("#submitForm");
+        }
+
+        if ($('#customSwitch3').is(':checked')) {
+          let weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+
+          $("<input />").attr("type", "hidden")
+            .attr("name", "WeightRange")
+            .attr("value", weight)
+            .appendTo("#submitForm");
+        }
+
+        if ($('#customSwitch4').is(':checked')) {
+          let gender = $('#Gender').val();
+
+          $("<input />").attr("type", "hidden")
+            .attr("name", "GenderRange")
+            .attr("value", gender)
+            .appendTo("#submitForm");
+        }
+
+        var isCustom = false;
+        if ($('#customSwitch5').is(':checked')) {
+          isCustom = true;
+        }
+
+        $("<input />").attr("type", "hidden")
+          .attr("name", "IsCustom")
+          .attr("value", isCustom)
+          .appendTo("#submitForm");
+
+        var groupIdElement= $('input[name^="GroupId[]"]');
+        if (groupIdElement && groupIdElement.length > 0) {
+          let GroupIds = new Array();
+          $('input[name^="GroupId[]"]').each(function () {
+            GroupIds.push($(this).val());
+          });
+
+          $("<input />").attr("type", "hidden")
+            .attr("name", "GroupIds")
+            .attr("value", GroupIds)
+            .appendTo("#submitForm");
+
+          let CompetitorIds = new Array();
+          $('input[name^="CompetitorId[]"]').each(function () {
+            CompetitorIds.push($(this).val());
+          });
+
+          $("<input />").attr("type", "hidden")
+            .attr("name", "CompetitorIds")
+            .attr("value", CompetitorIds)
+            .appendTo("#submitForm");
+        }
+
+        return true;
+      });
+
+      $("#generateRecord").on("click", function () {
+
+        var age = '';
+        if ($('#customSwitch1').is(':checked')) {
+          age = $('#FromAge').val() + '-' + $('#ToAge').val();
+        }
+
+        var belt = '';
+        if ($('#customSwitch2').is(':checked')) {
+          belt = $('#FromBelt').val() + '-' + $('#ToBelt').val();
+        }
+
+        var weight = '';
+        if ($('#customSwitch3').is(':checked')) {
+          weight = $('#FromWeight').val() + '-' + $('#ToWeight').val();
+        }
+
+        var gender = '';
+        if ($('#customSwitch4').is(':checked')) {
+          gender = $('#Gender').val();
+        }
+
+        var IsCustom = false;
+        if ($('#customSwitch5').is(':checked')) {
+          IsCustom = true;
+        }
+
+        var strictCriteria = $('#StrictCriteria').val();
+        var event = $('#TournamentEventId').find(":selected").text();
+        var groupLimit = $('#GroupLimit').val();
+        var combination = $('#Combinations').val();
+
+        if (!groupLimit) {
+          groupLimit = 0;
+        }
+        var url = '@Url.Action("GetRecord")?Age=' + age + '&Belt=' + belt + '&Weight=' + weight + '&Gender=' + gender + '&Criteria=' + strictCriteria + '&GroupLimit=' + groupLimit + '&Combination=' + combination + '&Event=' + event + '&EventId=' + $('#Id').val() + '&IsCustom=' + IsCustom + '&IsEdit=' + 0;;
+
+        $.get(url, function (data) {
+          $('#generatedRecordsResult').html(data);
+        });
+
+     });
+
+
+      $('#customSwitch1').click(function () {
+        if ($(this).is(':checked')) {
+          $('#FromAge').removeAttr('disabled', 'disabled');
+          $('#ToAge').removeAttr('disabled', 'disabled');
+        } else {
+          $('#FromAge').attr('disabled', 'disabled');
+          $('#ToAge').attr('disabled', 'disabled');
+        }
+      });
+
+      $('#customSwitch5').click(function () {
+        if ($(this).is(':checked')) {
+          $("#formulaContent").css("pointer-events", "none");
+          $("#formulaContent").css("opacity", "0.4");
+        } else {
+          $("#formulaContent").css("pointer-events", "");
+          $("#formulaContent").css("opacity", "");
+        }
+      });
+
+      $('#customSwitch2').click(function () {
+        if ($(this).is(':checked')) {
+          $('#FromBelt').removeAttr('disabled', 'disabled');
+          $('#ToBelt').removeAttr('disabled', 'disabled');
+        } else {
+          $('#FromBelt').attr('disabled', 'disabled');
+          $('#ToBelt').attr('disabled', 'disabled');
+        }
+      });
+
+      $('#customSwitch3').click(function () {
+        if ($(this).is(':checked')) {
+          $('#FromWeight').removeAttr('disabled', 'disabled');
+          $('#ToWeight').removeAttr('disabled', 'disabled');
+        } else {
+          $('#FromWeight').attr('disabled', 'disabled');
+          $('#ToWeight').attr('disabled', 'disabled');
+        }
+      });
+
+      $('#customSwitch4').click(function () {
+        if ($(this).is(':checked')) {
+          $('#Gender').removeAttr('disabled', 'disabled');
+        } else {
+          $('#Gender').attr('disabled', 'disabled');
+        }
+      });
+
+
+      if ($('#Racked').is(':checked')) {
+        $('.RackedFields').show();
+      } else {
+        $('.RackedFields').hide();
+      }
+
+      $('#Racked').change(function () {
+        if (this.checked)
+          $('.RackedFields').show();/*.fadeIn('slow');*/
+        else
+          $('.RackedFields').hide();/*.fadeOut('slow');*/
+        $('#RackId').val("");
+        $('#UID').val("");
+
+      });
+
+
+      $('#btnApply').click(function () {
+        if (IsDatesCorrect() == false) {
+          //alert('false');
+          return false;
+        }
+        else {
+          //alert('true');
+          return true;
+        }
+
+      });
+
+      //alert('@ViewBag.FiscalYearStart');
+      var momentDate = moment('@ViewBag.FiscalYearStart', 'DD-MM-YYYY HH:mm:ss');
+      //alert(momentDate);
+      var fiscalYearStart = momentDate.toDate();
+      //alert(fiscalYearStart);
+      momentDate = moment('@ViewBag.FiscalYearEnd', 'DD-MM-YYYY HH:mm:ss');
+      var fiscalYearEnd = momentDate.toDate();
+      //alert(momentDate);
+
+
+      $("#LineManager1Id").change(function () {
+        $('#LineManager2Id').val($('#LineManager1Id').val());
+      });
+      //01/07/2021 00:00:00
+
+      //alert(new Date());
+      var message = "@ViewBag.PolicyAlert";
+      if (message != "") {
+         $("#Create :input").prop("disabled", true);
+         alert(message);
+      }
+
+
+      $("#ReceivingDate").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        dateFormat: 'DD, MM, d, yy',
+        //showButtonPanel: true
+
+        showOn: "both"
+        //buttonImage: "images/calendar.gif",
+        //buttonImageOnly: true,
+        //buttonText: "Select date",
+
+        //minDate: -20,
+        //maxDate: "+1M +10D"
+      });
+
+      $("#WarrantyExpiryDate").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        dateFormat: 'DD, MM, d, yy',
+        showOn: "both",
+        onSelect: function () {
+          IsDatesCorrect();
+          //SubmitButtonStatus();
+        }
+      });
+      //function SubmitButtonStatus() {
+      //  $(':input[type="submit"]').prop('disabled', true);
+      //}
+      //$('#Apply').keydown(function () {
+      //  if (IsDatesCorrect() == false) {
+      //    return false;
+      //  }
+      //});
+      function IsDatesCorrect() {
+        var start = $("#datepickerStart").datepicker("getDate");
+        var end = $("#datepickerEnd").datepicker("getDate");
+        var diff = new Date(end - start);
+
+        var days = diff / 1000 / 60 / 60 / 24 + 1;
+        if (days == 0 || days < 0) {
+          alert("End date should be greater than start date");
+          $("#datepickerEnd").val("");
+          return false;
+        }
+        if (days > 365) {
+          alert("Can not apply leave more than a year");
+          $("#datepickerEnd").val("");
+          return false;
+        }
+        if (start < fiscalYearStart || end > fiscalYearEnd || start > fiscalYearEnd || end < fiscalYearStart) {
+          alert("You can claim leave of current fiscal year only.");
+          $("#datepickerStart").val("");
+          $("#datepickerEnd").val("");
+          return false;
+        }
+         //alert(days);
+        $('#diff').val(days);
+        return true;
+      }
+
+      //showButtonPanel: true
+
+
+      //showOn: "button",
+      //buttonImage: "images/calendar.gif",
+      //buttonImageOnly: true,
+      //buttonText: "Select date",
+
+      //minDate: -20,
+      //maxDate: "+1M +10D"
+    });
+
+  });
+</script>
+

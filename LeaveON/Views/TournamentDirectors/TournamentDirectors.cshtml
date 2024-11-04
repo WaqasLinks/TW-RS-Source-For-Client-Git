@@ -1,0 +1,147 @@
+@model List<TourneyRepo.Models.TournamentDirector>
+
+@{
+    ViewBag.Title = "Participant";
+}
+
+<style>
+  .section.public-registrations .participants-desktop .participant-td-club {
+    min-width: 120px !important;
+  }
+  section.public-registrations .participants-desktop .participant-td-athlete {
+    width: 200px!important;
+    min-width: 200px!important;
+  }
+</style>
+
+<div class="content">
+
+  <section class="boost margin-top-xs-32 padding-top-xs-32 margin-top-lg-64 padding-top-lg-64 sc-26 public-registrations">
+    <div class="container container-fluid-large">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1 class="pull-left margin-right-xs-8 font-size-h2 margin-bottom-xs-16 margin-bottom-sm-32">Tournament Directors</h1>
+         @{
+         
+         if (!@User.IsInRole("TournamentDirector"))
+         {
+          <a class="btn btn-info btn-md" href="@Url.Action("AddTournamentDirectors", "TournamentDirectors")" style="padding-left: 40px; padding-right: 40px; float: right;">Create</a>
+               
+         } }
+        </div>
+      </div>
+    </div>
+    <div id="registrations">
+      <!--<div class="container container-fluid-large margin-bottom-sm-64 margin-bottom-xs-64">
+        <div class="well well-inverted full-width margin-bottom-xs-8">
+          @using (Html.BeginForm("Participant", "Events", FormMethod.Get))
+
+          {
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group margin-bottom-md-0">
+
+                  <input type="text" value="@ViewBag.CurrentFilter" name="SearchString" placeholder="Search athlete or division..." class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-4" style="margin-bottom: 10px; display: flex;">
+                <input class="btn btn-info btn-md" type="submit" value="Filter" style="margin-right:10px; padding-left: 50px; padding-right: 50px;" />
+
+                <input class="btn btn-danger btn-md" type="button" id="btnReset" value="Reset" style=" padding-left: 50px; padding-right: 50px;">
+
+              </div>
+            </div>
+
+          }
+
+        </div>--> <!---->
+      <!--</div>-->
+      <div class="container container-fluid-large" style="margin-top:50px;">
+        @{
+          foreach (var item in Model)
+          {
+            <div class="participant-group margin-bottom-xs-64">
+              @*<div class="heading-container flex-center">
+                <h2 class="group-name margin-xs-0">Youth / @(item.Gender == true ? "Men" : "Female") / Youth A / @item.Belt (@item.Weight lbs)</h2>
+              </div>*@
+              <div class="participants-table-head participant-tr muted margin-bottom-xs-8 hidden-xs hidden-sm hidden-md participants-desktop" style="display: flex; justify-content: space-between;">
+                <span  >Profile</span>
+                <span style="position: relative; left: -122px; " >First Name</span>
+                <span style="position: relative; left: -80px;">Last Name</span>
+                <span style=" position: relative; left: -100px;" >Address</span>
+                <span style="position: relative; left: -70px;">Zip</span>
+                <span style="position: relative; left: -25px;" >City</span>
+                <span>Country</span>
+             
+         
+              </div>
+
+              <div class="profile-cards participants-desktop visible-lg">
+                <div class="profile-card">
+                  <div class="participant-tr participant-tr-main flex-center" style="display: flex; justify-content: space-between;">
+                    <div class="participant-td participant-td-athlete" style="width:200px!important;">
+                      <div class="profile-image-wrapper"><img src="@(String.IsNullOrEmpty(item.Profile)?"https://smoothcomp.com/build/webpack/img/placeholder-image-profile-darker.add7da0606f55093a945cf850b9fff41.png":item.Profile)" loading="lazy"></div>
+
+                      <div class="profile-card-name font-size-medium truncate">
+                        <a href="javascript:void(0)" class="truncate block">
+                          <span>
+                            @item.FirstName
+                          </span>
+                        </a>
+
+                        <div class="profile-country truncate flex-center truncate" style="height: auto;"> <div class="truncate muted country-name"><span class="font-size-tiny">@item.Country</span></div></div>
+
+                      </div>
+                    </div>
+                    <div >
+                      <div>@item.LastName</div>
+                    </div>
+
+                    <div >
+                      <div>@item.Address</div>
+                    </div>
+
+                    <div >
+                      <div>@item.Zip</div>
+                    </div>
+
+                    <div>
+                      <div>@item.City</div>
+                    </div>       
+                    
+                    <div>
+                      <div>@item.Country</div>
+                    </div>
+                    
+                 
+
+
+
+
+                  </div> 
+
+
+
+                </div>
+              </div>
+            </div>
+
+          }
+        }
+      </div>
+    </div>
+    <div class="sticky-search disappear">
+      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16 9C16 12.866 12.866 16 9 16C5.13401 16 2 12.866 2 9C2 5.13401 5.13401 2 9 2C12.866 2 16 5.13401 16 9ZM14.5698 16.0699C13.0377 17.2787 11.1031 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 11.1469 17.2482 13.1183 15.9936 14.6652L20.0564 18.728L18.6422 20.1422L14.5698 16.0699Z" fill="#F4F6FB"></path>
+      </svg>
+    </div>
+  </section>
+</div>
+
+<script>
+  $("#btnReset").click(function () {
+    $(document).find("input").val('');
+    window.history.pushState({}, document.title, window.location.href.split('?')[0]);
+    window.location.reload();
+  })
+</script>

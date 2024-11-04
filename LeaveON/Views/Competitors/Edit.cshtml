@@ -1,0 +1,446 @@
+@model TourneyRepo.Models.Competitor
+
+@{
+  ViewBag.Title = "Create";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- left column -->
+<div class="col-md-8">
+  <!-- general form elements -->
+  <div class="card card-warning">
+    <div class="card-header">
+      <h3 class="card-title">Update Competitor</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+
+    @using (Html.BeginForm())
+    {
+      @Html.AntiForgeryToken()
+
+  <div class="card-body">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+      @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+      @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "" })
+      @Html.DropDownList("Gender", new SelectList(ViewBag.Genders, "Value", "Name", ViewBag.Gender), htmlAttributes: new { @class = "form-control" })
+
+      @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })*@
+      @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(model => model.School, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.School, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.School, "", new { @class = "text-danger" })
+
+    </div>
+    @{
+     
+
+      <div class="form-group">
+        @Html.LabelFor(model => model.Belt, htmlAttributes: new { @class = "" })
+
+
+
+
+        @*@Html.DropDownListFor(model => model.Belt, new SelectList(BeltList, "Value", "Text", Model.Belt), new { @class = "form-control" }) working*@
+
+        @*@Html.DropDownListFor(model => model.Belt, (IEnumerable<SelectListItem>)(BeltList), new { @class = "form-control" }) working*@
+
+        @Html.DropDownListFor(model => model.Belt, ViewBag.Belts as SelectList, new { @class = "form-control" })
+
+
+        @*@Html.EditorFor(model => model.Belt, new { htmlAttributes = new { @class = "form-control" } })*@
+        @Html.ValidationMessageFor(model => model.Belt, "", new { @class = "text-danger" })
+
+      </div>
+    }
+
+    @*<div class="form-group">
+      @Html.LabelFor(model => model.Event, htmlAttributes: new { @class = "" })
+
+      @Html.EditorFor(model => model.Event, new { htmlAttributes = new { @class = "form-control" } })
+      @Html.ValidationMessageFor(model => model.Event, "", new { @class = "text-danger" })
+
+    </div>*@
+
+    <div class="form-group">
+      @Html.LabelFor(model => model.RegistrationDate, htmlAttributes: new { @class = "" })
+
+      @Html.Editor("RegistrationDate", new { htmlAttributes = new { @class = "form-control", @required = "required", @id = "ReceivingDate" } })
+      @Html.ValidationMessageFor(model => model.RegistrationDate, "", new { @class = "text-danger" })
+
+    </div>
+
+
+    <div class="form-group">
+      <div class="class=" card-footer">
+        <input type="button" value="Add/Edit Event" class="btn btn-warning" onclick="addField();" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+      </div>
+      <br />
+      <div class="table-responsive">
+        <table id="eventTblOr" class="table table-bordered">
+          <thead>
+            <tr>
+              <th style="display:none;">#</th>
+              <th>Event&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th>Divisions</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (ViewBag.CompetitorEventDivisionInfo != null)
+                  {
+                    var id = Guid.NewGuid().ToString();
+                    foreach (var item in ViewBag.CompetitorEventDivisionInfo as Dictionary<decimal?, LeaveON.Models.CompetitorEventDivisionViewModel>)
+                    {
+                <tr id="@id">
+                  <td style="display:none;">1</td>
+                  <td style="width: 405%">
+                    @Html.DropDownList("TournamentEvents[]", new SelectList(item.Value.TournamentEvents, "Id", "Name", item.Key), htmlAttributes: new { @class = "form-control", onchange = "getDivisions(this)", id = id + "event" })
+                  </td>
+                  <td>
+                    @Html.ListBox("EventDivisions[]", item.Value.Divisions, new { id = item.Key, multiple = "multiple", data_placeholder = "Select a Division" })
+<td><input type="button" id="delPOIbutton" class="" value="&#10060;" onclick="deleteRow(this)" /></td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="class=" card-footer">
+        <input type="submit" value="Update" class="btn btn-warning" style="width: 180px; margin-left:auto;margin-right:auto;display:block;margin-top:auto;margin-bottom:0%" />
+      </div>
+    </div>
+    <br />
+    <div>
+      @Html.ActionLink("Back to List", "Index")
+    </div>
+  </div>
+    }
+
+    <table id="eventTblCl" class="table table-bordered" style="display:none;">
+      <tr>
+        <th style="display:none;">#</th>
+        <th>Selected Event</th>
+        <th>Division</th>
+        <th></th>
+      </tr>
+      <tr id="row">
+        <td style="display:none;">1</td>
+        <td>
+          @Html.DropDownList("TournamentEvents[]", ViewBag.TournamentEventId as SelectList, "Please select event", htmlAttributes: new { @class = "form-control", onchange = "getDivisions(this)" })
+        </td>
+
+       
+        <td>
+          <select id="divisions" name="EventDivisions[]" class="form-control" style="min-width:200px;">
+          </select>
+          </td>
+        <td><input type="button" id="delPOIbutton" class="" value="&#10060;" onclick="deleteRow(this)" /></td>
+      </tr>
+    </table>
+
+  </div>
+</div>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+@*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style>
+  .form-group.required .control-label:after {
+    content: "*";
+    color: red;
+  }
+</style>
+
+<script>
+    function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+
+  function deleteRow(row) {
+    var i = row.parentNode.parentNode.rowIndex;
+    document.getElementById('eventTblOr').deleteRow(i);
+  }
+
+  function getDivisions(ele) {
+    var id = $('#' + ele.id).val();
+    var uid = uuidv4();
+    var url = '@Url.Action("GetEventDevisions")?Id=' + id + '&UId=' + uid;
+
+    $.get(url, function (data) {
+      var rowId = ele.id.replace('event', '');
+      var tableRow = document.getElementById(rowId);
+      tableRow.cells[2].innerHTML = data;
+      $('#' + id + uid).select2({
+        theme: 'bootstrap4',
+        width: 'resolve'
+    });
+        });
+
+  }
+
+  function addField() {
+    var x = document.getElementById('eventTblOr').getElementsByTagName('tbody')[0];
+    var y = document.getElementById('eventTblCl');
+    // deep clone the targeted row
+    var new_row = y.rows[1].cloneNode(true);
+    // get the total number of rows
+    var len = x.rows.length;
+    // set the innerHTML of the first row
+    new_row.cells[0].innerHTML = len;
+
+    var id = uuidv4();
+    new_row.id = id;
+
+    // grab the input from the first cell and update its ID and value
+    var inp1 = new_row.cells[1].getElementsByTagName('select')[0];
+    inp1.id = id + 'event';
+    //inp1.value = '';
+    // grab the input from the first cell and update its ID and value
+    var inp2 = new_row.cells[2].getElementsByTagName('select')[0];
+    inp2.id = id + 'divisions';
+    //inp2.value = '';
+
+    // append the new row to the table
+    x.appendChild(new_row);
+  }
+
+
+  $(function () {
+
+    $(document).ready(function () {
+      @if (ViewBag.CompetitorEventDivisionInfo != null)
+      {
+         foreach (var item in ViewBag.CompetitorEventDivisionInfo as Dictionary<decimal?, LeaveON.Models.CompetitorEventDivisionViewModel>)
+    {
+      <text>
+      $('#@item.Key').select2({
+  theme: 'bootstrap4'
+    });
+      </text>
+    }
+      }
+
+
+      $('#eventTbl').on('click', 'input[type="button"]', function (e) {
+        $(this).closest('tr').remove()
+      })
+
+      if ($('#Racked').is(':checked')) {
+        $('.RackedFields').show();
+      } else {
+        $('.RackedFields').hide();
+      }
+
+      $('#Racked').change(function () {
+        if (this.checked)
+          $('.RackedFields').show();/*.fadeIn('slow');*/
+        else
+          $('.RackedFields').hide();/*.fadeOut('slow');*/
+        $('#RackId').val("");
+        $('#UID').val("");
+
+      });
+
+
+      $('#btnApply').click(function () {
+        if (IsDatesCorrect() == false) {
+          //alert('false');
+          return false;
+        }
+        else {
+          //alert('true');
+          return true;
+        }
+
+      });
+
+      //alert('@ViewBag.FiscalYearStart');
+      var momentDate = moment('@ViewBag.FiscalYearStart', 'DD-MM-YYYY HH:mm:ss');
+      //alert(momentDate);
+      var fiscalYearStart = momentDate.toDate();
+      //alert(fiscalYearStart);
+      momentDate = moment('@ViewBag.FiscalYearEnd', 'DD-MM-YYYY HH:mm:ss');
+      var fiscalYearEnd = momentDate.toDate();
+      //alert(momentDate);
+
+
+      $("#LineManager1Id").change(function () {
+        $('#LineManager2Id').val($('#LineManager1Id').val());
+      });
+      //01/07/2021 00:00:00
+
+      //alert(new Date());
+      var message = "@ViewBag.PolicyAlert";
+      if (message != "") {
+         $("#Create :input").prop("disabled", true);
+         alert(message);
+      }
+
+
+      $("#ReceivingDate").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        dateFormat: 'mm/dd/y',
+        //showButtonPanel: true
+
+        showOn: "both"
+        //buttonImage: "images/calendar.gif",
+        //buttonImageOnly: true,
+        //buttonText: "Select date",
+
+        //minDate: -20,
+        //maxDate: "+1M +10D"
+      });
+
+      $("#WarrantyExpiryDate").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        dateFormat: 'DD, MM, d, yy',
+        showOn: "both",
+        onSelect: function () {
+          IsDatesCorrect();
+          //SubmitButtonStatus();
+        }
+      });
+      //function SubmitButtonStatus() {
+      //  $(':input[type="submit"]').prop('disabled', true);
+      //}
+      //$('#Apply').keydown(function () {
+      //  if (IsDatesCorrect() == false) {
+      //    return false;
+      //  }
+      //});
+      function IsDatesCorrect() {
+        var start = $("#datepickerStart").datepicker("getDate");
+        var end = $("#datepickerEnd").datepicker("getDate");
+        var diff = new Date(end - start);
+
+        var days = diff / 1000 / 60 / 60 / 24 + 1;
+        if (days == 0 || days < 0) {
+          alert("End date should be greater than start date");
+          $("#datepickerEnd").val("");
+          return false;
+        }
+        if (days > 365) {
+          alert("Can not apply leave more than a year");
+          $("#datepickerEnd").val("");
+          return false;
+        }
+        if (start < fiscalYearStart || end > fiscalYearEnd || start > fiscalYearEnd || end < fiscalYearStart) {
+          alert("You can claim leave of current fiscal year only.");
+          $("#datepickerStart").val("");
+          $("#datepickerEnd").val("");
+          return false;
+        }
+         //alert(days);
+        $('#diff').val(days);
+        return true;
+      }
+
+      //showButtonPanel: true
+
+
+      //showOn: "button",
+      //buttonImage: "images/calendar.gif",
+      //buttonImageOnly: true,
+      //buttonText: "Select date",
+
+      //minDate: -20,
+      //maxDate: "+1M +10D"
+    });
+
+  });
+</script>
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7608b3b8d1e1459393d84781030ff2f7" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="jsaosorioModel.AspNetUser" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="jsaosorioModel.BaseDaily" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <AssociationConnector Association="jsaosorioModel.FK_BaseDaily_AspNetUsers" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="jsaosorioModel.AspNetRole" Width="1.5" PointX="0.75" PointY="8" />
+        <EntityTypeShape EntityType="jsaosorioModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="29.125" />
+        <EntityTypeShape EntityType="jsaosorioModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="26.5" />
+        <AssociationConnector Association="jsaosorioModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="jsaosorioModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="jsaosorioModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="jsaosorioModel.BaseHistorical" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="jsaosorioModel.Upload" Width="1.5" PointX="5.375" PointY="4.875" />
+        <AssociationConnector Association="jsaosorioModel.FK_BaseDaily_Upload" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

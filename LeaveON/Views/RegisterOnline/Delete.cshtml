@@ -1,0 +1,46 @@
+@model TourneyRepo.Models.Competitor
+
+@{
+  ViewBag.Title = "Delete";
+  Layout = "~/Views/Shared/_Layout_cm.cshtml";
+}
+
+
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
+<!-- left column -->
+<div class="col-md-6">
+  <!-- general form elements -->
+  <div class="card card-danger">
+    <div class="card-header">
+      <h3 class="card-title" style="text-align:center">Delete Athelets</h3>
+    </div>
+
+    @*<h3></h3>*@
+    <div class="card-body">
+      <h3 style="text-align:center">Are you sure you want to delete this?</h3>
+      
+      <dl class="dl-v">
+        <dt>
+          @Html.DisplayNameFor(model => model.Name)
+        </dt>
+      </dl>
+
+      @using (Html.BeginForm())
+      {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color dl-v">
+          <input type="submit" value="Delete" class="btn btn-danger" /> |
+          @Html.ActionLink("Back to List", "Index")
+        </div>
+      }
+    </div>
+  </div>
+</div>

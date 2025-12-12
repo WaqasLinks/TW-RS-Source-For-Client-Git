@@ -13,6 +13,7 @@ using LeaveON.Providers;
 
 namespace LeaveON
 {
+    // This also has changes
     public partial class Startup
     {
         // Enable the application to use OAuthAuthorization. You can then secure your Web APIs
